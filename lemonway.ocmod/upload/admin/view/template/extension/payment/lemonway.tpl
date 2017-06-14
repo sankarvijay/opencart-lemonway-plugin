@@ -1,11 +1,11 @@
 <?php echo $header; ?><?php echo $column_left; ?>
 <!--
 <script>
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.rel  = 'stylesheet';
-    link.href = "<?php echo $link_css; ?>";
-    head.appendChild(link);
+var head  = document.getElementsByTagName('head')[0];
+var link  = document.createElement('link');
+link.rel  = 'stylesheet';
+link.href = "<?php echo $link_css; ?>";
+head.appendChild(link);
 
 </script>
 -->
@@ -13,7 +13,7 @@
     <div class="page-header">
         <div class="container-fluid">
             <div class="pull-right">
-                <button type="submit"  data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <button type="submit"  form="form-lemonway"  data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
                 <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
             <h1><?php echo $heading_title; ?></h1>
             <ul class="breadcrumb">
@@ -23,6 +23,7 @@
             </ul>
         </div>
     </div>
+
     <div class="container-fluid">
 
 
@@ -87,26 +88,29 @@
             </div>
 
             <div class="panel-body">
-                <div role="tabpanel">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
-                        <li class="active">  <a href="#aboutus"   role="tab" data-toggle="tab"> <?php echo $text_about_us ;?> </a></li>
-                        <li>  <a href="#access_api" role="tab" data-toggle="tab"> <?php echo $text_configuration ;?> </a></li>
-                        <li> <a href="#one_click" role="tab" data-toggle="tab"> <?php echo $text_one_click ;?> </a></li>
+                <form id="form-lemonway" class="defaultForm form-horizontal" method="post" enctype="multipart/form-data" >
+                    <div role="tabpanel">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
+                            <li class="active">  <a href="#aboutus"   role="tab" data-toggle="tab"> <?php echo $text_about_us ;?> </a></li>
+                            <li>  <a href="#access_api" role="tab" data-toggle="tab"> <?php echo $text_configuration ;?> </a></li>
+                            <li> <a href="#one_click" role="tab" data-toggle="tab"> <?php echo $text_one_click ;?> </a></li>
 
-                    </ul>
+                        </ul>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div  class="tab-pane active" id="aboutus"  > <?php echo $about_us; ?>  </div>
-                        <div  class="tab-pane" id="access_api" > <?php echo $configure; ?>  </div>
-                        <div  class="tab-pane " id="one_click" > <?php echo $one_click; ?>  </div>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div  class="tab-pane active" id="aboutus"  > <?php echo $about_us; ?>  </div>
+                            <div  class="tab-pane" id="access_api" > <?php echo $configure; ?>  </div>
+                            <div  class="tab-pane " id="one_click" > <?php echo $one_click; ?>  </div>
 
-
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
+
         </div>
     </div>
 </div>
+<!-- </div> -->
 <?php echo $footer; ?>

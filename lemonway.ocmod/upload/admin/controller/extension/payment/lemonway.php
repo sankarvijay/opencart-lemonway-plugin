@@ -21,8 +21,8 @@ class ControllerExtensionPaymentLemonway extends Controller
 
     const LEMONWAY_WEBKIT_4ECOMMERCE_URL_PROD = 'https://webkit.lemonway.fr/mb/lwecommerce/prod/';
 	const LEMONWAY_WEBKIT_4ECOMMERCE_URL_TEST = 'https://sandbox-webkit.lemonway.fr/lwecommerce/dev/';
-	const LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_PROD = 'https://ws.lemonway.fr/mb/lwecommerce/prod/directkitxml/service.asmx';
-	const LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_TEST = 'https://sandbox-api.lemonway.fr/mb/lwecommerce/dev/directkitxml/service.asmx';
+	const LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_PROD = 'https://ws.lemonway.fr/mb/lwecommerce/prod/directkitjson2/service.asmx';
+	const LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_TEST = 'https://sandbox-api.lemonway.fr/mb/lwecommerce/dev/directkitjson2/service.asmx';
 
 
     //DEFINE URL TEST VALID

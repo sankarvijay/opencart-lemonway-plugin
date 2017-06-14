@@ -32,6 +32,7 @@ $_['text_advanced_configuration'] = 'ADVANCED ACCOUNT CONFIGURATION';
 
 //About US
 $_['text_sign_in']              = 'Sign in';
+$_['text_sign_up']              = 'Sign up';
 $_['text_create_account']       = 'HOW CAN I CREATE AN ACCOUNT?';
 $_['text_complete_form']        = 'Complete the form';
 $_['text_complete_your_profile']= 'Complete your profile in "My Account"';

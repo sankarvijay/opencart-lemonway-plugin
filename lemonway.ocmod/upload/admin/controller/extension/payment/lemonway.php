@@ -58,7 +58,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['text_authorization'] = $this->language->get('text_authorization');
         $data['text_charge'] = $this->language->get('text_charge');
         $data['text_help'] = $this->language->get('text_help');
-
         $data['text_edit_config'] = $this->language->get('text_edit_config');
 
 
@@ -72,6 +71,7 @@ class ControllerExtensionPaymentLemonway extends Controller
 
         //About US
         $data['text_sign_in'] = $this->language->get('text_sign_in');
+        $data['text_sign_up'] = $this->language->get('text_sign_up');
         $data['text_create_account'] = $this->language->get('text_create_account');
         $data['text_complete_form'] = $this->language->get('text_complete_form');
         $data['text_complete_your_profile'] = $this->language->get('text_complete_your_profile');
@@ -124,8 +124,6 @@ class ControllerExtensionPaymentLemonway extends Controller
 
         //Warning
         $data['warning_status'] = $this->language->get('warning_status');
-
-        
 
 
 

@@ -12,7 +12,7 @@
 
                     <label class="control-label col-lg-3">
                        <?php echo $entry_login;?>
-    
+
                     </label>
 
                     <div class="col-lg-9">

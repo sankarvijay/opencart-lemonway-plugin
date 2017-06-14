@@ -166,6 +166,22 @@ class ControllerExtensionPaymentLemonway extends Controller
             unset($this->session->data['success']);
         }
 
+        // Load default layout
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+
+        $data['footer'] = $this->load->controller('common/footer');
+
+        //ABOUT US
+        $data['about_us'] = $this->load->view('extension/payment/lemonway_aboutus.tpl', $data);
+
+        //Configure
+        $data['configure'] = $this->load->view('extension/payment/lemonway_configure.tpl', $data);
+
+        //ONE CLICK
+        $data['one_click'] = $this->load->view('extension/payment/lemonway_oneclick.tpl', $data);
+
+
 
         // If isset request to change settings
         if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {

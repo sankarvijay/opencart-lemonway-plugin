@@ -297,8 +297,8 @@ class LemonWayKit{
 
         if($this->isLogEnabled) {
             $debug_log = new Log('LemonWayKit-debug.log');
-            $debug_log->write('METHOD:' . $methodName);
-            $debug_log->write('serviceURL:' . $serviceUrl);
+            $debug_log->write('Method:' . $methodName);
+            $debug_log->write('ServiceURL:' . $serviceUrl);
             $request_debug=json_decode($request)->p;
             unset($request_debug->wlPass); // Delete Password
             $debug_log->write('Request:' . print_r($request_debug,true));
@@ -322,12 +322,13 @@ class LemonWayKit{
             if($this->isLogEnabled) {
                 $debug_log->write('Curl error: ' . curl_error($ch));
             }
-            $this->log_error->write('Lemon Way : Curl error: ' . curl_error($ch));// ADD TO OPENCART ERROR LOG
-            $this->log_error->write('Lemon Way : METHOD:' . $methodName);// ADD TO OPENCART ERROR LOG
-            $this->log_error->write('Lemon Way :serviceURL:' . $serviceUrl);// ADD TO OPENCART ERROR LOG
+
+            $this->log_error->write('Lemon Way :Method:' . $methodName);// ADD TO OPENCART ERROR LOG
+            $this->log_error->write('Lemon Way :ServiceURL:' . $serviceUrl);// ADD TO OPENCART ERROR LOG
             $request_debug=json_decode($request)->p;
             unset($request_debug->wlPass); // Delete Password
             $this->log_error->write('Lemon Way :Request:' . print_r( $request_debug,true));// ADD TO OPENCART ERROR LOG
+            $this->log_error->write('Lemon Way :Curl error: ' . curl_error($ch));// ADD TO OPENCART ERROR LOG
 
             $error=new StdClass;
             $error->E=new StdClass;
@@ -347,12 +348,12 @@ class LemonWayKit{
                     $debug_log->write('Http error : ' . $httpStatus);
                 }
 
-                $this->log_error->write('Lemon Way : Http error : ' . $httpStatus);// ADD TO OPENCART ERROR LOG
-                $this->log_error->write('Lemon Way : METHOD:' . $methodName);// ADD TO OPENCART ERROR LOG
-                $this->log_error->write('Lemon Way :serviceURL:' . $serviceUrl);// ADD TO OPENCART ERROR LOG
+                $this->log_error->write('Lemon Way :Method:' . $methodName);// ADD TO OPENCART ERROR LOG
+                $this->log_error->write('Lemon Way :ServiceURL:' . $serviceUrl);// ADD TO OPENCART ERROR LOG
                 $request_debug=json_decode($request)->p;
                 unset($request_debug->wlPass); // Delete Password
                 $this->log_error->write('Lemon Way :Request:' . print_r($request_debug,true));// ADD TO OPENCART ERROR LOG
+                $this->log_error->write('Lemon Way :Http error : ' . $httpStatus);// ADD TO OPENCART ERROR LOG
                 $error=new StdClass;
                 $error->E=new StdClass;
                 $error->E->Msg="Http error:".$httpStatus;

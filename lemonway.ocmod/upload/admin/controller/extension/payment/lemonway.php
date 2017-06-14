@@ -183,6 +183,29 @@ class ControllerExtensionPaymentLemonway extends Controller
 
 
 
+        // Load breadcrumbs
+        $data['breadcrumbs'] = array();
+        $data['breadcrumbs'][] = array(
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true)
+        );
+        $data['breadcrumbs'][] = array(
+            'text' => $this->language->get('text_payment'),
+            'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true)
+        );
+        $data['breadcrumbs'][] = array(
+            'text' => $this->language->get('text_breadcrumbs'),
+            'href' => $this->url->link('extension/payment/lemonway', 'token=' . $this->session->data['token'], true)
+        );
+
+
+        // Load action buttons urls
+        $data['action'] = $this->url->link('extension/payment/lemonway', 'token=' . $this->session->data['token'], true);
+        $data['cancel'] = $this->url->link('extension/payment', 'token=' . $this->session->data['token'], true);
+
+
+        $data['link_css'] = 'view/stylesheet/lemonway/back.css';
+
         // If isset request to change settings
         if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {
 
@@ -198,14 +221,7 @@ class ControllerExtensionPaymentLemonway extends Controller
             } else {
                 //Display Error
                 $data['error_testConfig'] = $this->error['testConfig'];
-                /*
-                 *
-                 * Resolution du bug liée  à la modification des parametres et les parametres qui sont pas affiche
-                 *
-                 *
-                 *
-                 *
-                 */
+
                 //ACCOUNT INFORMATION
                 $data['lemonway_api_login'] = $this->model_setting_setting->getSettingValue('lemonway_api_login');
                 $data['lemonway_api_password'] = $this->model_setting_setting->getSettingValue('lemonway_api_password');
@@ -214,7 +230,10 @@ class ControllerExtensionPaymentLemonway extends Controller
                 $data['lemonway_is_test_mode'] = $this->model_setting_setting->getSettingValue('lemonway_is_test_mode');
                 $data['lemonway_oneclick_enabled'] = $this->model_setting_setting->getSettingValue('lemonway_oneclick_enabled');
 
-                $data['lemonway_debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');//
+                $data['lemonway_debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');
+
+
+                $data['error_testConfig'].='TEST:'.$data['lemonway_is_test_mode'];
 
 
                 //ADVANCED ACCOUNT CONFIGURATION
@@ -229,14 +248,14 @@ class ControllerExtensionPaymentLemonway extends Controller
                 $data['lemonway_css_url'] = $this->model_setting_setting->getSettingValue('lemonway_css_url');
 
 
+
+
                 $this->response->setOutput($this->load->view('extension/payment/lemonway.tpl', $data));
             }
 
         }
 
 
-
-        $data['link_css'] = 'view/stylesheet/lemonway/back.css';
 
         $data = $this->loadAllErrors($data);
 
@@ -279,7 +298,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         if (!isset($this->request->post['lemonway_merchant_id']) && !empty($this->model_setting_setting->getSettingValue('lemonway_merchant_id'))) {
             $this->request->post['lemonway_merchant_id'] = $this->model_setting_setting->getSettingValue('lemonway_merchant_id');
         }
-
 
         // One Click
         if (!isset($this->request->post['lemonway_oneclick_enabled'])) {
@@ -412,6 +430,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         return $config;
 
     }
+
 
     private function testConfig(){
 

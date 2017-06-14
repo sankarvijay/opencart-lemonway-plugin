@@ -15,7 +15,7 @@
 
                     </label>
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
                         <div class="input-group">
                               <span class="input-group-addon">
                                               <i class="fa fa-user "></i>
@@ -40,7 +40,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
 
                         <div class="input-group fixed-width-lg">
                                             <span class="input-group-addon">
@@ -62,7 +62,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
 
                         <div class="input-group">
                               <span class="input-group-addon">
@@ -89,7 +89,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
                                  <input type="checkbox" name="lemonway_is_test_mode"  id="lemonway_is_test_mode_on"   value="1" <?php if($lemonway_is_test_mode=='1') echo 'checked';?> >
 
                         <p class="help-block">
@@ -107,7 +107,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
                         <input type="checkbox" name="lemonway_status"  id="lemonway_status"   value="1" <?php if($lemonway_status=='1') echo 'checked';?> >
 
 
@@ -124,7 +124,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
                         <input type="checkbox" name="lemonway_debug"  id="lemonway_debug"   value="1" <?php if($lemonway_debug=='1') echo 'checked';?> >
 
 
@@ -159,7 +159,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
 
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -186,7 +186,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
 
                         <div class="input-group">
                                    <span class="input-group-addon">
@@ -213,7 +213,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
 
                         <div class="input-group">
                                <span class="input-group-addon">
@@ -240,7 +240,7 @@
                     </label>
 
 
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
 
                         <div class="input-group">
                              <span class="input-group-addon">

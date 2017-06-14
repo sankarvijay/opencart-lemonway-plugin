@@ -14,7 +14,7 @@
             </label>
 
 
-             <div class="col-lg-9">
+             <div class="col-lg-7">
 
                     <input type="checkbox" name="lemonway_oneclick_enabled" id="lemonway_cc_oneclic_enabled_on" value="1" <?php if($lemonway_oneclick_enabled=='1') echo 'checked';?> >
 
@@ -36,7 +36,7 @@
 
 
 
-                <div class="col-lg-9">
+                <div class="col-lg-7">
 
                     <div class="input-group">
                             <span class="input-group-addon">

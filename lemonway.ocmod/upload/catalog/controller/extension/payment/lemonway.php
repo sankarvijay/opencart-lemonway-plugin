@@ -34,6 +34,9 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $data['text_card'] = $this->language->get('text_card');
 
 
+
+        $data['customer_id']=empty($this->customer->getId())?0:$this->customer->getId(); // A guest customer has no Id, we consider it 0
+
         /*
         *
         * CUSTOMIZE TO ADD  CREDIT CARD IF IS SAVED

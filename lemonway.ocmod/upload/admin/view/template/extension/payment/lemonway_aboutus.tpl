@@ -72,6 +72,3 @@
         </div>
     </div>
 </div>
-<div class="text-right">
-    <small>Version 0.9.0 (beta)</small>
-</div>

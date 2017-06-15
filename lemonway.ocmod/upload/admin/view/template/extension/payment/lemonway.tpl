@@ -107,8 +107,10 @@ head.appendChild(link);
                         </div>
                     </div>
                 </form>
+                <div class="text-right">
+                    <small>Version 0.9.0 (beta)</small>
+                </div>
             </div>
-
         </div>
     </div>
 </div>

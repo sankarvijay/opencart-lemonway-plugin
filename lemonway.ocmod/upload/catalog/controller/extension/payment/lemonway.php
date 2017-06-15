@@ -99,7 +99,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $params['wallet'] = $config['wallet'];
         $total = number_format((float)$order_info['total'], 2, '.', '');
 
-
+        $customer_id=empty($this->customer->getId())?0:$this->customer->getId();
 
 
 
@@ -130,7 +130,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $paramsreturn = array(
                 'registerCard' => (int)$registerCard,
                 'action' => 'return',
-                'customer_id' => $this->customer->getId(),
+                'customer_id' => $customer_id,
                 'order_id' => $this->session->data['order_id']
 
             );
@@ -139,7 +139,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $paramscancel = array(
                 'registerCard' => (int)$registerCard,
                 'action' => 'cancel',
-                'customer_id' => $this->customer->getId(),
+                'customer_id' => $customer_id,
                 'order_id' => $this->session->data['order_id']
 
             );
@@ -149,7 +149,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $paramserror = array(
                 'registerCard' => (int)$registerCard,
                 'action' => 'error',
-                'customer_id' => $this->customer->getId(),
+                'customer_id' => $customer_id,
                 'order_id' => $this->session->data['order_id']
 
             );
@@ -382,7 +382,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
 
     private function useCard(){
-        return $this->getValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled')=='1';
+        return $this->getValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId());
     }
 
     private function getValue($key)
@@ -396,7 +396,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
     }
 
     private function registerCard(){
-        return $this->getValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled')=='1' ;
+        return $this->getValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId()) ;
     }
 
 

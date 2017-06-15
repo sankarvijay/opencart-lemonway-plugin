@@ -87,7 +87,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['text_one_click_refund'] = $this->language->get('text_one_click_refund');
         $data['text_move_money'] = $this->language->get('text_move_money');
         $data['text_more_information'] = $this->language->get('text_more_information');
-        $data['text_link_ecommerce'] = $this->language->get('text_link_ecommerce');
         $data['text_link_support'] = $this->language->get('text_link_support');
         $data['text_follow_turnover'] = $this->language->get('text_follow_turnover');
         $data['text_or'] = $this->language->get('text_or');

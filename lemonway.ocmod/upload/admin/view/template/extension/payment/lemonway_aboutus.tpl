@@ -14,7 +14,7 @@
             <h2 style="color: black;"><?php echo $text_commission ; ?></h2>
         </div>
         <div class="col-xs-12 col-md-3 text-center">
-            <a href="<?php echo $text_link_ecommerce ; ?>" target="_blank" class="btn btn-primary" id="create-account-btn"> <?php  echo $text_sign_in;?> </a><br />
+            <a href="https://ecommerce.lemonway.com" target="_blank" class="btn btn-primary" id="create-account-btn"> <?php  echo $text_sign_in;?> </a><br />
         </div>
     </div>
 

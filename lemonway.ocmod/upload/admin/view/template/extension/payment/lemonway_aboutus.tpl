@@ -73,5 +73,5 @@
     </div>
 </div>
 <div class="text-right">
-    <small>Version 1.0.0</small>
+    <small>Version 0.9.0 (beta)</small>
 </div>

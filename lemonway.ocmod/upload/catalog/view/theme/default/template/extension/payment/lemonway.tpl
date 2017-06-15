@@ -51,9 +51,9 @@
             <!-- Oneclic form -->
             <div class="lemonway-payment-container" id="lemonway_CC_payment_form_container">
                 <div class="lemonway-payment-img-container">
-                    <img class="lemonway-payment-icon img-responsive"
+                    <!--<img class="lemonway-payment-icon img-responsive"
                          src="catalog/view/theme/default/image/LemonWay-paiement-mode.png" width="500px"
-                         alt="Credit card" id="payment-lemonway-CC-logo">
+                         alt="Credit card" id="payment-lemonway-CC-logo">-->
                 </div>
                 <h3 class="lemonway-method-title"><?php echo $text_card; ?> </h3>
 

@@ -23,7 +23,7 @@
             </div>
 
 
-            <?php  if($lemonway_oneclick_enabled=='1' && !empty( $this->customer->getId() ) ){
+            <?php  if($lemonway_oneclick_enabled=='1' && !empty( $this->customer->getId() ) ){ // Hide One Click form for  guest
             ?>
             <?php if (!empty($card['card_type'])){
             ?>

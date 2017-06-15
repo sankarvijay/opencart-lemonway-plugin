@@ -99,7 +99,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $params['wallet'] = $config['wallet'];
         $total = number_format((float)$order_info['total'], 2, '.', '');
 
-        $customer_id=empty($this->customer->getId())?0:$this->customer->getId();
+        $customer_id=empty($this->customer->getId())?0:$this->customer->getId(); // A guest customer has no Id, we consider it 0
 
 
 
@@ -396,7 +396,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
     }
 
     private function registerCard(){
-        return $this->getValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId()) ;
+        return $this->getValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId()) ; // Guest user cannot register card
     }
 
 
@@ -418,7 +418,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
 
 
-            if (isset($res->lwError)) {
+            if (isset($res->E)) {
                 $this->session->data['error'] = $res->E->Msg;
 
             }

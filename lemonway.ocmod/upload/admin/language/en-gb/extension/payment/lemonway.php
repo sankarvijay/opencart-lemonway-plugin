@@ -95,13 +95,8 @@ $_['entry_one_click']           = 'Enable Oneclic';
 $_['entry_css']                 = 'CSS URL';
 
 
+$_['entry_environment_name']    = 'Custom environment name';
 
-
-// URL
-$_['entry_directkit_json_url']        ='DIRECTKIT JSON URL';
-$_['entry_webkit_url']                ='WEBKIT URL';//Live
-$_['entry_directkit_json_url_test']   ='DIRECTKIT JSON URL TEST ';
-$_['entry_webkit_url_test']           ='WEBKIT URL TEST ';
 
 
 

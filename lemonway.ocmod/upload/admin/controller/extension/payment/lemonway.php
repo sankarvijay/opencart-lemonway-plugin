@@ -120,12 +120,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['entry_css'] = $this->language->get('entry_css');
 
         $data['entry_environment_name']=$this->language->get('entry_environment_name');
-        // URL
-
-        $data['entry_directkit_json_url'] = $this->language->get('entry_directkit_json_url');
-        $data['entry_webkit_url'] = $this->language->get('entry_webkit_url');
-        $data['entry_directkit_json_url_test'] = $this->language->get('entry_directkit_json_url_test');
-        $data['entry_webkit_url_test'] = $this->language->get('entry_webkit_url_test');
+        
 
 
         //Warning

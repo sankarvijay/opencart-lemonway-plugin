@@ -128,8 +128,6 @@
                         <input type="checkbox" name="lemonway_debug"  id="lemonway_debug"   value="1" <?php if($lemonway_debug=='1') echo 'checked';?> >
                         <span> <?php echo DIR_LOGS.'LemonWayKit-debug.log'; ?> </span>
 
-
-
                     </div>
 
                 </div>
@@ -157,7 +155,8 @@
                 <div class="form-group">
 
                     <label class="control-label col-lg-3">
-                       <?php echo $entry_directkit_json_url ; ?>
+
+                       <?php echo $entry_environment_name  ; ?>
                     </label>
 
 
@@ -167,7 +166,7 @@
                             <span class="input-group-addon">
                                   <i class="fa fa-cloud-upload"></i>
                              </span>
-                            <input type="text" name="lemonway_directkit_url" id="lemonway_directkit_url"  <?php if(!empty($lemonway_directkit_url)) echo 'value="'.$lemonway_directkit_url.'"' ; ?>  class="form-control">
+                            <input type="text" name="lemonway_environment_name" id="lemonway_environment_name"  <?php if(!empty($lemonway_environment_name)) echo 'value="'.$lemonway_environment_name.'"' ; ?>  class="form-control">
 
                         </div>
 
@@ -181,85 +180,7 @@
                 </div>
 
 
-                <div class="form-group">
 
-                    <label class="control-label col-lg-3">
-                       <?php echo $entry_webkit_url ; ?>
-                    </label>
-
-
-                    <div class="col-lg-7">
-
-                        <div class="input-group">
-                                   <span class="input-group-addon">
-                                              <i class="fa fa-cloud-upload"></i>
-                                    </span>
-                            <input type="text" name="lemonway_webkit_url" id="lemonway_webkit_url"  <?php if(!empty($lemonway_webkit_url)) echo 'value="'.$lemonway_webkit_url.'"' ; ?> class="form-control">
-
-                        </div>
-
-
-                        <p class="help-block">
-                           <?php echo $help_leave_empty; ?>
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label class="control-label col-lg-3">
-                        <?php echo $entry_directkit_json_url_test; ?>
-                    </label>
-
-
-                    <div class="col-lg-7">
-
-                        <div class="input-group">
-                               <span class="input-group-addon">
-                                              <i class="fa fa-cloud-upload"></i>
-                               </span>
-                            <input type="text" name="lemonway_directkit_url_test" id="lemonway_directkit_url_test"   <?php if(!empty($lemonway_directkit_url_test)) echo 'value="'.$lemonway_directkit_url_test.'"' ; ?>  class="form-control">
-
-                        </div>
-
-
-                        <p class="help-block">
-                           <?php echo $help_leave_empty; ?>
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label class="control-label col-lg-3">
-                        <?php echo $entry_webkit_url_test ; ?>
-                    </label>
-
-
-                    <div class="col-lg-7">
-
-                        <div class="input-group">
-                             <span class="input-group-addon">
-                                              <i class="fa fa-cloud-upload"></i>
-                              </span>
-                            <input type="text" name="lemonway_webkit_url_test" id="lemonway_webkit_url_test"  <?php if(!empty($lemonway_webkit_url_test)) echo 'value="'.$lemonway_webkit_url_test.'"' ; ?>    class="form-control">
-
-                        </div>
-
-
-                        <p class="help-block">
-                           <?php echo $help_leave_empty; ?>
-                        </p>
-
-                    </div>
-
-                </div>
 
 
             </div><!-- /.form-wrapper -->

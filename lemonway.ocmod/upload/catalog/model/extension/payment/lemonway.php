@@ -9,7 +9,7 @@ class ModelExtensionPaymentLemonway extends Model {
 
             $method_data = array(
                 'code'       => 'lemonway',
-                'title'      => $this->language->get('text_title'),
+                'title'      => $this->language->get('text_card'),
                 'terms'      => '',
                 'sort_order' =>''
             );

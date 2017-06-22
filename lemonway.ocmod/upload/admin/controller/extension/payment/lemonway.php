@@ -10,15 +10,12 @@ class ControllerExtensionPaymentLemonway extends Controller
 {
     //const LOG_FILENAME='LemonWayAdmin.log';
 
-
     /*
      *
      * LINK
      *
      *
      */
-
-
 
     const LEMONWAY_DEFAULT_ENVIRONMENT ='lwecommerce';
 
@@ -27,30 +24,19 @@ class ControllerExtensionPaymentLemonway extends Controller
     const LEMONWAY_DIRECTKIT_FORMAT_URL_PROD = 'https://ws.lemonway.fr/mb/%s/prod/directkitjson2/service.asmx';
     const LEMONWAY_DIRECTKIT_FORMAT_URL_TEST = 'https://sandbox-api.lemonway.fr/mb/%s/dev/directkitjson2/service.asmx';
 
-
-
-    //DEFINE URL TEST VALID
-
-
     private $error = array();
 
-
-    public function index(){
-
+    public function index()
+    {
         // Load language
         $this->load->language('extension/payment/lemonway');
-
-
 
         // Load language variables
 
         // Heading
         $data['heading_title'] = $this->language->get('heading_title');
-
         $data['button_save']   = $this->language->get('button_save');
-
         $data['button_cancel']   = $this->language->get('button_cancel');
-
 
         // Text
         $data['text_payment'] = $this->language->get('text_payment');

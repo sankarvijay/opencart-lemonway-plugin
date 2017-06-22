@@ -361,7 +361,7 @@ class ControllerExtensionPaymentLemonway extends Controller
     private function testConfig(){
 
         $config = $this->getConfig();
-        require_once dirname(DIR_APPLICATION) . '/service/LemonWayKit.php'; // SEND REQUEST
+        require_once DIR_SYSTEM . '/library/lemonway/LemonWayKit.php'; // SEND REQUEST
 
         $lang = substr($this->language->get('code'), 0, 2);
 

@@ -1,5 +1,6 @@
 <?php
-require_once dirname(DIR_APPLICATION) . '/service/LemonWayKit.php'; // SEND REQUEST
+
+require_once DIR_SYSTEM . '/library/lemonway/LemonWayKit.php'; // SEND REQUEST
 
 class ControllerExtensionPaymentLemonWay extends Controller
 {

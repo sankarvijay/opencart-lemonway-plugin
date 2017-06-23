@@ -111,7 +111,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         // Load settings
         $this->load->model('setting/setting');
 
-
         // Set document title
         $this->document->setTitle($this->language->get('heading_title'));
 
@@ -123,7 +122,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['lemonway_is_test_mode'] = $this->model_setting_setting->getSettingValue('lemonway_is_test_mode');
         $data['lemonway_oneclick_enabled'] = $this->model_setting_setting->getSettingValue('lemonway_oneclick_enabled');
 
-        $data['lemonway_debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');//
+        $data['lemonway_debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');
 
         //ADVANCED ACCOUNT CONFIGURATION
         $data['lemonway_environment_name']=$this->model_setting_setting->getSettingValue('lemonway_environment_name');
@@ -185,13 +184,13 @@ class ControllerExtensionPaymentLemonway extends Controller
             if ($this->testConfig()) {
                 $this->session->data['success'] = $this->language->get('text_success');
 
-                $this->model_setting_setting->editSettingValue('lemonway','lemonway_merchant_id',$this->request->post['lemonway_merchant_id']);
+                $this->model_setting_setting->editSettingValue('lemonway', 'lemonway_merchant_id', $this->request->post['lemonway_merchant_id']);
 
                 // Return to extensions page
-                $this->response->redirect($this->url->link('extension/payment/lemonway', '    token=' . $this->session->data['token'], true));
+                $this->response->redirect($this->url->link('extension/payment/lemonway', 'token=' . $this->session->data['token'], true));
             } else {
                 //Display Error
-                $data['error_testConfig'] ="LemonWay:".$this->error['testConfig'];
+                $data['error_testConfig'] = "LemonWay: " . $this->error['testConfig'];
 
                 //ACCOUNT INFORMATION
                 $data['lemonway_api_login'] = $this->model_setting_setting->getSettingValue('lemonway_api_login');
@@ -203,10 +202,10 @@ class ControllerExtensionPaymentLemonway extends Controller
 
                 $data['lemonway_debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');
 
-                $data['error_testConfig'].='TEST:'.$data['lemonway_is_test_mode'];// Debug 
+                $data['error_testConfig'] .= 'TEST: ' . $data['lemonway_is_test_mode']; // Debug 
 
                 //ADVANCED ACCOUNT CONFIGURATION
-                $data['lemonway_environment_name']=$this->model_setting_setting->getSettingValue('lemonway_environment_name');
+                $data['lemonway_environment_name'] = $this->model_setting_setting->getSettingValue('lemonway_environment_name');
 
                 // Credit card
                 $data['lemonway_cc_status'] = $this->model_setting_setting->getSettingValue('lemonway_cc_status');
@@ -222,7 +221,8 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->response->setOutput($this->load->view('extension/payment/lemonway.tpl', $data));
     }
 
-    protected function validate(){
+    protected function validate()
+    {
         if (!$this->user->hasPermission('modify', 'extension/payment/lemonway')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
@@ -253,21 +253,21 @@ class ControllerExtensionPaymentLemonway extends Controller
         }
 
         //Credit Card status
-        if (!isset($this->request->post['lemonway_cc_status']) ) {
+        if (!isset($this->request->post['lemonway_cc_status'])) {
             $this->request->post['lemonway_cc_status'] = '0';
         }
 
         // Debug
-        if (!isset($this->request->post['lemonway_debug']) ) {
+        if (!isset($this->request->post['lemonway_debug'])) {
             $this->request->post['lemonway_oneclick_enabled'] = '0';
         }
         //  Test Mode
-        if (!isset($this->request->post['lemonway_is_test_mode']) ) {
+        if (!isset($this->request->post['lemonway_is_test_mode'])) {
             $this->request->post['lemonway_is_test_mode'] = '0';
         }
 
         //Environment name
-        if(empty($this->request->post['lemonway_environment_name'])){
+        if (empty($this->request->post['lemonway_environment_name'])) {
             $this->request->post['lemonway_environment_name']=self::LEMONWAY_DEFAULT_ENVIRONMENT;
         }
         
@@ -278,15 +278,16 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->request->post['lemonway_webkit_url'] = sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_PROD, $this->request->post['lemonway_environment_name']);
 
         // Default values if lemonway_directkit_url_test is empty
-            $this->request->post['lemonway_directkit_url_test'] =sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_TEST, $this->request->post['lemonway_environment_name']);
+        $this->request->post['lemonway_directkit_url_test'] =sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_TEST, $this->request->post['lemonway_environment_name']);
 
         // Default values if lemonway_webkit_url_test is empty
-            $this->request->post['lemonway_webkit_url_test'] = sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_TEST, $this->request->post['lemonway_environment_name']);
+        $this->request->post['lemonway_webkit_url_test'] = sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_TEST, $this->request->post['lemonway_environment_name']);
 
         // Default values if lemonway_css_url is empty
         if (empty($this->request->post['lemonway_css_url'])) {
             $this->request->post['lemonway_css_url'] = 'https://webkit.lemonway.fr/css/mercanet/mercanet_lw_custom.css';
         }
+
         if (!$this->error) {
             return true;
         } else {
@@ -332,6 +333,7 @@ class ControllerExtensionPaymentLemonway extends Controller
                 $config['wkURL'] = self::LEMONWAY_WEBKIT_4ECOMMERCE_URL_PROD;
 
             }
+
             $config['test'] = '0';
         }
 
@@ -339,29 +341,28 @@ class ControllerExtensionPaymentLemonway extends Controller
         $config['pass'] = $this->model_setting_setting->getSettingValue('lemonway_api_password');
         $config['wallet'] = $this->model_setting_setting->getSettingValue('lemonway_merchant_id');
         $config['debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');
+        
         return $config;
-
     }
 
-
-    private function testConfig(){
-
+    private function testConfig()
+    {
         $config = $this->getConfig();
         require_once DIR_SYSTEM . '/library/lemonway/LemonWayKit.php'; // SEND REQUEST
 
         $lang = substr($this->language->get('code'), 0, 2);
 
         $kit = new LemonWayKit($config['dkURL'], $config['wkURL'], $config['login'], $config['pass'], $config['test'] != '1', $lang, $config['debug'] == 1, new Log($this->config->get('config_error_filename')));
-        if($this->request->post['lemonway_environment_name']==self::LEMONWAY_DEFAULT_ENVIRONMENT) {
+
+        if ($this->request->post['lemonway_environment_name']==self::LEMONWAY_DEFAULT_ENVIRONMENT) {
             $params = array('email' => $this->request->post['lemonway_api_login']);
-        }
-        else{
+        } else {
             $params = array('wallet' => $config['wallet']);
         }
 
         $res = $kit->getWalletDetails($params);
-        if($this->request->post['lemonway_environment_name']==self::LEMONWAY_DEFAULT_ENVIRONMENT) {
-            if(isset($res->WALLET->ID)) {
+        if ($this->request->post['lemonway_environment_name']==self::LEMONWAY_DEFAULT_ENVIRONMENT) {
+            if (isset($res->WALLET->ID)) {
                 $this->request->post['lemonway_merchant_id'] = $res->WALLET->ID;
             }
         }
@@ -389,14 +390,20 @@ class ControllerExtensionPaymentLemonway extends Controller
          * CREATE TABLE
          *
          */
+
         $this->load->model('extension/payment/lemonway');
         $this->model_extension_payment_lemonway->install();
+
+        // Default settings
+        $this->load->model('setting/setting');
+        $this->model_setting_setting->editSetting('lemonway', [
+            'lemonway_cc_status' => 1
+        ]);
     }
 
     public function uninstall()
     {
         $this->load->model('extension/payment/lemonway');
-
         $this->model_extension_payment_lemonway->uninstall();
     }
 }

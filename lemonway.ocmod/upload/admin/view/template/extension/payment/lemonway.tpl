@@ -83,16 +83,16 @@ head.appendChild(link);
                     <div role="tabpanel">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
-                            <li class="active">  <a href="#aboutus"   role="tab" data-toggle="tab"> <?php echo $text_about_us ;?> </a></li>
-                            <li> <a href="#access_api" role="tab" data-toggle="tab"> <?php echo $text_configuration ;?> </a></li>
-                            <li> <a href="#cc" role="tab" data-toggle="tab"> <?php echo $text_cc ;?> </a></li>
+                            <li class="active">  <a href="#aboutus"   role="tab" data-toggle="tab"><i class="fa fa-info-circle"></i> <?= $text_about_us; ?></a></li>
+                            <li> <a href="#access_api" role="tab" data-toggle="tab"><i class="fa fa-cog"></i> <?= $text_configuration ;?></a></li>
+                            <li> <a href="#cc" role="tab" data-toggle="tab"><i class="fa fa-credit-card"></i> <?= $text_cc ;?> </a></li>
                         </ul>
 
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div  class="tab-pane active" id="aboutus"  > <?php echo $about_us; ?>  </div>
-                            <div  class="tab-pane" id="access_api" > <?php echo $configure; ?>  </div>
-                            <div  class="tab-pane " id="cc" > <?php echo $cc; ?>  </div>
+                            <div class="tab-pane active" id="aboutus"><?= $about_us; ?></div>
+                            <div class="tab-pane" id="access_api"><?= $configure; ?></div>
+                            <div class="tab-pane" id="cc"><?= $cc; ?></div>
                         </div>
                     </div>
                 </form>

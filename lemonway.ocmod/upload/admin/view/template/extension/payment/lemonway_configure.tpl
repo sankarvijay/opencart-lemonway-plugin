@@ -60,7 +60,7 @@
     <!-- Advanced config panel -->
     <div class="panel">
         <div class="panel-heading">
-            <i class="fa fa-cog"></i> <?= $text_advanced_configuration; ?>
+            <i class="fa fa-cogs"></i> <?= $text_advanced_configuration; ?>
         </div>
 
         <div class="form-wrapper">

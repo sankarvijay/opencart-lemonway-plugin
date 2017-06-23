@@ -17,12 +17,14 @@ class ControllerExtensionPaymentLemonway extends Controller
      *
      */
 
-    const LEMONWAY_DEFAULT_ENVIRONMENT ='lwecommerce';
+    const LEMONWAY_ENVIRONMENT_DEFAULT = 'lwecommerce';
 
     const LEMONWAY_WEBKIT_FORMAT_URL_PROD = 'https://webkit.lemonway.fr/mb/%s/prod/';
     const LEMONWAY_WEBKIT_FORMAT_URL_TEST = 'https://sandbox-webkit.lemonway.fr/%s/dev/';
     const LEMONWAY_DIRECTKIT_FORMAT_URL_PROD = 'https://ws.lemonway.fr/mb/%s/prod/directkitjson2/service.asmx';
     const LEMONWAY_DIRECTKIT_FORMAT_URL_TEST = 'https://sandbox-api.lemonway.fr/mb/%s/dev/directkitjson2/service.asmx';
+
+    const CSS_URL_DEFAULT = 'https://webkit.lemonway.fr/css/mercanet/mercanet_lw_custom.css';
 
     private $error = array();
 
@@ -128,7 +130,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['lemonway_environment_name']=$this->model_setting_setting->getSettingValue('lemonway_environment_name');
 
         //One Click
-        $data['lemonway_cc_status'] = $this->model_setting_setting->getSettingValue('lemonway_cc_status');
+        $data['lemonway_status'] = $this->model_setting_setting->getSettingValue('lemonway_status');
         $data['lemonway_css_url'] = $this->model_setting_setting->getSettingValue('lemonway_css_url');
 
         //UNSET THE ERROR
@@ -208,7 +210,7 @@ class ControllerExtensionPaymentLemonway extends Controller
                 $data['lemonway_environment_name'] = $this->model_setting_setting->getSettingValue('lemonway_environment_name');
 
                 // Credit card
-                $data['lemonway_cc_status'] = $this->model_setting_setting->getSettingValue('lemonway_cc_status');
+                $data['lemonway_status'] = $this->model_setting_setting->getSettingValue('lemonway_status');
 
                 $data['lemonway_css_url'] = $this->model_setting_setting->getSettingValue('lemonway_css_url');
 
@@ -253,8 +255,8 @@ class ControllerExtensionPaymentLemonway extends Controller
         }
 
         //Credit Card status
-        if (!isset($this->request->post['lemonway_cc_status'])) {
-            $this->request->post['lemonway_cc_status'] = '0';
+        if (!isset($this->request->post['lemonway_status'])) {
+            $this->request->post['lemonway_status'] = '0';
         }
 
         // Debug
@@ -268,24 +270,26 @@ class ControllerExtensionPaymentLemonway extends Controller
 
         //Environment name
         if (empty($this->request->post['lemonway_environment_name'])) {
-            $this->request->post['lemonway_environment_name']=self::LEMONWAY_DEFAULT_ENVIRONMENT;
+            $env_name = self::LEMONWAY_ENVIRONMENT_DEFAULT;
+        } else {
+            $env_name = $this->request->post['lemonway_environment_name'];
         }
         
         // Default values if  lemonway_directkit_url is empty
-        $this->request->post['lemonway_directkit_url']=sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_PROD, $this->request->post['lemonway_environment_name']);
+        $this->request->post['lemonway_directkit_url'] = sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_PROD, $env_name);
 
         // Default values if lemonway_webkit_url is empty
-        $this->request->post['lemonway_webkit_url'] = sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_PROD, $this->request->post['lemonway_environment_name']);
+        $this->request->post['lemonway_webkit_url'] = sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_PROD, $env_name);
 
         // Default values if lemonway_directkit_url_test is empty
-        $this->request->post['lemonway_directkit_url_test'] =sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_TEST, $this->request->post['lemonway_environment_name']);
+        $this->request->post['lemonway_directkit_url_test'] = sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_TEST, $env_name);
 
         // Default values if lemonway_webkit_url_test is empty
-        $this->request->post['lemonway_webkit_url_test'] = sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_TEST, $this->request->post['lemonway_environment_name']);
+        $this->request->post['lemonway_webkit_url_test'] = sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_TEST, $env_name);
 
         // Default values if lemonway_css_url is empty
         if (empty($this->request->post['lemonway_css_url'])) {
-            $this->request->post['lemonway_css_url'] = 'https://webkit.lemonway.fr/css/mercanet/mercanet_lw_custom.css';
+            $this->request->post['lemonway_css_url'] = self::CSS_URL_DEFAULT;
         }
 
         if (!$this->error) {
@@ -303,36 +307,20 @@ class ControllerExtensionPaymentLemonway extends Controller
         $config = array();
         // TEST
         if ($this->model_setting_setting->getSettingValue('lemonway_is_test_mode') == '1') {
-            //DIRECT KIT URL TE
-            if (!empty($this->model_setting_setting->getSettingValue('lemonway_directkit_url_test'))) {
-                $config['dkURL'] = $this->model_setting_setting->getSettingValue('lemonway_directkit_url_test');
-            } else {
-                $config['dkURL'] = self::LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_TEST;
+            // DIRECTKIT TEST URL
+            $config['dkURL'] = $this->model_setting_setting->getSettingValue('lemonway_directkit_url_test');
 
-            }
-            //WEB KIT URL
-            if (!empty($this->model_setting_setting->getSettingValue('lemonway_webkit_url_test'))) {
-                $config['wkURL'] = $this->model_setting_setting->getSettingValue('lemonway_webkit_url_test');
-            } else {
-                $config['wkURL'] = self::LEMONWAY_WEBKIT_4ECOMMERCE_URL_TEST;
-            }
+            // WEBKIT TEST URL
+            $config['wkURL'] = $this->model_setting_setting->getSettingValue('lemonway_webkit_url_test');
+
             $config['test'] = '1';
         } //PROD
         else {
-            ///DIRECT KIT URL
-            if (!empty($this->model_setting_setting->getSettingValue('lemonway_directkit_url'))) {
-                $config['dkURL'] = $this->model_setting_setting->getSettingValue('lemonway_directkit_url');
-            } else {
-                $config['dkURL'] = self::LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_PROD;
+            // DIRECTKIT URL
+            $config['dkURL'] = $this->model_setting_setting->getSettingValue('lemonway_directkit_url');
 
-            }
-            ///WEBKIT URL
-            if (!empty($this->model_setting_setting->getSettingValue('lemonway_webkit_url'))) {
-                $config['wkURL'] = $this->model_setting_setting->getSettingValue('lemonway_webkit_url');
-            } else {
-                $config['wkURL'] = self::LEMONWAY_WEBKIT_4ECOMMERCE_URL_PROD;
-
-            }
+            // WEBKIT URL
+            $config['wkURL'] = $this->model_setting_setting->getSettingValue('lemonway_webkit_url');
 
             $config['test'] = '0';
         }
@@ -354,14 +342,14 @@ class ControllerExtensionPaymentLemonway extends Controller
 
         $kit = new LemonWayKit($config['dkURL'], $config['wkURL'], $config['login'], $config['pass'], $config['test'] != '1', $lang, $config['debug'] == 1, new Log($this->config->get('config_error_filename')));
 
-        if ($this->request->post['lemonway_environment_name']==self::LEMONWAY_DEFAULT_ENVIRONMENT) {
+        if (empty($this->request->post['lemonway_environment_name'])) {
             $params = array('email' => $this->request->post['lemonway_api_login']);
         } else {
             $params = array('wallet' => $config['wallet']);
         }
 
         $res = $kit->getWalletDetails($params);
-        if ($this->request->post['lemonway_environment_name']==self::LEMONWAY_DEFAULT_ENVIRONMENT) {
+        if (empty($this->request->post['lemonway_environment_name'])) {
             if (isset($res->WALLET->ID)) {
                 $this->request->post['lemonway_merchant_id'] = $res->WALLET->ID;
             }
@@ -397,7 +385,12 @@ class ControllerExtensionPaymentLemonway extends Controller
         // Default settings
         $this->load->model('setting/setting');
         $this->model_setting_setting->editSetting('lemonway', [
-            'lemonway_cc_status' => 1
+            'lemonway_status' => 1,
+            'lemonway_css_url' => self::CSS_URL_DEFAULT,
+            'lemonway_directkit_url' => sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_PROD, self::LEMONWAY_ENVIRONMENT_DEFAULT),
+            'lemonway_webkit_url' => sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_PROD, self::LEMONWAY_ENVIRONMENT_DEFAULT),
+            'lemonway_directkit_url_test' => sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_TEST, self::LEMONWAY_ENVIRONMENT_DEFAULT),
+            'lemonway_webkit_url_test' => sprintf(self::LEMONWAY_WEBKIT_FORMAT_URL_TEST, self::LEMONWAY_ENVIRONMENT_DEFAULT)
         ]);
     }
 

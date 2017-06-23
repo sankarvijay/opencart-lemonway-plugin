@@ -61,7 +61,7 @@ head.appendChild(link);
         </div>
         <?php } ?>
 
-        <?php if ($lemonway_cc_status != '1') { ?>
+        <?php if ($lemonway_status != '1') { ?>
         <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> <?php echo $warning_status ;?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>

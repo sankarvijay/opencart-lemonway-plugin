@@ -10,7 +10,7 @@ class ModelExtensionPaymentLemonway extends Model
 {
     public function install()
     {
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.DB_PREFIX.'lemonway_oneclic` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'lemonway_oneclic` (
 	    `id_oneclic` int(11) NOT NULL AUTO_INCREMENT,
 		`id_customer` int(11) NOT NULL,
 		`id_card` int(11) NOT NULL,
@@ -23,7 +23,7 @@ class ModelExtensionPaymentLemonway extends Model
 	    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
 
 
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.DB_PREFIX.'lemonway_moneyout` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'lemonway_moneyout` (
 	    `id_moneyout` int(11) NOT NULL AUTO_INCREMENT,
 		`id_lw_wallet` varchar(255) NOT NULL,
 		`id_customer` int(11) NOT NULL DEFAULT 0,
@@ -40,7 +40,7 @@ class ModelExtensionPaymentLemonway extends Model
 	    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
 
 
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.DB_PREFIX.'lemonway_iban` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'lemonway_iban` (
 	    `id_iban` int(11) NOT NULL AUTO_INCREMENT,
 		`id_lw_iban` int(11) NOT NULL,
 		`id_customer` int(11) NOT NULL,
@@ -59,7 +59,7 @@ class ModelExtensionPaymentLemonway extends Model
 	    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
 
 
-        $this->db->query("CREATE TABLE IF NOT EXISTS `".DB_PREFIX."lemonway_wallet` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "lemonway_wallet` (
 	  `id_wallet` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Wallet ID',
 	  `id_lw_wallet` varchar(255) NOT NULL COMMENT 'Lemonway Wallet ID',
 	  `id_customer` int(11) NOT NULL COMMENT 'Customer ID',

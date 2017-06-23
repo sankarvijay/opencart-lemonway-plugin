@@ -4,13 +4,6 @@ require_once DIR_SYSTEM . '/library/lemonway/LemonWayKit.php'; // SEND REQUEST
 
 class ControllerExtensionPaymentLemonWay extends Controller
 {
-
-    const LEMONWAY_WEBKIT_4ECOMMERCE_URL_PROD = 'https://webkit.lemonway.fr/mb/lwecommerce/prod/';
-    const LEMONWAY_WEBKIT_4ECOMMERCE_URL_TEST = 'https://sandbox-webkit.lemonway.fr/lwecommerce/dev/';
-    const LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_PROD = 'https://ws.lemonway.fr/mb/lwecommerce/prod/directkitjson2/service.asmx';
-    const LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_TEST = 'https://sandbox-api.lemonway.fr/mb/lwecommerce/dev/directkitjson2/service.asmx';
-
-
     /**
      *
      * @var Operation
@@ -160,7 +153,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
             $paramserror = http_build_query($paramserror);
 
-
             $params['returnUrl'] = $this->url->link('extension/payment/lemonway/checkoutReturn&' . $paramsreturn, '', true);
 
             $params['cancelUrl'] = $this->url->link('extension/payment/lemonway/checkoutReturn&' . $paramscancel, '', true);
@@ -170,48 +162,32 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $params['autoCommission'] = '0';
             $params['registerCard'] = (string)$registerCard;
 
-
-
             $res = $kit->moneyInWebInit($params);
-
-
 
             //Oops, an error occured.
             if (isset($res->E)) {
-
                 //Redirect to the cart and display the  error
                 $this->session->data['error'] = 'Lemon Way: ' . $res->E->Msg;
                 $this->response->redirect($this->url->link('checkout/cart'));
-
             }
 
             if ($this->customer->getId() && isset($res->MONEYINWEB->CARD) && $registerCard) {
-
-
                 $card = $this->model_extension_payment_lemonway->getCustomerCard($this->customer->getId());
                 if (!$card) {
                     $card = array();
                 }
 
-
                 $card['id_customer'] = $this->customer->getId();
                 $card['id_card'] = (string)$res->MONEYINWEB->CARD->ID;
 
-
                 $this->model_extension_payment_lemonway->insertOrUpdateCard($this->customer->getId(), $card);
-
             }
 
             $moneyInToken = (string)$res->MONEYINWEB->TOKEN;
 
-
-            $lwUrl = $config['wkURL'] . '?moneyintoken=' . $moneyInToken . '&p='
-                . urlencode($config['cssURL']) . '&lang=' . $lang;
-
-
+            $lwUrl = $config['wkURL'] . '?moneyintoken=' . $moneyInToken . '&p=' . urlencode($config['cssURL']) . '&lang=' . $lang;
 
             $cc_type = $this->request->post['cc_type'];
-
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $lwUrl);
@@ -219,7 +195,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $config['test']!=1);//False if  test enabled
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $config['test'] != 1);//False if  test enabled
 
             $response = curl_exec($ch);
 
@@ -476,15 +452,13 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
     }
 
-
     /*
      *
      * VALIDATE ORDER
      *
      */
-
-    public function checkoutReturn(){
-
+    public function checkoutReturn()
+    {
         //Load Language
         $this->load->language('extension/payment/lemonway');
         //Load Model
@@ -493,15 +467,11 @@ class ControllerExtensionPaymentLemonWay extends Controller
         //Load Model
         $this->load->model('checkout/order');
 
-
-
-
         if (($this->isSubmit('response_wkToken') == false) || ($this->isSubmit('action') == false) || ($this->isSubmit('customer_id') == false)) {
             //Param missing
             $this->session->data['error'] = $this->language->get('error_param');
             $this->response->redirect($this->url->link('checkout/cart'));
         }
-
 
         $wkToken = $this->getValue('response_wkToken');
         $details = $this->getMoneyInTransDetails($wkToken);
@@ -519,11 +489,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             'customer_id' => $this->getValue('customer_id'),
             'cart_id' => $cart_id);
 
-
-
-
         if ($this->isGet()) { //Is redirection from Lemonway
-
 
             if (($this->isSubmit('customer_id') == false)) {
                 $this->session->data['error'] = $this->language->get('error_param');
@@ -535,12 +501,9 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
             //GET WK Tokenb
 
-
             $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
             $total = $order_info['total'];
             $total = number_format((float)$total, 2, '.', '');
-
-
 
             if ($total == $details->TRANS->HPAY[0]->CRED) {
                 $this->response->redirect($this->url->link('extension/payment/lemonway/validation', $redirectParams, true));
@@ -551,15 +514,15 @@ class ControllerExtensionPaymentLemonWay extends Controller
         } elseif ($this->isPost()) {
             sleep(4);
             $register_card = 0;
+
             if (isset($this->request->get['registerCard'])) {
                 $register_card = $this->request->get['registerCard'];
             }
-            $register_card = (bool)$register_card;
 
+            $register_card = (bool)$register_card;
 
             //Is instant payment notification
             //wait for GET redirection finish in front
-
 
             if ($this->isSubmit('response_code') == false) {
                 echo "Test response_code";
@@ -572,27 +535,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $this->model_checkout_order->getOrder($order_id);
 
             //Double Check
-
-
-
-
             if ($amount != $details->TRANS->HPAY[0]->CRED) {
                 $this->model_checkout_order->addOrderHistory($this->session->data['order_id'], 10);
                 $this->response->redirect($this->url->link('checkout/failure'));
-
             } else {
-
-
-
                 $amount_paid = number_format((float)$amount, 2, '.', '');;
 
                 $customer_id = 0;
                 if (isset($this->request->get['customer_id'])) {
                     $customer_id = $this->request->get['customer_id'];
                 }
-
-
-
                 //Default status to error
 
                 //Default message;
@@ -601,21 +553,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 if ($this->isValidOrder($action, $response_code, $wkToken) === true) {
                     switch ($action) {
                         case 'return':
-
-
-
                             if ($customer_id && $register_card) {
                                 $card = $this->model_extension_payment_lemonway->getCustomerCard($customer_id);
                                 if (count($card)== 0) {
                                     $card = array();
                                 }
 
-
                                 $card['id_customer'] = $customer_id;
                                 $card['card_num'] = $details->TRANS->HPAY[0]->EXTRA->NUM;
                                 $card['card_type'] = $details->TRANS->HPAY[0]->EXTRA->TYP;
                                 $card['card_exp'] = $details->TRANS->HPAY[0]->EXTRA->EXP;
-
 
                                 $this->model_extension_payment_lemonway->insertOrUpdateCard($customer_id, $card);
                                 $this->response->redirect($this->url->link('checkout/success'));
@@ -624,14 +571,11 @@ class ControllerExtensionPaymentLemonWay extends Controller
                             break;
 
                         case 'cancel':
-
-
                             /**
                              * Add a message to explain why the order has not been validated
                              */
 
                             $this->response->redirect($this->url->link('checkout/failure'));
-
                             break;
 
                         case 'error':
@@ -640,17 +584,12 @@ class ControllerExtensionPaymentLemonWay extends Controller
                         default:
                     }
                 }
-
             }
         } else {
             //@TODO throw error for not http method supported
             die();
         }
-
-
     }
-
-
 
     protected function isGet()
     {
@@ -689,6 +628,4 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         return false;
     }
-
-
 }

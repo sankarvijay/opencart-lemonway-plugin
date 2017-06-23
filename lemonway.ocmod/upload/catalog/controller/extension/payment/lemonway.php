@@ -253,21 +253,14 @@ class ControllerExtensionPaymentLemonWay extends Controller
                     'cardId' => $card['id_card']
                 );
 
-
-
-
                 $res = $kit->moneyInWithCardId($params);
-
-
 
                 //Oops, an error occured.
                 if (isset($res->E)) {
                     //Redirect to the cart and display the  error
                     $this->session->data['error'] = 'Lemon Way: ' . $res->E->Msg;
                     $this->response->redirect($this->url->link('checkout/cart'));
-
                 }
-
 
                 if ($res->TRANS->HPAY->STATUS == "3") {
                     /*$id_order_state = Configuration::get('PS_OS_PAYMENT');
@@ -301,21 +294,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
                     $this->session->data['error'] = 'Lemon Way: ' . $res->TRANS->HPAY->MSG;
                     $this->response->redirect($this->url->link('checkout/cart'));
                 }
-
             } else {
                 //Redirect to the cart and display the  error
                 $this->session->data['error'] = 'Lemon Way: ' . 'Customer not logged or card not found!';
                 $this->response->redirect($this->url->link('checkout/cart'));
             }
         }
-
     }
 
-    private function getLemonWayConfig(){
-        /*
-
-         */
-
+    private function getLemonWayConfig()
+    {
         $config = array();
         // TEST
         if ($this->config->get('lemonway_is_test_mode') == '1') {
@@ -333,8 +321,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 $config['wkURL'] = self::LEMONWAY_WEBKIT_4ECOMMERCE_URL_TEST;
             }
             $config['test'] = '1';
-        } //PROD
-        else {
+        } else { // PROD
             ///DIRECT KIT URL
             if (!empty($this->config->get('lemonway_directkit_url'))) {
                 $config['dkURL'] = $this->config->get('lemonway_directkit_url');
@@ -359,9 +346,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
         return $config;
     }
 
-
-
-    private function useCard(){
+    private function useCard()
+    {
         return $this->getValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId());
     }
 
@@ -375,12 +361,10 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
     }
 
-    private function registerCard(){
+    private function registerCard()
+    {
         return $this->getValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId()) ; // Guest user cannot register card
     }
-
-
-
 
     private function getMoneyInTransDetails($wkToken){
         if (is_null($this->moneyin_trans_details)) {

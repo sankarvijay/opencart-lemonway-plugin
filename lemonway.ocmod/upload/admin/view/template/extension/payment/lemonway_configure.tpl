@@ -8,7 +8,7 @@
         <div class="form-wrapper">
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?= $entry_login; ?>
+                    <?= $entry_login; ?> *
                 </label>
 
                 <div class="col-lg-7">
@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?= $entry_password; ?>
+                    <?= $entry_password; ?> *
                 </label>
 
                 <div class="col-lg-7">

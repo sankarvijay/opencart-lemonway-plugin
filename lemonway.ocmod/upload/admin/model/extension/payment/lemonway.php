@@ -6,10 +6,10 @@
  * Date: 17/05/2017
  * Time: 15:48
  */
-class ModelExtensionPaymentLemonway extends Model {
-
-    public function install() {
-
+class ModelExtensionPaymentLemonway extends Model
+{
+    public function install()
+    {
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.DB_PREFIX.'lemonway_oneclic` (
 	    `id_oneclic` int(11) NOT NULL AUTO_INCREMENT,
 		`id_customer` int(11) NOT NULL,
@@ -103,26 +103,16 @@ class ModelExtensionPaymentLemonway extends Model {
     UNIQUE KEY `id_cart` (`id_cart`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
 
-
-
      /*
       *@TODO
       *
       *
       * ADD SPLIT PAYMENT
       */
-
-
-
-
-
-
-
     }
 
-    public function uninstall() {
+    public function uninstall()
+    {
 
     }
-
-
 }

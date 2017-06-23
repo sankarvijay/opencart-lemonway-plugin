@@ -24,7 +24,7 @@ $_['text_edit_config']          = 'Edit Lemon Way Configuration';
 //NAV TABS TITLE
 $_['text_about_us']             = 'ABOUT US ';
 $_['text_configuration']        = 'ACCOUNT CONFIGURATION';
-$_['text_one_click']            = 'CREDIT CARD';
+$_['text_cc']            = 'CREDIT CARD';
 
 
 $_['text_advanced_configuration'] = 'ADVANCED ACCOUNT CONFIGURATION';
@@ -52,16 +52,11 @@ $_['text_link_support']         = 'https://lemonway.zendesk.com/hc/en-gb/categor
 $_['text_follow_turnover']      = 'Follow your turnover in real team thanks to our very intuitive and dedicated back office.';
 $_['text_or']                   = 'or';
 
-
 $_['text_save']                 = 'Save';
-
-
-
 
 //One click
 
-$_['text_configration_one_click']         = 'CONFIGURATION ';
-
+$_['text_method_configuration'] = 'METHOD CONFIGURATION ';
 
 //HELP
 $_['help_login_prod']           = 'Production Api login';
@@ -70,16 +65,7 @@ $_['help_test']                 = 'Check it to active Test Mode';
 $_['help_leave_empty']          = 'Leave empty, if this information has not been sent to you by Lemonway';
 $_['help_oneclick']             = 'Display oneclic form on payment step';
 
-
-
-
-
-
-
-
-
 // Entry
-
 $_['entry_login']               = 'Login Lemon Way for E-commerce';
 $_['entry_password']            = 'Password Lemon Way for E-commerce';
 $_['entry_wallet']              = 'Your account name';
@@ -87,17 +73,12 @@ $_['entry_test']                = 'Activate test mode';
 $_['entry_status']              = 'Enable';
 $_['entry_debug']               = 'Active Debug Mode';
 
-
 $_['entry_yes']                 = 'YES';
 $_['entry_no']                  = 'NO';
-$_['entry_one_click']           = 'Enable Oneclic';
+$_['entry_one_click']           = 'Enable One-click';
 $_['entry_css']                 = 'CSS URL';
 
-
 $_['entry_environment_name']    = 'Custom environment name';
-
-
-
 
 // Error
 $_['error_permission']          = 'Warning: You do not have permission to modify payment:Lemon Way!';
@@ -106,11 +87,6 @@ $_['error_password']            = 'Password is required!';
 $_['error_curl']                = 'You have to enable the cURL extension on your server to install this module';
 $_['error_wallet']              = 'Merchant ID is required!';
 
-
-
 //Warning
-
-$_['warning_status']            = 'Lemon Way   Payment extension is disabled!';
-
-
+$_['warning_status']            = 'Lemon Way Payment extension is disabled!';
 ?>

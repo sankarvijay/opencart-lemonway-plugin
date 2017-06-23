@@ -54,7 +54,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         //NAV TABS TITLE
         $data['text_about_us'] = $this->language->get('text_about_us');
         $data['text_configuration'] = $this->language->get('text_configuration');
-        $data['text_one_click'] = $this->language->get('text_one_click');
+        $data['text_cc'] = $this->language->get('text_cc');
 
         $data['text_advanced_configuration'] = $this->language->get('text_advanced_configuration');
 
@@ -82,7 +82,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['text_save'] = $this->language->get('text_save');
 
         //One click
-        $data['text_configration_one_click'] = $this->language->get('text_configration_one_click');
+        $data['text_method_configuration'] = $this->language->get('text_method_configuration');
 
         //HELP
         $data['help_login_prod'] = $this->language->get('help_login_prod');
@@ -129,13 +129,11 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['lemonway_environment_name']=$this->model_setting_setting->getSettingValue('lemonway_environment_name');
 
         //One Click
-        $data['lemonway_status'] = $this->model_setting_setting->getSettingValue('lemonway_status');
+        $data['lemonway_cc_status'] = $this->model_setting_setting->getSettingValue('lemonway_cc_status');
         $data['lemonway_css_url'] = $this->model_setting_setting->getSettingValue('lemonway_css_url');
 
         //UNSET THE ERROR
-
         unset($data['error_permission'], $data['error_login'], $data['error_password'], $data['error_curl'], $data['error_wallet'], $data['error_testConfig']);
-
 
         if (isset($this->session->data['success'])) {
             $data['success'] = $this->session->data['success'];
@@ -155,7 +153,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['configure'] = $this->load->view('extension/payment/lemonway_configure.tpl', $data);
 
         //ONE CLICK
-        $data['one_click'] = $this->load->view('extension/payment/lemonway_oneclick.tpl', $data);
+        $data['cc'] = $this->load->view('extension/payment/lemonway_cc.tpl', $data);
 
         // Load breadcrumbs
         $data['breadcrumbs'] = array();
@@ -180,7 +178,6 @@ class ControllerExtensionPaymentLemonway extends Controller
 
         // If isset request to change settings
         if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {
-
             // Edit settings
             $this->model_setting_setting->editSetting('lemonway', $this->request->post);
 
@@ -211,8 +208,9 @@ class ControllerExtensionPaymentLemonway extends Controller
                 //ADVANCED ACCOUNT CONFIGURATION
                 $data['lemonway_environment_name']=$this->model_setting_setting->getSettingValue('lemonway_environment_name');
 
-                //One Click
-                $data['lemonway_status'] = $this->model_setting_setting->getSettingValue('lemonway_status');
+                // Credit card
+                $data['lemonway_cc_status'] = $this->model_setting_setting->getSettingValue('lemonway_cc_status');
+
                 $data['lemonway_css_url'] = $this->model_setting_setting->getSettingValue('lemonway_css_url');
 
                 $this->response->setOutput($this->load->view('extension/payment/lemonway.tpl', $data));
@@ -253,11 +251,13 @@ class ControllerExtensionPaymentLemonway extends Controller
         if (!isset($this->request->post['lemonway_oneclick_enabled'])) {
             $this->request->post['lemonway_oneclick_enabled'] = '0';
         }
-        //Lemon Way status
-        if (!isset($this->request->post['lemonway_status']) ) {
-            $this->request->post['lemonway_status'] = '0';
+
+        //Credit Card status
+        if (!isset($this->request->post['lemonway_cc_status']) ) {
+            $this->request->post['lemonway_cc_status'] = '0';
         }
-        //Debug
+
+        // Debug
         if (!isset($this->request->post['lemonway_debug']) ) {
             $this->request->post['lemonway_oneclick_enabled'] = '0';
         }
@@ -372,23 +372,23 @@ class ControllerExtensionPaymentLemonway extends Controller
         } else {
             return true;
         }
-
     }
 
-    private function loadAllErrors($data){
+    private function loadAllErrors($data)
+    {
         foreach ($this->error as $key => $value) {
             $data['error_' . $key] = $value;
         }
         return $data;
     }
 
-    public function install(){
+    public function install()
+    {
         /*
          *
          * CREATE TABLE
          *
          */
-
         $this->load->model('extension/payment/lemonway');
         $this->model_extension_payment_lemonway->install();
     }

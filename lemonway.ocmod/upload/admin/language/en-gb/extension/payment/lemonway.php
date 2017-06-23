@@ -28,7 +28,7 @@ $_['text_cc']            = 'CREDIT CARD';
 
 
 $_['text_advanced_configuration'] = 'ADVANCED ACCOUNT CONFIGURATION';
-
+$_['text_custom_environment'] = 'CUSTOM ENVIRONMENT';
 
 //About US
 $_['text_sign_in']              = 'Sign in';

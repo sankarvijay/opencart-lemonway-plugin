@@ -1,13 +1,14 @@
 <div>
-    <div class="panel" id="fieldset_0">
+    <!-- Account config panel -->
+    <div class="panel">
         <div class="panel-heading">
-            <i class="fa fa-cog"></i> <?php echo $text_configuration   ?>
+            <i class="fa fa-user"></i> <?= $text_configuration ?>
         </div>
 
         <div class="form-wrapper">
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?php echo $entry_login;?>
+                    <?= $entry_login; ?>
                 </label>
 
                 <div class="col-lg-7">
@@ -19,14 +20,14 @@
                     </div>
 
                     <p class="help-block">
-                        <?php echo $help_login_prod; ?>
+                        <?= $help_login_prod; ?>
                     </p>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?php echo $entry_password; ?>
+                    <?= $entry_password; ?>
                 </label>
 
                 <div class="col-lg-7">
@@ -42,29 +43,31 @@
 
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                   <?php echo $entry_test; ?>
+                   <?= $entry_test; ?>
                 </label>
 
                 <div class="col-lg-7">
-                    <input type="checkbox" name="lemonway_is_test_mode" id="lemonway_is_test_mode_on" value="1" <?php if($lemonway_is_test_mode=='1') echo 'checked';?> />
+                    <input type="checkbox" name="lemonway_is_test_mode" id="lemonway_is_test_mode_on" value="1" <?php if($lemonway_is_test_mode=='1') echo 'checked'; ?> />
                     <p class="help-block">
-                        <?php echo $help_test; ?>
+                        <?= $help_test; ?>
                     </p>
                 </div>
             </div>
         </div><!-- form-wrapper -->
     </div>
+    <!-- End Account config panel -->
 
-    <div class="panel" id="fieldset_1_1">
+    <!-- Advanced config panel -->
+    <div class="panel">
         <div class="panel-heading">
-            <i class="fa fa-cog"></i> <?php echo $text_advanced_configuration; ?>
+            <i class="fa fa-cog"></i> <?= $text_advanced_configuration; ?>
         </div>
 
         <div class="form-wrapper">
             <!-- CSS URL -->
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?php echo $entry_css;?>
+                    <?= $entry_css;?>
                 </label>
 
                 <div class="col-lg-7">
@@ -73,7 +76,7 @@
                             <i class="fa fa-css3"></i>
                         </span>
 
-                        <input type="text" name="lemonway_css_url" id="LEMONWAY_CSS_URL" class="form-control" <?php echo 'value="' . $lemonway_css_url . '"' ;?> />
+                        <input type="text" name="lemonway_css_url" id="LEMONWAY_CSS_URL" class="form-control" <?= 'value="' . $lemonway_css_url . '"' ; ?> />
                     </div>
                 </div>
             </div>
@@ -82,61 +85,72 @@
             <!-- Debug mode -->
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?php echo $entry_debug; ?>
+                    <?= $entry_debug; ?>
                 </label>
 
                 <div class="col-lg-7">
-                    <input type="checkbox" name="lemonway_debug" id="lemonway_debug" value="1" <?php if($lemonway_debug=='1') echo 'checked';?> >
+                    <input type="checkbox" name="lemonway_debug" id="lemonway_debug" value="1" <?php if($lemonway_debug=='1') echo 'checked'; ?> />
                     <p class="help-block">
-                        <?php echo DIR_LOGS . 'LemonWayKit-debug.log'; ?>
+                        <?= DIR_LOGS . 'LemonWayKit-debug.log'; ?>
                     </p>
                 </div>
             </div>
             <!-- End Debug mode -->
-
-            <!-- Custom environment name -->
-            <div class="form-group">
-                <label class="control-label col-lg-3">
-                   <?php echo $entry_environment_name; ?>
-                </label>
-
-                <div class="col-lg-7">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-cloud-upload"></i>
-                        </span>
-
-                        <input type="text" name="lemonway_environment_name" id="lemonway_environment_name" <?php if(!empty($lemonway_environment_name)) echo 'value="' . $lemonway_environment_name . '"' ; ?> class="form-control" />
-                    </div>
-
-                    <p class="help-block">
-                       <?php echo $help_leave_empty; ?>
-                    </p>
-                </div>
-            </div>
-            <!-- End Custom environment name -->
-
-            <!-- Wallet ID -->
-            <div class="form-group">
-                <label class="control-label col-lg-3">
-                    <?php echo $entry_wallet ;?>
-                </label>
-
-                <div class="col-lg-7">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-google-wallet"></i>
-                        </span>
-
-                        <input type="text" name="lemonway_merchant_id" id="lemonway_merchant_id"  <?php if(!empty($lemonway_merchant_id)) echo 'value="'.$lemonway_merchant_id.'"'; ?> class="form-control" required />
-                    </div>
-
-                    <p class="help-block">
-                      <?php echo $help_wallet ;?>
-                    </p>
-                </div>
-            </div>
-            <!-- End Wallet ID -->
         </div><!-- /.form-wrapper -->
     </div>
+    <!-- End Advanced config panel -->
+
+    <!-- Custom environment panel -->
+    <div class="panel">
+        <!-- Panel title -->
+        <div class="panel-heading">
+            <i class="fa fa-leaf"></i> <?= $text_custom_environment; ?>
+        </div>
+        <!-- End Panel title -->
+
+        <!-- Custom environment name -->
+        <div class="form-group">
+            <label class="control-label col-lg-3">
+               <?= $entry_environment_name; ?>
+            </label>
+
+            <div class="col-lg-7">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-leaf"></i>
+                    </span>
+
+                    <input type="text" name="lemonway_environment_name" id="lemonway_environment_name" <?php if(!empty($lemonway_environment_name)) echo 'value="' . $lemonway_environment_name . '"' ; ?> class="form-control" />
+                </div>
+
+                <p class="help-block">
+                   <?= $help_leave_empty; ?>
+                </p>
+            </div>
+        </div>
+        <!-- End Custom environment name -->
+
+        <!-- Wallet ID -->
+        <div class="form-group">
+            <label class="control-label col-lg-3">
+                <?= $entry_wallet; ?>
+            </label>
+
+            <div class="col-lg-7">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-google-wallet"></i>
+                    </span>
+
+                    <input type="text" name="lemonway_merchant_id" id="lemonway_merchant_id" <?php if(!empty($lemonway_merchant_id)) echo 'value="' . $lemonway_merchant_id . '"'; ?> class="form-control" required />
+                </div>
+
+                <p class="help-block">
+                  <?= $help_wallet; ?>
+                </p>
+            </div>
+        </div>
+        <!-- End Wallet ID -->
+    </div>
+    <!-- End Custom environment panel -->
 </div>

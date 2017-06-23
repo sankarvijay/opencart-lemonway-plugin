@@ -59,6 +59,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['text_cc'] = $this->language->get('text_cc');
 
         $data['text_advanced_configuration'] = $this->language->get('text_advanced_configuration');
+        $data['text_custom_environment'] = $this->language->get('text_custom_environment');
 
         //About US
         $data['text_sign_in'] = $this->language->get('text_sign_in');
@@ -333,6 +334,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         return $config;
     }
 
+    // Test if the configuration is good enough to call Lemon Way API
     private function testConfig()
     {
         $config = $this->getConfig();

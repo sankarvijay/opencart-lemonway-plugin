@@ -309,7 +309,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
     private function useCard()
     {
-        return $this->getValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId());
+        return $this->getValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled') == '1' && !empty($this->customer->getId());
     }
 
     private function getValue($key)

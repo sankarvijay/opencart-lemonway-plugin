@@ -10,11 +10,11 @@
             </g>
         </svg>
         <div class="col-xs-6 col-md-6 text-center text-muted">
-            <?php echo $text_secured_solution ; ?>
-            <h2 style="color: black;"><?php echo $text_commission ; ?></h2>
+            <?= $text_secured_solution; ?>
+            <h2 style="color: black;"><?= $text_commission; ?></h2>
         </div>
         <div class="col-xs-12 col-md-3 text-center">
-            <a href="https://ecommerce.lemonway.com" target="_blank" class="btn btn-primary" id="create-account-btn"> <?php  echo $text_sign_in;?> </a><br />
+            <a href="https://ecommerce.lemonway.com" target="_blank" class="btn btn-primary" id="create-account-btn"><?= $text_sign_in; ?></a><br />
         </div>
     </div>
 
@@ -23,36 +23,36 @@
     <div class="Lemonway-content">
         <div class="row">
             <div class="col-md-6">
-                <h5> <?php echo $text_create_account ; ?> </h5>
+                <h5><?= $text_create_account; ?></h5>
                 <ol class="ol-spaced">
                     <li>
-                        <strong> <?php echo $text_complete_form ; ?> </strong>
-                        <a href="https://www.lemonway.com/ecommerce/" target="_blank" class="btn btn-primary" id="create-account-btn"><?php  echo $text_sign_up;?> </a>
+                        <strong><?= $text_complete_form; ?></strong>
+                        <a href="https://www.lemonway.com/ecommerce/" target="_blank" class="btn btn-primary" id="create-account-btn"><?= $text_sign_up; ?> </a>
                     </li>
 
                     <li>
-                        <strong> <?php echo $text_complete_your_profile ;?> </strong>
+                        <strong> <?= $text_complete_your_profile; ?> </strong>
                     </li>
 
                     <li>
-                        <strong> <?php echo $text_test_card; ?> <a href="<?php echo $text_link_support; ?>" target="_blank"> <?php echo $text_help_desk; ?> </a></strong>
+                        <strong> <?= $text_test_card; ?> <a href="<?= $text_link_support; ?>" target="_blank"> <?= $text_help_desk; ?> </a></strong>
                     </li>
                 </ol>
             </div>
 
             <div class="col-md-6">
-                <h5> <?php echo $text_turnkey_solution; ?> </h5>
+                <h5><?= $text_turnkey_solution; ?></h5>
                 <dl class="list-unstyled">
-                    <dt> <?php echo $text_secured_payment;?> </dt>
+                    <dt><?= $text_secured_payment; ?></dt>
                     <dd>
-                        <?php echo $text_increase_turnover; ?> <br/>
-                        <?php echo $text_acpr ;?>
+                        <?= $text_increase_turnover; ?><br/>
+                        <?= $text_acpr; ?>
                     </dd>
-                    <dt><?php echo $text_manage_transaction ;?> </dt>
+                    <dt><?= $text_manage_transaction; ?></dt>
                     <dd>
-                        <?php echo $text_follow_turnover;  ?>    <br/>
-                        <?php echo $text_one_click_refund; ?>    <br/>
-                        <?php  echo $text_move_money; ?>
+                        <?= $text_follow_turnover; ?><br/>
+                        <?= $text_one_click_refund; ?><br/>
+                        <?= $text_move_money; ?>
                     </dd>
                 </dl>
                 <img src="view/image/payment/bo-screenshot.png" alt="Back office screenshot" class="col-xs-10" id="bo-screenshot" />
@@ -65,7 +65,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="text-center">
-                        <h2><?php echo $text_more_information; ?> +33 1 48 18 19 30 <?php echo $text_or; ?> <a href="mailto:ecommerce@lemonway.com">ecommerce@lemonway.com</a></h2>
+                        <h2><?= $text_more_information; ?> +33 1 48 18 19 30 <?= $text_or; ?> <a href="mailto:ecommerce@lemonway.com">ecommerce@lemonway.com</a></h2>
                     </div>
                 </div>
             </div>

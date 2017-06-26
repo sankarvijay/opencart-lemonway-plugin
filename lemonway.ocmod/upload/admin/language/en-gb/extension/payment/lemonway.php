@@ -6,8 +6,6 @@ $_['button_save']               = 'Save';
 
 $_['button_cancel']             = 'Cancel';
 
-
-
 // Text
 $_['text_payment']              = 'Payment';
 $_['text_breadcrumbs']          = 'Lemon Way';
@@ -26,7 +24,6 @@ $_['text_about_us']             = 'ABOUT US ';
 $_['text_configuration']        = 'ACCOUNT CONFIGURATION';
 $_['text_cc']            = 'CREDIT CARD';
 
-
 $_['text_advanced_configuration'] = 'ADVANCED ACCOUNT CONFIGURATION';
 $_['text_custom_environment'] = 'CUSTOM ENVIRONMENT';
 
@@ -39,7 +36,7 @@ $_['text_complete_your_profile']= 'Complete your profile in "My Account"';
 $_['text_test_card']            = 'Test and receive your payments by credit cards with';
 $_['text_help_desk']            = 'our help desk';
 $_['text_turnkey_solution']     = 'A TURNKEY SOLUTION';
-$_['text_secured_solution']     = 'Secured payment solution for all Prestashop E-commerce websites';
+$_['text_secured_solution']     = 'Secured payment solution for all e-commerce websites';
 $_['text_commission']           = '1.2% of commission on all your transactions';
 $_['text_secured_payment']      = 'Secured payments';
 $_['text_increase_turnover']    = 'Increase your turnover and secure your payments thanks the 3D Secure.';

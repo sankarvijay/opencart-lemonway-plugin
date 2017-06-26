@@ -98,7 +98,7 @@ head.appendChild(link);
                     </div>
                 </form>
                 <div class="text-right">
-                    <small>Version 1.0.0</small>
+                    <small>v1.0.0</small>
                 </div>
             </div>
         </div>

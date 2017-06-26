@@ -300,7 +300,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         $config['login'] = $this->config->get('lemonway_api_login');
         $config['pass'] = $this->config->get('lemonway_api_password');
-        $config['wallet'] = $this->config->get('lemonway_merchant_id');
+        $config['wallet'] = empty($this->config->get('lemonway_environment_name')) ? $this->config->get('lemonway_wallet') : $this->config->get('lemonway_custom_wallet');
         $config['cssURL'] = $this->config->get('lemonway_css_url');
         $config['autoCommission'] = (int)!empty($this->config->get('lemonway_environment_name')); // Autocom = 0 if lwecommerce, 1 if custom environment
 

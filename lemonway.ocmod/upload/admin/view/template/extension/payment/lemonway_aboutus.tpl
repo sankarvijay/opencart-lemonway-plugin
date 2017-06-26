@@ -35,7 +35,7 @@
                     </li>
 
                     <li>
-                        <strong> <?= $text_test_card; ?> <a href="<?= $text_link_support; ?>" target="_blank"> <?= $text_help_desk; ?> </a></strong>
+                        <strong><?= $text_test_card; ?> <a href="<?= $text_link_support; ?>" target="_blank"><?= $text_help_desk; ?></a></strong>
                     </li>
                 </ol>
             </div>

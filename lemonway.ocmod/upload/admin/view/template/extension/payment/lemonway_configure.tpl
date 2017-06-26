@@ -16,7 +16,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-user "></i>
                         </span>
-                        <input type="text" name="lemonway_api_login" id="lemonway_api_login" <?php if (!empty($lemonway_api_login)) echo 'value="' . $lemonway_api_login . '"';?> class="form-control" required />
+                        <input type="text" name="lemonway_api_login" <?php if (!empty($lemonway_api_login)) echo 'value="' . $lemonway_api_login . '"';?> class="form-control" required />
                     </div>
 
                     <p class="help-block">
@@ -36,7 +36,7 @@
                             <i class="fa fa-lock"></i>
                         </span>
 
-                        <input type="password" id="lemonway_api_password" name="lemonway_api_password" class="form-control"  <?php if (empty($lemonway_api_password))  echo 'required';?> />
+                        <input type="password" name="lemonway_api_password" class="form-control" <?php if (empty($lemonway_api_password))  echo 'required';?> />
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 </label>
 
                 <div class="col-lg-7">
-                    <input type="checkbox" name="lemonway_is_test_mode" id="lemonway_is_test_mode_on" value="1" <?php if($lemonway_is_test_mode=='1') echo 'checked'; ?> />
+                    <input type="checkbox" name="lemonway_is_test_mode" value="1" <?php if($lemonway_is_test_mode=='1') echo 'checked'; ?> />
                     <p class="help-block">
                         <?= $help_test; ?>
                     </p>
@@ -76,7 +76,7 @@
                             <i class="fa fa-css3"></i>
                         </span>
 
-                        <input type="text" name="lemonway_css_url" id="LEMONWAY_CSS_URL" class="form-control" <?= 'value="' . $lemonway_css_url . '"' ; ?> />
+                        <input type="text" name="lemonway_css_url" class="form-control" <?= 'value="' . $lemonway_css_url . '"' ; ?> />
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 </label>
 
                 <div class="col-lg-7">
-                    <input type="checkbox" name="lemonway_debug" id="lemonway_debug" value="1" <?php if($lemonway_debug=='1') echo 'checked'; ?> />
+                    <input type="checkbox" name="lemonway_debug" value="1" <?php if($lemonway_debug=='1') echo 'checked'; ?> />
                     <p class="help-block">
                         <?= DIR_LOGS . 'LemonWayKit-debug.log'; ?>
                     </p>
@@ -120,7 +120,7 @@
                         <i class="fa fa-leaf"></i>
                     </span>
 
-                    <input type="text" name="lemonway_environment_name" id="lemonway_environment_name" <?php if(!empty($lemonway_environment_name)) echo 'value="' . $lemonway_environment_name . '"' ; ?> class="form-control" />
+                    <input type="text" name="lemonway_environment_name" <?php if(!empty($lemonway_environment_name)) echo 'value="' . $lemonway_environment_name . '"' ; ?> class="form-control" />
                 </div>
 
                 <p class="help-block">
@@ -141,8 +141,8 @@
                     <span class="input-group-addon">
                         <i class="fa fa-google-wallet"></i>
                     </span>
-
-                    <input type="text" name="lemonway_merchant_id" id="lemonway_merchant_id" <?php if(!empty($lemonway_merchant_id)) echo 'value="' . $lemonway_merchant_id . '"'; ?> class="form-control" required />
+                    <input type="hidden" name="lemonway_wallet" />
+                    <input type="text" name="lemonway_custom_wallet" <?php if(!empty($lemonway_custom_wallet)) echo 'value="' . $lemonway_custom_wallet . '"'; ?> class="form-control" />
                 </div>
 
                 <p class="help-block">

@@ -10,7 +10,7 @@ $_['button_cancel']             = 'Cancel';
 $_['text_payment']              = 'Payment';
 $_['text_breadcrumbs']          = 'Lemon Way';
 $_['text_success']              = 'Success: You have modified Lemon Way account details!';//CHANGE IMAGE
-$_['text_lemonway']             = '<a href="https://www.lemonway.com/" target="_blank"><img src="view/image/payment/lemonway.png" alt="Lemon Way"  width="109" height="27"  title="Lemon Way" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_lemonway']             = '<a href="https://www.lemonway.com/" target="_blank"><img src="view/image/payment/lemonway.png" alt="Lemon Way" width="109" height="27"  title="Lemon Way" style="border: 1px solid #EEEEEE;" /></a>';
 $_['text_test']                 = 'Test';
 $_['text_live']                 = 'Live';
 $_['text_authorization']        = 'Authorization';
@@ -45,7 +45,7 @@ $_['text_manage_transaction']   = 'Manage your transactions';
 $_['text_one_click_refund']     = 'One click refund thanks to your back office.';
 $_['text_move_money']           = 'Move your money to your bank account whenever you want and no matter the amount.';
 $_['text_more_information']     = 'For more information, please contact us:';
-$_['text_link_support']         = 'https://lemonway.zendesk.com/hc/en-gb/categories/201471729-Prestashop-1-6'; /* @TODO CHANGE IT  */
+$_['text_link_support']         = 'https://lemonway.zendesk.com/hc/en-gb/'; /* @TODO CHANGE IT  */
 $_['text_follow_turnover']      = 'Follow your turnover in real team thanks to our very intuitive and dedicated back office.';
 $_['text_or']                   = 'or';
 

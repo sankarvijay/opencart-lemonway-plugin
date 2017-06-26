@@ -120,7 +120,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         //ACCOUNT INFORMATION
         $data['lemonway_api_login'] = $this->model_setting_setting->getSettingValue('lemonway_api_login');
         $data['lemonway_api_password'] = $this->model_setting_setting->getSettingValue('lemonway_api_password');
-        $data['lemonway_merchant_id'] = $this->model_setting_setting->getSettingValue('lemonway_merchant_id');
+        $data['lemonway_custom_wallet'] = $this->model_setting_setting->getSettingValue('lemonway_custom_wallet');
 
         $data['lemonway_is_test_mode'] = $this->model_setting_setting->getSettingValue('lemonway_is_test_mode');
         $data['lemonway_oneclick_enabled'] = $this->model_setting_setting->getSettingValue('lemonway_oneclick_enabled');
@@ -128,7 +128,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['lemonway_debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');
 
         //ADVANCED ACCOUNT CONFIGURATION
-        $data['lemonway_environment_name']=$this->model_setting_setting->getSettingValue('lemonway_environment_name');
+        $data['lemonway_environment_name'] = $this->model_setting_setting->getSettingValue('lemonway_environment_name');
 
         //One Click
         $data['lemonway_status'] = $this->model_setting_setting->getSettingValue('lemonway_status');
@@ -187,8 +187,6 @@ class ControllerExtensionPaymentLemonway extends Controller
             if ($this->testConfig()) {
                 $this->session->data['success'] = $this->language->get('text_success');
 
-                $this->model_setting_setting->editSettingValue('lemonway', 'lemonway_merchant_id', $this->request->post['lemonway_merchant_id']);
-
                 // Return to extensions page
                 $this->response->redirect($this->url->link('extension/payment/lemonway', 'token=' . $this->session->data['token'], true));
             } else {
@@ -198,7 +196,7 @@ class ControllerExtensionPaymentLemonway extends Controller
                 //ACCOUNT INFORMATION
                 $data['lemonway_api_login'] = $this->model_setting_setting->getSettingValue('lemonway_api_login');
                 $data['lemonway_api_password'] = $this->model_setting_setting->getSettingValue('lemonway_api_password');
-                $data['lemonway_merchant_id'] = $this->model_setting_setting->getSettingValue('lemonway_merchant_id');
+                $data['lemonway_custom_wallet'] = $this->model_setting_setting->getSettingValue('lemonway_custom_wallet');
 
                 $data['lemonway_is_test_mode'] = $this->model_setting_setting->getSettingValue('lemonway_is_test_mode');
                 $data['lemonway_oneclick_enabled'] = $this->model_setting_setting->getSettingValue('lemonway_oneclick_enabled');
@@ -245,10 +243,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         if ( empty($this->request->post['lemonway_api_password']) && empty($this->model_setting_setting->getSettingValue('lemonway_api_password'))) {
             $this->error['password_not_set'] = $this->language->get('error_password');
         }
-
-        /*if ( empty($this->request->post['lemonway_merchant_id']) && !empty($this->model_setting_setting->getSettingValue('lemonway_merchant_id'))) {
-            $this->request->post['lemonway_merchant_id'] = $this->model_setting_setting->getSettingValue('lemonway_merchant_id');
-        }*/
 
         // One Click
         if (!isset($this->request->post['lemonway_oneclick_enabled'])) {
@@ -300,60 +294,45 @@ class ControllerExtensionPaymentLemonway extends Controller
         }
     }
 
-    private function getConfig()
+    // Test if the configuration is good enough to call Lemon Way API
+    private function testConfig()
     {
         // Load settings
         $this->load->model('setting/setting');
 
-        $config = array();
         // TEST
-        if ($this->model_setting_setting->getSettingValue('lemonway_is_test_mode') == '1') {
+        if ($this->config->get('lemonway_is_test_mode') == '1') {
             // DIRECTKIT TEST URL
-            $config['dkURL'] = $this->model_setting_setting->getSettingValue('lemonway_directkit_url_test');
-
+            $dkUrl = $this->config->get('lemonway_directkit_url_test');
             // WEBKIT TEST URL
-            $config['wkURL'] = $this->model_setting_setting->getSettingValue('lemonway_webkit_url_test');
-
-            $config['test'] = '1';
+            $wkUrl = $this->config->get('lemonway_webkit_url_test');
         } //PROD
         else {
             // DIRECTKIT URL
-            $config['dkURL'] = $this->model_setting_setting->getSettingValue('lemonway_directkit_url');
-
+            $dkUrl = $this->config->get('lemonway_directkit_url');
             // WEBKIT URL
-            $config['wkURL'] = $this->model_setting_setting->getSettingValue('lemonway_webkit_url');
-
-            $config['test'] = '0';
+            $wkUrl = $this->config->get('lemonway_webkit_url');
         }
 
-        $config['login'] = $this->model_setting_setting->getSettingValue('lemonway_api_login');
-        $config['pass'] = $this->model_setting_setting->getSettingValue('lemonway_api_password');
-        $config['wallet'] = $this->model_setting_setting->getSettingValue('lemonway_merchant_id');
-        $config['debug'] = $this->model_setting_setting->getSettingValue('lemonway_debug');
-        
-        return $config;
-    }
-
-    // Test if the configuration is good enough to call Lemon Way API
-    private function testConfig()
-    {
-        $config = $this->getConfig();
         require_once DIR_SYSTEM . '/library/lemonway/LemonWayKit.php'; // SEND REQUEST
 
         $lang = substr($this->language->get('code'), 0, 2);
 
-        $kit = new LemonWayKit($config['dkURL'], $config['wkURL'], $config['login'], $config['pass'], $config['test'] != '1', $lang, $config['debug'] == 1, new Log($this->config->get('config_error_filename')));
+        $kit = new LemonWayKit($dkUrl, $wkUrl, $this->config->get('lemonway_api_login'), $this->config->get('lemonway_api_password'), $this->config->get('lemonway_is_test_mode') != '1', $lang, $this->config->get('lemonway_debug') == 1, new Log($this->config->get('config_error_filename')));
 
-        if (empty($this->request->post['lemonway_environment_name'])) {
-            $params = array('email' => $this->request->post['lemonway_api_login']);
+        if (empty($this->config->get('lemonway_environment_name'))) {
+            // If lwecommerce, get wallet by email
+            $params = array('email' => $this->config->get('lemonway_api_login'));
         } else {
-            $params = array('wallet' => $config['wallet']);
+            // If custom env, get custom wallet
+            $params = array('wallet' => $this->config->get('lemonway_custom_wallet'));
         }
 
         $res = $kit->getWalletDetails($params);
-        if (empty($this->request->post['lemonway_environment_name'])) {
+        if (empty($this->config->get('lemonway_environment_name'))) {
+            // If lwecommerce, get wallet
             if (isset($res->WALLET->ID)) {
-                $this->request->post['lemonway_merchant_id'] = $res->WALLET->ID;
+                $this->model_setting_setting->editSettingValue('lemonway', 'lemonway_wallet', $res->WALLET->ID);
             }
         }
 

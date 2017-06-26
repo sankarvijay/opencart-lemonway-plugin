@@ -86,7 +86,7 @@ head.appendChild(link);
                         <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
                             <li class="active">  <a href="#aboutus"   role="tab" data-toggle="tab"><i class="fa fa-info-circle"></i> <?= $text_about_us; ?></a></li>
                             <li> <a href="#access_api" role="tab" data-toggle="tab"><i class="fa fa-cog"></i> <?= $text_configuration; ?></a></li>
-                            <li> <a href="#cc" role="tab" data-toggle="tab"><i class="fa fa-credit-card"></i> <?= $text_cc; ?> </a></li>
+                            <li> <a href="#cc" role="tab" data-toggle="tab"><i class="fa fa-credit-card"></i> <?= $text_cc; ?></a></li>
                         </ul>
 
                         <!-- Tab panes -->

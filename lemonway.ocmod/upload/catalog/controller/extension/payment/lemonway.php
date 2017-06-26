@@ -1,5 +1,4 @@
 <?php
-
 require_once DIR_SYSTEM . '/library/lemonway/LemonWayKit.php'; // SEND REQUEST
 
 class ControllerExtensionPaymentLemonWay extends Controller
@@ -11,9 +10,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
     protected $moneyin_trans_details = null;
 
-
-    public function index(){
-
+    public function index()
+    {
         // Load language
         $this->load->language('extension/payment/lemonway');
 
@@ -26,8 +24,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         $data['continue'] = $this->url->link('extension/payment/lemonway/checkout', '', true);
         $data['text_card'] = $this->language->get('text_card');
-
-
 
         $data['customer_id']=empty($this->customer->getId())?0:$this->customer->getId(); // A guest customer has no Id, we consider it 0
 
@@ -44,40 +40,28 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $data['entry_not_use_card'] = $this->language->get('entry_not_use_card');
         $data['entry_expiration_date'] = $this->language->get('entry_expiration_date');
 
-
         $data['lemonway_oneclick_enabled'] = $this->config->get('lemonway_oneclick_enabled');
 
-
         $data['card'] = $this->model_extension_payment_lemonway->getCustomerCard($this->customer->getId());
-
-
 
         return $this->load->view('extension/payment/lemonway', $data);
     }
 
-
-
-    public function checkout(){
-
-
+    public function checkout()
+    {
         $available_card = array('CB', 'VISA', 'MASTERCARD');
 
-        if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))  || !isset($this->request->post['cc_type']) || !in_array($this->request->post['cc_type'], $available_card)  ) {
-
+        if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))  || !isset($this->request->post['cc_type']) || !in_array($this->request->post['cc_type'], $available_card)) {
             $this->response->redirect($this->url->link('checkout/cart'));
         }
 
-
-
         //Load Language
         $this->load->language('extension/payment/lemonway');
-
 
         $this->load->model('extension/payment/lemonway');
         $this->load->model('checkout/order');
 
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-
 
         $config = $this->getLemonWayConfig();
 
@@ -85,7 +69,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $lang = substr($lang, 0, 2);
 
         $kit = new LemonWayKit($config['dkURL'], $config['wkURL'], $config['login'], $config['pass'], $config['test']!=1, $lang, $this->config->get('lemonway_debug')==1, new Log($this->config->get('config_error_filename')));
-
 
         $params = array();
 
@@ -98,25 +81,17 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         $customer_id=empty($this->customer->getId())?0:$this->customer->getId(); // A guest customer has no Id, we consider it 0
 
-
-
         $comment = $this->config->get('config_name') . " - " .$this->session->data['order_id'] . " - " .
             $this->customer->getLastName() . " " . $this->customer->getFirstName() . " - " . $this->customer->getEmail();// Order id
-
 
         $amountComRaw = 0;
         $amountCom = number_format($amountComRaw, 2, '.', '');
 
-
-
-
         if (!$this->useCard()) {
-
             $params = array();
 
             $params['wkToken'] = $wkToken;
             $params['wallet'] = $config['wallet'];
-
 
             $registerCard = ((int)$this->registerCard());
 
@@ -129,8 +104,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 'action' => 'return',
                 'customer_id' => $customer_id,
                 'order_id' => $this->session->data['order_id']
-
             );
+
             $paramsreturn = http_build_query($paramsreturn);
 
             $paramscancel = array(
@@ -141,7 +116,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
             );
             $paramscancel = http_build_query($paramscancel);
-
 
             $paramserror = array(
                 'registerCard' => (int)$registerCard,
@@ -159,7 +133,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
             $params['errorUrl'] = $this->url->link('extension/payment/lemonway/checkoutReturn&' . $paramserror, '', true);
 
-            $params['autoCommission'] = '0';
+            $params['autoCommission'] = $config['autoCommission'];
             $params['registerCard'] = (string)$registerCard;
 
             $res = $kit->moneyInWebInit($params);
@@ -203,10 +177,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
             $patternFormActionAndData = '/(action="|name=data value=")([^"]*)"/i';
             if (preg_match_all($patternFormActionAndData, $response, $matches)) {
-               ;
-
                 if (isset($matches[2])) {
-
                     list($actionUrl, $data) = $matches[2];
                     $postFields = array(
                         'DATA' => $data,
@@ -235,12 +206,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                     die($html);
                 }
             }
-
-
-        }//Use saved card
-        else {
-
-
+        } else { //Use saved card
             if (($card = $this->model_extension_payment_lemonway->getCustomerCard($this->customer->getId())) && $this->customer->isLogged()) {
                 //Call directkit for MoneyInWithCardId
                 $params = array(
@@ -249,7 +215,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                     'amountTot' => $total,
                     'amountCom' => $amountCom,
                     'comment' => $comment . " (Money In with Card Id)",
-                    'autoCommission' => 0,
+                    'autoCommission' => $config['autoCommission'],
                     'cardId' => $card['id_card']
                 );
 
@@ -310,32 +276,25 @@ class ControllerExtensionPaymentLemonWay extends Controller
             //DIRECT KIT URL TE
             if (!empty($this->config->get('lemonway_directkit_url_test'))) {
                 $config['dkURL'] = $this->config->get('lemonway_directkit_url_test');
-            } else {
-                $config['dkURL'] = self::LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_PROD;
-
             }
+
             //WEB KIT URL
             if (!empty($this->config->get('lemonway_webkit_url_test'))) {
                 $config['wkURL'] = $this->config->get('lemonway_webkit_url_test');
-            } else {
-                $config['wkURL'] = self::LEMONWAY_WEBKIT_4ECOMMERCE_URL_TEST;
             }
+
             $config['test'] = '1';
         } else { // PROD
             ///DIRECT KIT URL
             if (!empty($this->config->get('lemonway_directkit_url'))) {
                 $config['dkURL'] = $this->config->get('lemonway_directkit_url');
-            } else {
-                $config['dkURL'] = self::LEMONWAY_DIRECTKIT_4ECOMMERCE_URL_PROD;
-
             }
+
             ///WEBKIT URL
             if (!empty($this->config->get('lemonway_webkit_url'))) {
                 $config['wkURL'] = $this->config->get('lemonway_webkit_url');
-            } else {
-                $config['wkURL'] = self::LEMONWAY_WEBKIT_4ECOMMERCE_URL_TEST;
-
             }
+
             $config['test'] = '0';
         }
 
@@ -343,6 +302,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $config['pass'] = $this->config->get('lemonway_api_password');
         $config['wallet'] = $this->config->get('lemonway_merchant_id');
         $config['cssURL'] = $this->config->get('lemonway_css_url');
+        $config['autoCommission'] = (int)!empty($this->config->get('lemonway_environment_name')); // Autocom = 0 if lwecommerce, 1 if custom environment
+
         return $config;
     }
 
@@ -358,7 +319,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
         }
         $value = (isset($this->request->post[$key]) ? $this->request->post[$key] : (isset($this->request->get[$key]) ? $this->request->get[$key] : null));
         return $value;
-
     }
 
     private function registerCard()
@@ -366,7 +326,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
         return $this->getValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled')=='1' && !empty($this->customer->getId()) ; // Guest user cannot register card
     }
 
-    private function getMoneyInTransDetails($wkToken){
+    private function getMoneyInTransDetails($wkToken)
+    {
         if (is_null($this->moneyin_trans_details)) {
             // Call directkit to get Webkit Token
             $params = array('transactionMerchantToken' => $wkToken);
@@ -376,30 +337,27 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $lang = substr($this->language->get('code'), 0, 2);
             $config = $this->getLemonWayConfig();
 
-            $kit = new LemonWayKit($config['dkURL'], $config['wkURL'], $config['login'], $config['pass'], $config['test']!=1, $lang, $this->config->get('lemonway_debug')==1, new Log($this->config->get('config_error_filename')));
+            $kit = new LemonWayKit($config['dkURL'], $config['wkURL'], $config['login'], $config['pass'], $config['test']!=1, $lang, $this->config->get('lemonway_debug') == 1, new Log($this->config->get('config_error_filename')));
 
             $res = $kit->getMoneyInTransDetails($params);
 
-
-
             if (isset($res->E)) {
                 $this->session->data['error'] = $res->E->Msg;
-
             }
+
             $this->moneyin_trans_details = $res;
-
         }
-
 
         return $this->moneyin_trans_details;
     }
 
-    private function validateOrder($order_info, $cred, $details){
+    private function validateOrder($order_info, $cred, $details)
+    {
         return $order_info['total'] == $cred && $order_info['total'] == $details->TRANS->HPAY[0]->CRED;
     }
 
-    public function validation(){
-
+    public function validation()
+    {
         if (($this->isSubmit('cart_id') == false) || ($this->isSubmit('customer_id') == false) || $this->isSubmit('action') == false) {
             $this->response->redirect($this->url->link('checkout/cart'));
         }
@@ -410,30 +368,31 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $this->load->model('checkout/order');
 
         switch ($action) {
-
             case 'return':
-
                 //5 = Order status : Complete
                 $this->model_checkout_order->addOrderHistory($this->session->data['order_id'], 5);
 
                 $this->response->redirect($this->url->link('checkout/success'));
                 break;
+
             case 'error':
                 $this->model_checkout_order->addOrderHistory($this->session->data['order_id'], 10);
                 $this->response->redirect($this->url->link('checkout/failure'));
-            case 'cancel'://7
+
+            case 'cancel': //7
                 $this->response->redirect($this->url->link('checkout/cart'));
                 break;
+
             default:
-                $this->session->data['error'] = 'Ooops Error !!!';
+                $this->session->data['error'] = 'Ooops Error!';
                 $this->response->redirect($this->url->link('checkout/cart'));
                 break;
         }
     }
 
-    private function isSubmit($submit){
+    private function isSubmit($submit)
+    {
         return (isset($this->request->post[$submit]) || isset($this->request->get[$submit]));
-
     }
 
     /*
@@ -474,13 +433,11 @@ class ControllerExtensionPaymentLemonWay extends Controller
             'cart_id' => $cart_id);
 
         if ($this->isGet()) { //Is redirection from Lemonway
-
             if (($this->isSubmit('customer_id') == false)) {
                 $this->session->data['error'] = $this->language->get('error_param');
                 $this->response->redirect($this->url->link('checkout/cart'));
             }
 
-            //
             //  redirect to validation
 
             //GET WK Tokenb
@@ -558,7 +515,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
                             /**
                              * Add a message to explain why the order has not been validated
                              */
-
                             $this->response->redirect($this->url->link('checkout/failure'));
                             break;
 

@@ -22,7 +22,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 
-class LemonWayKit
+class LemonWayService
 {
     private $dkUrl;
     private $wkUrl;
@@ -31,19 +31,19 @@ class LemonWayKit
     private $wlPass;
     private $lang;
     private $isLogEnabled;
-    private $log_error;//For Error
+    private $debug_log;
 
     /**
-     * LemonWayKit constructor.
+     * LemonWayService constructor.
      * @param string $dkurl
      * @param string $wkUrl
      * @param string $wlLogin
      * @param string $wlPass
      * @param bool $sslVerifacation
      * @param string $lang
-     * @param  LOG $log_error
+     * @param boolean $isLogEnabled
      */
-    public function __construct ($dkurl, $wkUrl, $wlLogin, $wlPass, $sslVerifacation=false, $lang='en', $isLogEnabled=true, $log_error)
+    public function __construct ($dkurl, $wkUrl, $wlLogin, $wlPass, $sslVerifacation = false, $lang = 'en', $isLogEnabled = true)
     {
             $this->dkUrl = $dkurl;
             $this->wkUrl = $wkUrl;
@@ -52,27 +52,30 @@ class LemonWayKit
             $this->wlPass = $wlPass;
             $this->lang = $lang;
             $this->isLogEnabled = $isLogEnabled; // Mode debug
-            $this->log_error = $log_error;
+
+            if($this->isLogEnabled) {
+                $this->debug_log = new Log('lemonway_debug.log');
+            }
     }
 
     public function getWalletDetails($params)
     {
-        return self::sendRequest('GetWalletDetails', $params, '1.5');
+        return self::sendRequest('GetWalletDetails', $params);
     }
 
     public function moneyInWebInit($params)
     {
-        return self::sendRequest('MoneyInWebInit', $params, '1.3');
+        return self::sendRequest('MoneyInWebInit', $params);
     }
 
     public function moneyInWithCardId($params)
     {
-        return self::sendRequest('MoneyInWithCardId', $params, '1.1');
+        return self::sendRequest('MoneyInWithCardId', $params);
     }
 
     public function getMoneyInTransDetails($params)
     {
-        $res = self::sendRequest('GetMoneyInTransDetails', $params, '1.8');
+        $res = self::sendRequest('GetMoneyInTransDetails', $params);
         if (!isset($res->E)) {
             $res->operations = array();
             foreach ($res->TRANS->HPAY as $HPAY) {
@@ -83,13 +86,21 @@ class LemonWayKit
         return $res;
     }
 
-    private function sendRequest($methodName, $params, $version)
+    private function logRequest($serviceUrl, $request) {
+        $this->debug_log->write('Service URL: ' . $serviceUrl);
+
+        $request_debug = json_decode($request)->p;
+        unset($request_debug->wlPass); // Hide Password
+        $this->debug_log->write('Request: ' . json_encode($request_debug, JSON_PRETTY_PRINT));
+    }
+
+    private function sendRequest($methodName, $params)
     {
         $ua = '';
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
             $ua = $_SERVER['HTTP_USER_AGENT'];
         }
-        $ua = "OPENCART-" . VERSION . "/" . $ua;
+        $ua = "OpenCart-" . VERSION . "/" . $ua;
 
         $ip = '';
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -104,13 +115,13 @@ class LemonWayKit
         $params['wlLogin'] = $this->wlLogin;
         $params['wlPass'] = $this->wlPass;
         $params['language'] = $this->lang;
-        $params['version'] = $version;
+        $params['version'] = '10.0';
         $params['walletIp'] = $ip;
         $params['walletUa'] = $ua;
 
         $serviceUrl = $this->dkUrl . '/' . $methodName;
 
-        // wrap in 'p'
+        // Wrap in 'p'
         $request = json_encode([
             'p' => $params
         ]);
@@ -123,12 +134,7 @@ class LemonWayKit
         ];
 
         if($this->isLogEnabled) {
-            $debug_log = new Log('LemonWayKit-debug.log');
-            $debug_log->write('Method: ' . $methodName);
-            $debug_log->write('ServiceURL: ' . $serviceUrl);
-            $request_debug = json_decode($request)->p;
-            unset($request_debug->wlPass); // Delete Password
-            $debug_log->write('Request: ' . print_r($request_debug,true));
+            $this->logRequest($serviceUrl, $request);
         }
 
         $ch = curl_init();
@@ -143,49 +149,38 @@ class LemonWayKit
 
         $response = curl_exec($ch);
 
-        if (curl_errno($ch)) {
-            if($this->isLogEnabled) {
-                $debug_log->write('Curl error: ' . curl_error($ch));
-            }
-
-            $this->log_error->write('Method: ' . $methodName);// ADD TO OPENCART ERROR LOG
-            $this->log_error->write('ServiceURL: ' . $serviceUrl);// ADD TO OPENCART ERROR LOG
-            $request_debug=json_decode($request)->p;
-            unset($request_debug->wlPass); // Delete Password
-            $this->log_error->write('Request: ' . print_r( $request_debug,true));// ADD TO OPENCART ERROR LOG
-            $this->log_error->write('Curl error: ' . curl_error($ch));// ADD TO OPENCART ERROR LOG
-
+        if (curl_errno($ch)) { // Curl Error
             $error = new StdClass;
             $error->E = new StdClass;
             $error->E->Msg = "Curl Error: " . curl_error($ch);
+
+            if($this->isLogEnabled) {
+                $this->debug_log->write($error->E->Msg);
+                $this->logRequest($serviceUrl, $request);
+            }
 
             return $error;
         } else {
             $httpStatus = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
-            if ($httpStatus == 200) {
-                if($this->isLogEnabled) {
-                    $debug_log->write('Response: ' . print_r(json_decode($response)->d,true));
-                }
-                return json_decode($response)->d;
-            }
-            else {
-                if($this->isLogEnabled) {
-                    $debug_log->write('HTTP error : ' . $httpStatus);
-                }
-
-                $this->log_error->write('Method: ' . $methodName);// ADD TO OPENCART ERROR LOG
-                $this->log_error->write('ServiceURL: ' . $serviceUrl);// ADD TO OPENCART ERROR LOG
-                $request_debug=json_decode($request)->p;
-                unset($request_debug->wlPass); // Delete Password
-                $this->log_error->write('Request: ' . print_r($request_debug,true));// ADD TO OPENCART ERROR LOG
-                $this->log_error->write('HTTP error: ' . $httpStatus);// ADD TO OPENCART ERROR LOG
+            if ($httpStatus != 200) { // HTTP Error
                 $error = new StdClass;
                 $error->E = new StdClass;
-                $error->E->Msg = 'HTTP error: ' . $httpStatus;
+                $error->E->Msg = 'HTTP Error: ' . $httpStatus;
+
+                if($this->isLogEnabled) {
+                    $this->debug_log->write($error->E->Msg);
+                    $this->logRequest($serviceUrl, $request);
+                }
                 
                 return $error;
+            } else { // Success
+                if ($this->isLogEnabled) {
+                    $this->debug_log->write('Response: ' . json_encode(json_decode($response), JSON_PRETTY_PRINT));
+                }
+
+                return json_decode($response)->d;
             }
         }
     }

@@ -91,7 +91,7 @@
                 <div class="col-lg-7">
                     <input type="checkbox" name="lemonway_debug" value="1" <?php if($lemonway_debug=='1') echo 'checked'; ?> />
                     <p class="help-block">
-                        <?= DIR_LOGS . 'LemonWayKit-debug.log'; ?>
+                        <?= DIR_LOGS . 'lemonway_debug.log'; ?>
                     </p>
                 </div>
             </div>

@@ -1,22 +1,6 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: Nabil CHARAF
- * Date: 15/05/2017
- * Time: 15:51
- */
 class ControllerExtensionPaymentLemonway extends Controller
 {
-    //const LOG_FILENAME='LemonWayAdmin.log';
-
-    /*
-     *
-     * LINK
-     *
-     *
-     */
-
     const LEMONWAY_ENVIRONMENT_DEFAULT = 'lwecommerce';
 
     const LEMONWAY_WEBKIT_FORMAT_URL_PROD = 'https://webkit.lemonway.fr/mb/%s/prod/';
@@ -314,11 +298,19 @@ class ControllerExtensionPaymentLemonway extends Controller
             $wkUrl = $this->config->get('lemonway_webkit_url');
         }
 
-        require_once DIR_SYSTEM . '/library/lemonway/LemonWayKit.php'; // SEND REQUEST
+        require_once DIR_SYSTEM . '/library/lemonway/LemonWayService.php'; // SEND REQUEST
 
         $lang = substr($this->language->get('code'), 0, 2);
 
-        $kit = new LemonWayKit($dkUrl, $wkUrl, $this->config->get('lemonway_api_login'), $this->config->get('lemonway_api_password'), $this->config->get('lemonway_is_test_mode') != '1', $lang, $this->config->get('lemonway_debug') == 1, new Log($this->config->get('config_error_filename')));
+        $lemonwayService = new LemonWayService(
+            $dkUrl,
+            $wkUrl,
+            $this->config->get('lemonway_api_login'),
+            $this->config->get('lemonway_api_password'),
+            $this->config->get('lemonway_is_test_mode') != '1',
+            $lang,
+            (bool)$this->config->get('lemonway_debug')
+        );
 
         if (empty($this->config->get('lemonway_environment_name'))) {
             // If lwecommerce, get wallet by email
@@ -328,7 +320,7 @@ class ControllerExtensionPaymentLemonway extends Controller
             $params = array('wallet' => $this->config->get('lemonway_custom_wallet'));
         }
 
-        $res = $kit->getWalletDetails($params);
+        $res = $lemonwayService->getWalletDetails($params);
         if (empty($this->config->get('lemonway_environment_name'))) {
             // If lwecommerce, get wallet
             if (isset($res->WALLET->ID)) {

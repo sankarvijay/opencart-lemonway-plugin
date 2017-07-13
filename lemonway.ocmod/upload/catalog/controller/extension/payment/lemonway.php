@@ -140,7 +140,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
         // CREDIT + COMMISSION
         $realAmountDoublecheck = $details->TRANS->HPAY->CRED + $details->TRANS->HPAY->COM;
 
-        return ($amount == $realAmountDoublecheck);
+        // Status 3 means success
+        return (($details->TRANS->HPAY->STATUS == '3') && ($amount == $realAmountDoublecheck));
     }
 
     // Whether the client use a saved card
@@ -368,33 +369,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
         return $this->postValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled') == '1' && !empty($this->customer->getId()) ; // Guest user cannot register card
     }
 
-    private function isValidOrder($action, $response_code, $wkToken)
-    {
-        if ($response_code != "0000") {
-            return false;
-        }
-
-        $actionToStatus = array(
-            "return" => "3",
-            "error" => "0",
-            "cancel" => "0"
-        );
-
-        if (!isset($actionToStatus[$action])) {
-            return false;
-        }
-
-        $operation = $this->getMoneyInTransDetails($wkToken)->operations[0];
-
-        if ($operation) {
-            if ($operation->STATUS == $actionToStatus[$action]) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     // checkoutReturn page controller (returnUrl, cancelUrl, errorUrl)
     public function checkoutReturn()
     {
@@ -442,60 +416,38 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $realAmount = $this->postValue('response_transactionAmount');
 
             // Get order info
-            $order_id = $this->getValue('order_id');
+            $order_id = $this->model_extension_payment_lemonway->getCartIdFromToken($wkToken);
             $order_info = $this->model_checkout_order->getOrder($order_id);
             $total = number_format((float)$order_info['total'], 2, '.', '');
 
-            // Check then double check
-            if ($this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
-                //$this->model_checkout_order->addOrderHistory($this->session->data['order_id'], 5);
-                //$this->response->redirect($this->url->link('checkout/success'));
-
-                $customer_id = $this->getValue('customer_id');
-                //Default message;
-                $message = $this->postValue('response_msg');
-
-                if ($this->isValidOrder($action, $response_code, $wkToken) === true) {
-                    switch ($action) {
-                        case 'return':
-                            if ($customer_id && $register_card) {
-                                $card = $this->model_extension_payment_lemonway->getCustomerCard($customer_id);
-                                if (count($card) == 0) {
-                                    $card = array();
-                                }
-
-                                $card['id_customer'] = $customer_id;
-                                $details = $this->getMoneyInTransDetails($wkToken);
-                                $card['card_num'] = $details->TRANS->HPAY[0]->EXTRA->NUM;
-                                $card['card_type'] = $details->TRANS->HPAY[0]->EXTRA->TYP;
-                                $card['card_exp'] = $details->TRANS->HPAY[0]->EXTRA->EXP;
-
-                                $this->model_extension_payment_lemonway->insertOrUpdateCard($customer_id, $card);
-                                $this->response->redirect($this->url->link('checkout/success'));
-                            }
-                            break;
-
-                        case 'cancel':
-                            /**
-                             * Add a message to explain why the order has not been validated
-                             */
-                            $this->response->redirect($this->url->link('checkout/failure'));
-                            break;
-
-                        case 'error':
-                            $this->response->redirect($this->url->link('checkout/failure'));
-                            break;
-
-                        default:
-                    }
-                }
+            if (($response_code == "0000") && $this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
+                // Success
+                $this->model_checkout_order->addOrderHistory($this->session->data['order_id'], 5);
             } else {
+                // Error
                 $this->model_checkout_order->addOrderHistory($this->session->data['order_id'], 10);
-                $this->response->redirect($this->url->link('checkout/failure'));
             }
+
+            /*$customer_id = $order_info['customer_id'];
+            if ($customer_id && $register_card) {
+                $card = $this->model_extension_payment_lemonway->getCustomerCard($customer_id);
+                if (count($card) == 0) {
+                    $card = array();
+                }
+
+                $card['id_customer'] = $customer_id;
+                $details = $this->getMoneyInTransDetails($wkToken);
+                $card['card_num'] = $details->TRANS->HPAY[0]->EXTRA->NUM;
+                $card['card_type'] = $details->TRANS->HPAY[0]->EXTRA->TYP;
+                $card['card_exp'] = $details->TRANS->HPAY[0]->EXTRA->EXP;
+
+                $this->model_extension_payment_lemonway->insertOrUpdateCard($customer_id, $card);
+                $this->response->redirect($this->url->link('checkout/success'));
+            }*/
         } else {
-            //@TODO throw error for not http method supported
-            die();
+            // Missing params
+            $this->session->data['error'] = $this->language->get('error_param');
+            $this->response->redirect($this->url->link('checkout/cart'));
         }
     }
 

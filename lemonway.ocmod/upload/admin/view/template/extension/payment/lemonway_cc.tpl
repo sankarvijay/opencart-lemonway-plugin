@@ -21,7 +21,7 @@
             </label>
 
             <div class="col-lg-7">
-                <input type="checkbox" name="lemonway_oneclick_enabled" id="lemonway_cc_oneclic_enabled_on" value="1" <?php if($lemonway_oneclick_enabled=='1') echo 'checked';?> />
+                <input type="checkbox" name="lemonway_oneclick_enabled" id="lemonway_cc_oneclick_enabled_on" value="1" <?php if($lemonway_oneclick_enabled=='1') echo 'checked';?> />
                 <p class="help-block">
                   <?php echo $help_oneclick;?>
                 </p>

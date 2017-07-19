@@ -60,7 +60,7 @@ $_['help_login_prod']           = 'Production Api login';
 $_['help_wallet']               = 'This information has been sent by email (Wallet ID)';
 $_['help_test']                 = 'Check it to active Test Mode';
 $_['help_leave_empty']          = 'Leave empty, if this information has not been sent to you by Lemonway';
-$_['help_oneclick']             = 'Display oneclic form on payment step';
+$_['help_oneclick']             = 'Display oneclick form on payment step';
 
 // Entry
 $_['entry_login']               = 'Login Lemon Way for E-commerce';

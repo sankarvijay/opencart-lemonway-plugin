@@ -112,7 +112,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
     // Whether the client use a saved card
     private function useCard()
     {
-        return $this->postValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled') == '1' && !empty($this->customer->getId());
+        return $this->postValue('lemonway_oneclick') === 'use_card' && $this->config->get('lemonway_oneclick_enabled') == '1' && !empty($this->customer->getId());
     }
 
     public function index()
@@ -196,7 +196,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $useCard = (
             $this->config->get('lemonway_oneclick_enabled') == '1' && 
             $customerId &&
-            $this->postValue('lemonway_oneclic') === 'use_card'
+            $this->postValue('lemonway_oneclick') === 'use_card'
         );
 
         if (!$useCard) { // If the client use a new card => MoneyInWebInit
@@ -204,7 +204,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $registerCard = (int)(
                 $this->config->get('lemonway_oneclick_enabled') == '1' &&
                 $customerId &&
-                $this->postValue('lemonway_oneclic') === 'register_card'
+                $this->postValue('lemonway_oneclick') === 'register_card'
             );
             $params['registerCard'] = $registerCard;
 

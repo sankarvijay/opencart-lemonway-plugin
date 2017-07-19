@@ -21,7 +21,7 @@ class ModelExtensionPaymentLemonway extends Model
             UNIQUE KEY `order_id` (`order_id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
-        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "lemonway_oneclic` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "lemonway_oneclick` (
     	    `id` int(11) NOT NULL AUTO_INCREMENT,
     		`customer_id` int(11) NOT NULL,
     		`card_id` int(11) NOT NULL,

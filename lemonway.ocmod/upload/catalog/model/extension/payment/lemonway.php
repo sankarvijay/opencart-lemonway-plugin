@@ -19,7 +19,7 @@ class ModelExtensionPaymentLemonway extends Model
     {
         return $this->db->query(
             "SELECT * 
-            FROM `" . DB_PREFIX . "lemonway_oneclic` lo 
+            FROM `" . DB_PREFIX . "lemonway_oneclick` lo 
             WHERE lo.`customer_id` = " . (int)$this->db->escape($customerId)
         )->row;
     }
@@ -31,7 +31,7 @@ class ModelExtensionPaymentLemonway extends Model
         if (empty($oldCard['card_num'])) {
             // If no card saved
             $data['date_add'] = date('Y-m-d H:i:s');
-            $query = "INSERT  INTO `" . DB_PREFIX . "lemonway_oneclic` (`customer_id`, `card_id`, `date_add`) 
+            $query = "INSERT  INTO `" . DB_PREFIX . "lemonway_oneclick` (`customer_id`, `card_id`, `date_add`) 
                 VALUES ( " .
                     (int)$data['customer_id'] . ", " .
                     (int)$data['card_id'] . ", 
@@ -41,7 +41,7 @@ class ModelExtensionPaymentLemonway extends Model
             // If the client has already saved a card => Update
             $data = array_merge($oldCard, $data);
             $data['date_upd'] = date('Y-m-d H:i:s');
-            $query = "REPLACE INTO `" . DB_PREFIX . "lemonway_oneclic` (`id`, `customer_id`, `card_id`, `card_num`, `card_exp`, `card_type`, `date_add`, `date_upd`) 
+            $query = "REPLACE INTO `" . DB_PREFIX . "lemonway_oneclick` (`id`, `customer_id`, `card_id`, `card_num`, `card_exp`, `card_type`, `date_add`, `date_upd`) 
                 VALUES (" .
                     (int)$this->db->escape($data['id']) . ", " .
                     (int)$this->db->escape($data['customer_id']) . ", " .

@@ -48,7 +48,7 @@
 
             ?>
 
-            <!-- Oneclic form -->
+            <!-- Oneclick form -->
             <div class="lemonway-payment-container" id="lemonway_CC_payment_form_container">
                 <div class="lemonway-payment-img-container">
                     <!--<img class="lemonway-payment-icon img-responsive"
@@ -58,13 +58,13 @@
                 <h3 class="lemonway-method-title"><?php echo $text_card; ?> </h3>
 
                 <?php if (empty($card['card_num'])) { ?>
-                <div class="lemonway-payment-oneclic-container">
+                <div class="lemonway-payment-oneclick-container">
                     <!-- User can choose to save his card -->
                     <div class="checkbox">
                         <label for="lw_register_card">
                             <div class="checker" id="uniform-lw_register_card">
                                 <span>
-                                    <input id="lw_register_card" value="register_card" type="checkbox" name="lemonway_oneclic">
+                                    <input id="lw_register_card" value="register_card" type="checkbox" name="lemonway_oneclick">
                                 </span>
                             </div>
                             <?php echo $entry_save_card;?>
@@ -79,7 +79,7 @@
                 <!-- User already have a card. He can choose to use it or not-->
                 <div>
                     <div class="radio">
-                        <label for="lw_use_card"> <input id="lw_use_card" value="use_card" checked type="radio" name="lemonway_oneclic" checked/> <?php echo $entry_use_card; ?>
+                        <label for="lw_use_card"> <input id="lw_use_card" value="use_card" checked type="radio" name="lemonway_oneclick" checked/> <?php echo $entry_use_card; ?>
                         </label>
                     </div>
                 </div>
@@ -98,18 +98,18 @@
 
                 <?php
                  }
-                 ?>
-
-
+                ?>
                 <div>
                     <div class="radio">
-                        <label for="lw_register_card"> <input id="lw_register_card"  value="register_card" type="radio"  name="lemonway_oneclic"/> <?php echo $entry_save_new_card;?>
+                        <label for="lw_register_card">
+                            <input id="lw_register_card" value="register_card" type="radio" name="lemonway_oneclick"/> <?php echo $entry_save_new_card; ?>
                         </label>
                     </div>
 
 
                     <div class="radio">
-                        <label for="lw_no_use_card"> <input id="lw_no_use_card"    type="radio" name="lemonway_oneclic" value="no_use_card"/> <?php echo $entry_not_use_card; ?>
+                        <label for="lw_no_use_card">
+                            <input id="lw_no_use_card" type="radio" name="lemonway_oneclick" value="no_use_card"/> <?php echo $entry_not_use_card; ?>
                         </label>
                     </div>
 

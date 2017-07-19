@@ -88,10 +88,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
             );
             $res = $lemonwayService->getMoneyInTransDetails($params);
 
-            if (isset($res->E)) {
-                $this->session->data['error'] = $res->E->Msg;
-            }
-
             $this->money_in_trans_details = $res;
         }
 
@@ -113,16 +109,10 @@ class ControllerExtensionPaymentLemonWay extends Controller
         return (($details->TRANS->HPAY->STATUS == '3') && ($amount == $realAmountDoublecheck));
     }
 
-    // Whether the client save a card
-    private function registerCard()
-    {
-        return $this->postValue('lemonway_oneclic') === 'register_card' && $this->config->get('lemonway_oneclick_enabled') == '1' && !empty($this->customer->getId()) ; // Guest user cannot register card
-    }
-
     // Whether the client use a saved card
     private function useCard()
     {
-        return $this->getValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled') == '1' && !empty($this->customer->getId());
+        return $this->postValue('lemonway_oneclic') === 'use_card' && $this->config->get('lemonway_oneclick_enabled') == '1' && !empty($this->customer->getId());
     }
 
     public function index()
@@ -139,7 +129,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $data['continue'] = $this->url->link('extension/payment/lemonway/checkout', '', true);
         $data['text_card'] = $this->language->get('text_card');
 
-        $data['customer_id'] = empty($this->customer->getId()) ? 0 : $this->customer->getId(); // A guest customer has no Id, we consider it 0
+        $data['customerId'] = empty($this->customer->getId()) ? 0 : $this->customer->getId(); // A guest customer has no Id, we consider it 0
 
         // If card saved
         $data['entry_save_card'] = $this->language->get('entry_save_card');
@@ -174,9 +164,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         // Order info
         $order_id = $this->session->data['order_id'];
         $order_info = $this->model_checkout_order->getOrder($order_id);
-        // Associate order id with a wkToken
-        $wkToken = $this->model_extension_payment_lemonway->saveWkToken($order_id);
-
+        
         // Lemon Way config
         $config = $this->getLemonWayConfig();
 
@@ -194,7 +182,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         );
 
         $params = array();
-        $params['wkToken'] = $wkToken;
+        
         $params['wallet'] = $config['wallet'];
         $total = number_format((float)$order_info['total'], 2, '.', '');
         $params['amountTot'] = $total;
@@ -203,40 +191,43 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $this->customer->getEmail();
         $params['autoCommission'] = $config['autoCommission'];
 
-        $customer_id = empty($this->customer->getId()) ? 0 : $this->customer->getId(); // A guest customer has no Id, we consider it 0
+        $customerId = empty($this->customer->getId()) ? 0 : $this->customer->getId(); // A guest customer has no Id, we consider it 0
 
-        if (!$this->useCard()) {
+        $useCard = (
+            $this->config->get('lemonway_oneclick_enabled') == '1' && 
+            $customerId &&
+            $this->postValue('lemonway_oneclic') === 'use_card'
+        );
+
+        if (!$useCard) { // If the client use a new card => MoneyInWebInit
             // Whether the client save a card
-            $registerCard = ((int)$this->registerCard());
-            $params['registerCard'] = (string)$registerCard;
+            $registerCard = (int)(
+                $this->config->get('lemonway_oneclick_enabled') == '1' &&
+                $customerId &&
+                $this->postValue('lemonway_oneclic') === 'register_card'
+            );
+            $params['registerCard'] = $registerCard;
+
+            // Associate order id with a wkToken
+            $wkToken = $this->model_extension_payment_lemonway->saveWkToken($order_id, $registerCard);
+            $params['wkToken'] = $wkToken;
 
             // GET Params
             // returnUrl
             $returnParams = array(
-                'registerCard' => (int)$registerCard,
-                'action' => 'return',
-                'customer_id' => $customer_id,
-                'order_id' => $order_id
+                'action' => 'return'
             );
             $returnParams = http_build_query($returnParams);
 
             // cancelUrl
             $cancelParams = array(
-                'registerCard' => (int)$registerCard,
-                'action' => 'cancel',
-                'customer_id' => $customer_id,
-                'order_id' => $order_id
-
+                'action' => 'cancel'
             );
             $cancelParams = http_build_query($cancelParams);
 
             // errorUrl
             $errorParams = array(
-                'registerCard' => (int)$registerCard,
-                'action' => 'error',
-                'customer_id' => $customer_id,
-                'order_id' => $order_id
-
+                'action' => 'error'
             );
             $errorParams = http_build_query($errorParams);
 
@@ -254,16 +245,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 $this->response->redirect($this->url->link('checkout/cart'));
             }
 
-            if ($customer_id && isset($res->MONEYINWEB->CARD) && $registerCard) {
-                $card = $this->model_extension_payment_lemonway->getCustomerCard($customer_id);
+            if ($customerId && isset($res->MONEYINWEB->CARD) && $registerCard) {
+                $card = $this->model_extension_payment_lemonway->getCustomerCard($customerId);
                 if (!$card) {
                     $card = array();
                 }
 
-                $card['customer_id'] = $customer_id;
+                $card['customer_id'] = $customerId;
                 $card['card_id'] = (string)$res->MONEYINWEB->CARD->ID;
 
-                $this->model_extension_payment_lemonway->insertOrUpdateCard($customer_id, $card);
+                $this->model_extension_payment_lemonway->insertOrUpdateCard($card);
             }
 
             $moneyInToken = (string)$res->MONEYINWEB->TOKEN;
@@ -315,7 +306,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                     die($html);
                 }
             }
-        } else { //Use saved card
+        } else { // If the client use a saved card => MoneyInWithCardId
             if (($card = $this->model_extension_payment_lemonway->getCustomerCard($this->customer->getId())) && $this->customer->isLogged()) {
                 //Call API for MoneyInWithCardId
                 $params['comment'] = $params['comment'] . " (Money In with Card Id)";
@@ -331,26 +322,17 @@ class ControllerExtensionPaymentLemonWay extends Controller
                     $this->response->redirect($this->url->link('checkout/cart'));
                 }
 
-                if ($res->TRANS->HPAY->STATUS == "3") {
-                    // Success
+                // Credit + Commission
+                $realAmount = $res->TRANS->HPAY->CRED + $res->TRANS->HPAY->COM;
 
-                    // Credit + Commission
-                    $realAmount = $res->TRANS->HPAY->CRED + $res->TRANS->HPAY->COM;
-
-                    // Check then double check
-                    if ($this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
-                        // Success => Order status 5 : Complete
-                        $this->model_checkout_order->addOrderHistory($order_id, 5);
-                        $this->response->redirect($this->url->link('checkout/success'));
-                    } else {
-                        // Error => Order status 10 : Failed
-                        $this->model_checkout_order->addOrderHistory($order_id, 10);
-                        $this->response->redirect($this->url->link('checkout/failure'));
-                    }
+                if ($res->TRANS->HPAY->STATUS == '3' && $this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
+                    // Success => Order status 5 : Complete
+                    $this->model_checkout_order->addOrderHistory($order_id, 5);
+                    $this->response->redirect($this->url->link('checkout/success'));
                 } else {
-                    // Redirect to the cart and display error
-                    $this->session->data['error'] = $res->TRANS->HPAY->MSG;
-                    $this->response->redirect($this->url->link('checkout/cart'));
+                    // Error => Order status 10 : Failed
+                    $this->model_checkout_order->addOrderHistory($order_id, 10);
+                    $this->response->redirect($this->url->link('checkout/failure'));
                 }
             } else {
                 // Redirect to the cart and display error
@@ -358,6 +340,23 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 $this->response->redirect($this->url->link('checkout/cart'));
             }
         }
+    }
+
+    // Retrieve and update saved card info
+    private function updateSavedCardInfo($customerId, $wkToken)
+    {
+        $card = $this->model_extension_payment_lemonway->getCustomerCard($customerId);
+        if (count($card) == 0) {
+            $card = array();
+        }
+
+        $card['customer_id'] = $customerId;
+        $details = $this->getMoneyInTransDetails($wkToken);
+        $card['card_num'] = $details->TRANS->HPAY[0]->EXTRA->NUM;
+        $card['card_type'] = $details->TRANS->HPAY[0]->EXTRA->TYP;
+        $card['card_exp'] = $details->TRANS->HPAY[0]->EXTRA->EXP;
+
+        $this->model_extension_payment_lemonway->insertOrUpdateCard($card);
     }
 
     // checkoutReturn page controller (returnUrl, cancelUrl, errorUrl)
@@ -371,11 +370,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $this->load->model('checkout/order');
 
         if ($this->isGet()) { // If redirection
+            // GET params
+            if ($this->config->get('lemonway_debug')) {
+               $debug_log = new Log('lemonway_debug.log');
+               $debug_log->write('GET params: ' . print_r($this->request->get, true));
+            }
+
             $wkToken = $this->getValue('response_wkToken');
             $action = $this->getValue('action');
-            $customer_id = $this->getValue('customer_id');
 
-            if (!isset($wkToken) || !isset($action)|| !isset($customer_id)) {
+            if (!isset($wkToken) || !isset($action)) {
                 // Redirect to the cart and display error
                 $this->session->data['error'] = $this->language->get('error_param');
                 $this->response->redirect($this->url->link('checkout/cart'));
@@ -390,6 +394,13 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 case 'return':
                     // Success => Order status 5 : Complete
                     $this->model_checkout_order->addOrderHistory($order_id, 5);
+
+                    $customerId = $order_info['customer_id'];
+                    $registerCard = (bool)$this->model_extension_payment_lemonway->getRegisterCardFromToken($wkToken);
+                    if ($customerId && $registerCard) {
+                        $this->updateSavedCardInfo($customerId, $wkToken);
+                    }
+
                     $this->response->redirect($this->url->link('checkout/success'));
 
                 case 'error':
@@ -400,7 +411,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 case 'cancel':
                     // Success => Order status 7 : Canceled
                     $this->model_checkout_order->addOrderHistory($order_id, 7);
-                    $this->session->data['error'] = $this->language->get('error_cancel');
                     $this->response->redirect($this->url->link('checkout/cart'));
 
                 default:
@@ -408,8 +418,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
                     $this->response->redirect($this->url->link('checkout/cart'));
             }
         } elseif ($this->isPost()) { // If IPN
-            $register_card = (bool)$this->getValue('registerCard');
-
             // Get response by IPN
             if ($this->config->get('lemonway_debug')) {
                $debug_log = new Log('lemonway_debug.log');
@@ -428,27 +436,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
             if (($response_code == "0000") && $this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
                 // Success => Order status 5 : Complete
                 $this->model_checkout_order->addOrderHistory($order_id, 5);
+
+                $customerId = $order_info['customer_id'];
+                $registerCard = (bool)$this->model_extension_payment_lemonway->getRegisterCardFromToken($wkToken);
+                if ($customerId && $registerCard) {
+                    $this->updateSavedCardInfo($customerId, $wkToken);
+                }
             } else {
                 // Error => Order status 10 : Failed
                 $this->model_checkout_order->addOrderHistory($order_id, 10);
             }
-
-            /*$customer_id = $order_info['customer_id'];
-            if ($customer_id && $register_card) {
-                $card = $this->model_extension_payment_lemonway->getCustomerCard($customer_id);
-                if (count($card) == 0) {
-                    $card = array();
-                }
-
-                $card['customer_id'] = $customer_id;
-                $details = $this->getMoneyInTransDetails($wkToken);
-                $card['card_num'] = $details->TRANS->HPAY[0]->EXTRA->NUM;
-                $card['card_type'] = $details->TRANS->HPAY[0]->EXTRA->TYP;
-                $card['card_exp'] = $details->TRANS->HPAY[0]->EXTRA->EXP;
-
-                $this->model_extension_payment_lemonway->insertOrUpdateCard($customer_id, $card);
-                $this->response->redirect($this->url->link('checkout/success'));
-            }*/
         } else {
             // Redirect to the cart and display error
             $this->session->data['error'] = $this->language->get('error_param');

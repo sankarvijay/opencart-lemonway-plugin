@@ -23,7 +23,7 @@
             </div>
 
 
-            <?php  if($lemonway_oneclick_enabled=='1' && $customer_id!=0 ) { // Hide One Click form for  guest
+            <?php  if($lemonway_oneclick_enabled=='1' && $customerId) { // Hide One Click form for  guest
             ?>
             <?php if (!empty($card['card_type'])){
             ?>
@@ -64,7 +64,7 @@
                         <label for="lw_register_card">
                             <div class="checker" id="uniform-lw_register_card">
                                 <span>
-                                    <input id="lw_register_card"  value="register_card"   type="checkbox"   name="lemonway_oneclic">
+                                    <input id="lw_register_card" value="register_card" type="checkbox" name="lemonway_oneclic">
                                 </span>
                             </div>
                             <?php echo $entry_save_card;?>
@@ -79,7 +79,7 @@
                 <!-- User already have a card. He can choose to use it or not-->
                 <div>
                     <div class="radio">
-                        <label for="lw_use_card"> <input id="lw_use_card" value="use_card" checked type="radio"   name="lemonway_oneclic" checked/> <?php echo $entry_use_card; ?>
+                        <label for="lw_use_card"> <input id="lw_use_card" value="use_card" checked type="radio" name="lemonway_oneclic" checked/> <?php echo $entry_use_card; ?>
                         </label>
                     </div>
                 </div>

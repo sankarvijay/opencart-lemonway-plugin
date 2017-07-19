@@ -33,7 +33,6 @@ $_['button_express_shipping'] = 'Update shipping';
 $_['error_heading_title']	  = 'There was an error';
 $_['error_param']             = 'Missing parameters';
 $_['error_order_not_found']   = 'Order not found';
-$_['error_cancel']            = 'Order canceled by customer';
 
 
 

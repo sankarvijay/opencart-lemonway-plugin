@@ -1,20 +1,6 @@
 <?php
 class ModelExtensionPaymentLemonway extends Model
 {
-    public function getMethod($address, $total)
-    {
-        $this->load->language('extension/payment/lemonway');
-
-        $method_data = array(
-            'code'       => 'lemonway',
-            'title'      => $this->language->get('text_card'),
-            'terms'      => '',
-            'sort_order' =>''
-        );
-
-        return $method_data;
-    }
-
     public function getCustomerCard($customerId)
     {
         return $this->db->query(

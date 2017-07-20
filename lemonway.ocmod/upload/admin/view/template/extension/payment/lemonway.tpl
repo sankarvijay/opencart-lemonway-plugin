@@ -33,7 +33,7 @@ head.appendChild(link);
         <?php } ?>
 
         <?php if (isset($error_curl_not_installed)) { ?>
-        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_curl; ?>
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_curl_not_installed; ?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
         <?php } ?>
@@ -98,7 +98,7 @@ head.appendChild(link);
                     </div>
                 </form>
                 <div class="text-right">
-                    <small>v1.0.0</small>
+                    <small>v0.9.0 (beta)</small>
                 </div>
             </div>
         </div>

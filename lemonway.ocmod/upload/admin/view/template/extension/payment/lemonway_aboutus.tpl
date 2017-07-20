@@ -23,19 +23,19 @@
     <div class="Lemonway-content">
         <div class="row">
             <div class="col-md-6">
-                <h5><?= $text_create_account; ?></h5>
+                <h5><?= $text_create_account_title; ?></h5>
                 <ol class="ol-spaced">
                     <li>
-                        <strong><?= $text_complete_form; ?></strong>
+                        <strong><?= $text_create_account_step_1; ?></strong>
                         <a href="https://www.lemonway.com/ecommerce/" target="_blank" class="btn btn-primary" id="create-account-btn"><?= $text_sign_up; ?> </a>
                     </li>
 
                     <li>
-                        <strong> <?= $text_complete_your_profile; ?> </strong>
+                        <strong><?= $text_create_account_step_2; ?></strong>
                     </li>
 
                     <li>
-                        <strong><?= $text_test_card; ?> <a href="<?= $text_link_support; ?>" target="_blank"><?= $text_help_desk; ?></a></strong>
+                        <strong><?= $text_create_account_step_3; ?> <a href="<?= $text_link_support; ?>" target="_blank"><?= $text_help_desk; ?></a></strong>
                     </li>
                 </ol>
             </div>
@@ -43,16 +43,13 @@
             <div class="col-md-6">
                 <h5><?= $text_turnkey_solution; ?></h5>
                 <dl class="list-unstyled">
-                    <dt><?= $text_secured_payment; ?></dt>
+                    <dt><?= $text_secured_payments_title; ?></dt>
                     <dd>
-                        <?= $text_increase_turnover; ?><br/>
-                        <?= $text_acpr; ?>
+                        <?= $text_secured_payments_content; ?>
                     </dd>
-                    <dt><?= $text_manage_transaction; ?></dt>
+                    <dt><?= $text_manage_transaction_title; ?></dt>
                     <dd>
-                        <?= $text_follow_turnover; ?><br/>
-                        <?= $text_oneclick_refund; ?><br/>
-                        <?= $text_move_money; ?>
+                        <?= $text_manage_transaction_content; ?>
                     </dd>
                 </dl>
                 <img src="view/image/payment/bo-screenshot.png" alt="Back office screenshot" class="col-xs-10" id="bo-screenshot" />

@@ -22,31 +22,28 @@ $_['text_edit_config']          = 'Edit Lemon Way Configuration';
 //NAV TABS TITLE
 $_['text_about_us']             = 'ABOUT US ';
 $_['text_configuration']        = 'ACCOUNT CONFIGURATION';
-$_['text_cc']            = 'CREDIT CARD';
+$_['text_cc']                   = 'CREDIT CARD';
 
 $_['text_advanced_configuration'] = 'ADVANCED ACCOUNT CONFIGURATION';
 $_['text_custom_environment'] = 'CUSTOM ENVIRONMENT';
 
 // About us
-$_['text_sign_in']              = 'Sign in';
-$_['text_sign_up']              = 'Sign up';
-$_['text_create_account']       = 'HOW CAN I CREATE AN ACCOUNT?';
-$_['text_complete_form']        = 'Complete the form';
-$_['text_complete_your_profile']= 'Complete your profile in "My Account"';
-$_['text_test_card']            = 'Test and receive your payments by credit cards with';
-$_['text_help_desk']            = 'our help desk';
-$_['text_turnkey_solution']     = 'A TURNKEY SOLUTION';
 $_['text_secured_solution']     = 'Secured payment solution for all e-commerce websites';
 $_['text_commission']           = '1.2% of commission on all your transactions';
-$_['text_secured_payment']      = 'Secured payments';
-$_['text_increase_turnover']    = 'Increase your turnover and secure your payments thanks the 3D Secure.';
-$_['text_acpr']                 = 'Lemon Way is payment institution licensed by the ACPR. Our mission is to collect money on an escrow account.';
-$_['text_manage_transaction']   = 'Manage your transactions';
-$_['text_oneclick_refund']      = 'One-click refund thanks to your back office.';
-$_['text_move_money']           = 'Move your money to your bank account whenever you want and no matter the amount.';
+$_['text_sign_in']              = 'Sign in';
+$_['text_create_account_title']       = 'HOW CAN I CREATE AN ACCOUNT?';
+$_['text_create_account_step_1']               = 'Complete the form';
+$_['text_sign_up']              = 'Sign up';
+$_['text_create_account_step_2']               = 'Complete your profile in "My Account"';
+$_['text_create_account_step_3']               = 'Test and receive your payments by credit cards with';
+$_['text_help_desk']            = 'our help desk';
+$_['text_turnkey_solution']     = 'A TURNKEY SOLUTION';
+$_['text_secured_payments_title']     = 'Secured payments';
+$_['text_secured_payments_content']     = 'Increase your turnover and secure your payments thanks the 3D Secure.<br/>Lemon Way is payment institution licensed by the ACPR. Our mission is to collect money on an escrow account.';
+$_['text_manage_transaction_title']   = 'Manage your transactions';
+$_['text_manage_transaction_content']      = 'Follow your turnover in real team thanks to our very intuitive and dedicated back office.<br/>One-click refund thanks to your back office.<br/>Move your money to your bank account whenever you want and no matter the amount.';
 $_['text_more_information']     = 'For more information, please contact us:';
 $_['text_link_support']         = 'https://lemonway.zendesk.com/hc/en-gb/'; /* @TODO CHANGE IT  */
-$_['text_follow_turnover']      = 'Follow your turnover in real team thanks to our very intuitive and dedicated back office.';
 $_['text_or']                   = 'or';
 
 $_['text_save']                 = 'Save';

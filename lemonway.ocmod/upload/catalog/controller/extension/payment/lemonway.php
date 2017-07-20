@@ -103,10 +103,10 @@ class ControllerExtensionPaymentLemonWay extends Controller
     private function doublecheckAmount($amount, $wkToken) {
         $details = $this->getMoneyInTransDetails($wkToken);
         // CREDIT + COMMISSION
-        $realAmountDoublecheck = $details->TRANS->HPAY->CRED + $details->TRANS->HPAY->COM;
-
+        $realAmountDoublecheck = $details->TRANS->HPAY[0]->CRED + $details->TRANS->HPAY[0]->COM;
+        
         // Status 3 means success
-        return (($details->TRANS->HPAY->STATUS == '3') && ($amount == $realAmountDoublecheck));
+        return (($details->TRANS->HPAY[0]->STATUS == '3') && ($amount == $realAmountDoublecheck));
     }
 
     // Whether the client use a saved card
@@ -323,9 +323,9 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 }
 
                 // Credit + Commission
-                $realAmount = $res->TRANS->HPAY->CRED + $res->TRANS->HPAY->COM;
+                $realAmount = $res->TRANS->HPAY[0]->CRED + $res->TRANS->HPAY[0]->COM;
 
-                if ($res->TRANS->HPAY->STATUS == '3' && $this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
+                if ($res->TRANS->HPAY[0]->STATUS == '3' && $this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
                     // Success => Order status 5 : Complete
                     $this->model_checkout_order->addOrderHistory($order_id, 5);
                     $this->response->redirect($this->url->link('checkout/success'));

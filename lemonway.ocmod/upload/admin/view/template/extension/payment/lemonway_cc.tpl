@@ -17,7 +17,7 @@
         
         <div class="form-group">
             <label class="control-label col-lg-3">
-                <?php echo $entry_one_click;?>
+                <?php echo $entry_oneclick;?>
             </label>
 
             <div class="col-lg-7">

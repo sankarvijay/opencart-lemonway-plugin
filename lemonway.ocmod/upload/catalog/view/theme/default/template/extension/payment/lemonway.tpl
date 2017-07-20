@@ -23,7 +23,7 @@
             </div>
 
 
-            <?php  if($lemonway_oneclick_enabled=='1' && $customerId) { // Hide One Click form for  guest
+            <?php  if($lemonway_oneclick_enabled=='1' && $customerId) { // Hide One-click form for  guest
             ?>
             <?php if (!empty($card['card_type'])){
             ?>
@@ -48,7 +48,7 @@
 
             ?>
 
-            <!-- Oneclick form -->
+            <!-- One-click form -->
             <div class="lemonway-payment-container" id="lemonway_CC_payment_form_container">
                 <div class="lemonway-payment-img-container">
                     <!--<img class="lemonway-payment-icon img-responsive"
@@ -120,7 +120,7 @@
 
             <?php
                 }
-               }//One Click Enabled
+               }//One-click Enabled
               ?>
 
 

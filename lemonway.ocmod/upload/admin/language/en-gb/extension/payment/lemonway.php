@@ -27,7 +27,7 @@ $_['text_cc']            = 'CREDIT CARD';
 $_['text_advanced_configuration'] = 'ADVANCED ACCOUNT CONFIGURATION';
 $_['text_custom_environment'] = 'CUSTOM ENVIRONMENT';
 
-//About US
+// About us
 $_['text_sign_in']              = 'Sign in';
 $_['text_sign_up']              = 'Sign up';
 $_['text_create_account']       = 'HOW CAN I CREATE AN ACCOUNT?';
@@ -42,7 +42,7 @@ $_['text_secured_payment']      = 'Secured payments';
 $_['text_increase_turnover']    = 'Increase your turnover and secure your payments thanks the 3D Secure.';
 $_['text_acpr']                 = 'Lemon Way is payment institution licensed by the ACPR. Our mission is to collect money on an escrow account.';
 $_['text_manage_transaction']   = 'Manage your transactions';
-$_['text_one_click_refund']     = 'One click refund thanks to your back office.';
+$_['text_oneclick_refund']      = 'One-click refund thanks to your back office.';
 $_['text_move_money']           = 'Move your money to your bank account whenever you want and no matter the amount.';
 $_['text_more_information']     = 'For more information, please contact us:';
 $_['text_link_support']         = 'https://lemonway.zendesk.com/hc/en-gb/'; /* @TODO CHANGE IT  */
@@ -51,16 +51,14 @@ $_['text_or']                   = 'or';
 
 $_['text_save']                 = 'Save';
 
-//One click
-
 $_['text_method_configuration'] = 'METHOD CONFIGURATION ';
 
-//HELP
+// HELP
 $_['help_login_prod']           = 'Production Api login';
 $_['help_wallet']               = 'This information has been sent by email (Wallet ID)';
 $_['help_test']                 = 'Check it to active Test Mode';
 $_['help_leave_empty']          = 'Leave empty, if this information has not been sent to you by Lemonway';
-$_['help_oneclick']             = 'Display oneclick form on payment step';
+$_['help_oneclick']             = 'Display One-click form on payment step';
 
 // Entry
 $_['entry_login']               = 'Login Lemon Way for E-commerce';
@@ -72,7 +70,7 @@ $_['entry_debug']               = 'Active Debug Mode';
 
 $_['entry_yes']                 = 'YES';
 $_['entry_no']                  = 'NO';
-$_['entry_one_click']           = 'Enable One-click';
+$_['entry_oneclick']            = 'Enable One-click';
 $_['entry_css']                 = 'CSS URL';
 
 $_['entry_environment_name']    = 'Custom environment name';

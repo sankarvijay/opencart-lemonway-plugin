@@ -51,7 +51,7 @@
                     <dt><?= $text_manage_transaction; ?></dt>
                     <dd>
                         <?= $text_follow_turnover; ?><br/>
-                        <?= $text_one_click_refund; ?><br/>
+                        <?= $text_oneclick_refund; ?><br/>
                         <?= $text_move_money; ?>
                     </dd>
                 </dl>

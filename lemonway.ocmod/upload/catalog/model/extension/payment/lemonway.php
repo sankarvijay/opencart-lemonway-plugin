@@ -97,29 +97,23 @@ class ModelExtensionPaymentLemonway extends Model
 
     public function getOrderIdFromToken($wkToken)
     {
-        $query = "SELECT `order_id` 
+        $order_id = $this->db->query(
+            "SELECT `order_id` 
             FROM `" . DB_PREFIX . "lemonway_wktoken` lw 
-            WHERE lw.`wktoken` = '" . $this->db->escape($wkToken) . "'";
+            WHERE lw.`wktoken` = '" . $this->db->escape($wkToken) . "'"
+        )->row['order_id'];
 
-        if ($order_id = $this->db->query($query)) {
-            return $order_id;
-        } else {
-            //$this->session->data['error'] = $this->language->get('error_order_not_found');
-            return false;
-        }
+        return $order_id? $order_id : false;
     }
 
     public function getRegisterCardFromToken($wkToken)
     {
-        $query = "SELECT `register_card` 
+        $registerCard = $this->db->query(
+            "SELECT `register_card` 
             FROM `" . DB_PREFIX . "lemonway_wktoken` lw 
-            WHERE lw.`wktoken` = '" . $this->db->escape($wkToken) . "'";
+            WHERE lw.`wktoken` = '" . $this->db->escape($wkToken) . "'"
+        )->row['register_card'];
 
-        if ($registerCard = $this->db->query($query)) {
-            return $registerCard;
-        } else {
-            //$this->session->data['error'] = $this->language->get('error_order_not_found');
-            return false;
-        }
+        return $registerCard? $registerCard : false;
     }
 }

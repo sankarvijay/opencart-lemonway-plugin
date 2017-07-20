@@ -28,10 +28,10 @@ class ModelExtensionPaymentLemonway extends Model
     {
         $oldCard = $this->getCustomerCard($data['customer_id']);
 
-        if (empty($oldCard['card_num'])) {
+        if (!$oldCard) {
             // If no card saved
             $data['date_add'] = date('Y-m-d H:i:s');
-            $query = "INSERT  INTO `" . DB_PREFIX . "lemonway_oneclick` (`customer_id`, `card_id`, `date_add`) 
+            $query = "INSERT INTO `" . DB_PREFIX . "lemonway_oneclick` (`customer_id`, `card_id`, `date_add`) 
                 VALUES ( " .
                     (int)$data['customer_id'] . ", " .
                     (int)$data['card_id'] . ", 

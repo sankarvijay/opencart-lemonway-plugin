@@ -323,9 +323,9 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 }
 
                 // Credit + Commission
-                $realAmount = $res->TRANS->HPAY[0]->CRED + $res->TRANS->HPAY[0]->COM;
+                $realAmount = $res->TRANS->HPAY->CRED + $res->TRANS->HPAY->COM;
 
-                if ($res->TRANS->HPAY[0]->STATUS == '3' && $this->checkAmount($total, $realAmount) && $this->doublecheckAmount($total, $wkToken)) {
+                if ($res->TRANS->HPAY->STATUS == '3' && $this->checkAmount($total, $realAmount)) {
                     // Success => Order status 5 : Complete
                     $this->model_checkout_order->addOrderHistory($order_id, 5);
                     $this->response->redirect($this->url->link('checkout/success'));
@@ -346,7 +346,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
     private function updateSavedCardInfo($customerId, $wkToken)
     {
         $card = $this->model_extension_payment_lemonway->getCustomerCard($customerId);
-        if (count($card) == 0) {
+        if (!$card) {
             $card = array();
         }
 

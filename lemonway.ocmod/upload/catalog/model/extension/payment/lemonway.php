@@ -1,6 +1,9 @@
 <?php
 class ModelExtensionPaymentLemonway extends Model
 {
+    /*
+    This function is required for OpenCart to show the method in the checkout page
+    */
     public function getMethod($address, $total)
     {
         $this->load->language('extension/payment/lemonway');
@@ -9,12 +12,15 @@ class ModelExtensionPaymentLemonway extends Model
             'code'       => 'lemonway',
             'title'      => $this->language->get('text_card'),
             'terms'      => '',
-            'sort_order' =>''
+            'sort_order' => '' /*TODO: $this->config->get('lemonway_cc_sort_order')*/
         );
 
         return $method_data;
     }
 
+    /*
+    Get the saved card of a customer
+    */
     public function getCustomerCard($customerId)
     {
         return $this->db->query(
@@ -24,6 +30,9 @@ class ModelExtensionPaymentLemonway extends Model
         )->row;
     }
 
+    /*
+    Save or update the card of a customer
+    */
     public function insertOrUpdateCard($data)
     {
         $oldCard = $this->getCustomerCard($data['customer_id']);
@@ -57,11 +66,17 @@ class ModelExtensionPaymentLemonway extends Model
         $this->db->query($query);
     }
 
+    /*
+    Private function to generate a random wkToken
+    */
     private function generateUniqueToken($order_id)
     {
         return $order_id . "-" . time() . "-" . uniqid();
     }
 
+    /*
+    Check if this order has a wkToken
+    */
     private function checkIfOrderHasWkToken($order_id)
     {   
         return (bool)$this->db->query(
@@ -71,6 +86,9 @@ class ModelExtensionPaymentLemonway extends Model
         )->num_rows;
     }
 
+    /*
+    Associate a random wkToken for an order
+    */
     public function saveWkToken($order_id, $registerCard)
     {
         $wkToken = $this->generateUniqueToken($order_id);
@@ -95,6 +113,9 @@ class ModelExtensionPaymentLemonway extends Model
         return $wkToken;
     }
 
+    /*
+    Get the order ID by its unique wkToken
+    */
     public function getOrderIdFromToken($wkToken)
     {
         $order_id = $this->db->query(
@@ -106,6 +127,9 @@ class ModelExtensionPaymentLemonway extends Model
         return $order_id? $order_id : false;
     }
 
+    /*
+    Check if the user has chosen to save a card for this order by using the wkToken
+    */
     public function getRegisterCardFromToken($wkToken)
     {
         $registerCard = $this->db->query(
@@ -114,6 +138,6 @@ class ModelExtensionPaymentLemonway extends Model
             WHERE lw.`wktoken` = '" . $this->db->escape($wkToken) . "'"
         )->row['register_card'];
 
-        return $registerCard? $registerCard : false;
+        return (bool)$registerCard;
     }
 }

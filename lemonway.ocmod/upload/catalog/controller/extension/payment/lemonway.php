@@ -181,6 +181,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $available_card = array('CB', 'VISA', 'MASTERCARD');
 
         if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))  || !isset($this->request->post['cc_type']) || !in_array($this->request->post['cc_type'], $available_card)) {
+            // Redirect to the cart and display error
+            $this->session->data['error'] = $this->language->get('error_param');
             $this->response->redirect($this->url->link('checkout/cart'));
         }
 

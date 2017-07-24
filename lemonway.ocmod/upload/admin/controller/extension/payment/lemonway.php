@@ -68,6 +68,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $data['help_login_prod'] = $this->language->get('help_login_prod');
         $data['help_wallet'] = $this->language->get('help_wallet');
         $data['help_test'] = $this->language->get('help_test');
+        $data['help_css'] = $this->language->get('help_css');
         $data['help_leave_empty'] = $this->language->get('help_leave_empty');
         $data['help_oneclick'] = $this->language->get('help_oneclick');
 
@@ -143,8 +144,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         // Load action buttons urls
         $data['action'] = $this->url->link('extension/payment/lemonway', 'token=' . $this->session->data['token'], true);
         $data['cancel'] = $this->url->link('extension/payment', 'token=' . $this->session->data['token'], true);
-
-        $data['link_css'] = 'view/stylesheet/lemonway/back.css';
 
         // If isset request to change settings
         if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {

@@ -54,6 +54,7 @@ $_['text_method_configuration'] = 'METHOD CONFIGURATION ';
 $_['help_login_prod']           = 'Production Api login';
 $_['help_wallet']               = 'This information has been sent by email (Wallet ID)';
 $_['help_test']                 = 'Check it to active Test Mode';
+$_['help_css']                  = 'Customise the stylesheet of the payment page (Notice: If your website is in https, the CSS URL has to be in https too)';
 $_['help_leave_empty']          = 'Leave empty, if this information has not been sent to you by Lemonway';
 $_['help_oneclick']             = 'Display One-click form on payment step';
 

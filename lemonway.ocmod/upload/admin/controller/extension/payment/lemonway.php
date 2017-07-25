@@ -1,4 +1,6 @@
 <?php
+define('LEMONWAY_VERSION', '0.9.0 (beta)');
+
 class ControllerExtensionPaymentLemonway extends Controller
 {
     const LEMONWAY_ENVIRONMENT_DEFAULT = 'lwecommerce';
@@ -114,7 +116,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         // Load default layout
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
-
         $data['footer'] = $this->load->controller('common/footer');
 
         // About us

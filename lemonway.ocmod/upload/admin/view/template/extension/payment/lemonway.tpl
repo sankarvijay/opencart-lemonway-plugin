@@ -61,10 +61,10 @@
         </div>
         <?php } ?>
         <!-- End alerts -->
-        
+
         <div class="panel panel-default">
             <div class="panel-body">
-                <form id="form-lemonway" class="defaultForm form-horizontal" method="post" enctype="multipart/form-data" >
+                <form id="form-lemonway" class="form-horizontal" method="post" enctype="multipart/form-data">
                     <div role="tabpanel">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist" data-tabs="tabs">
@@ -82,7 +82,7 @@
                     </div>
                 </form>
                 <div class="text-right">
-                    <small>v0.9.0 (beta)</small>
+                    <small>v<?= VERSION ?></small>
                 </div>
             </div>
         </div>

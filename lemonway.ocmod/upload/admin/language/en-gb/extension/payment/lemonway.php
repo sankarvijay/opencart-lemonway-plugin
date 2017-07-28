@@ -38,9 +38,7 @@ $_['text_help_css'] = 'Customise the stylesheet of the payment page (Notice: If 
 $_['text_debug_mode'] = 'Debug Mode';
 $_['text_custom_environment'] = 'CUSTOM ENVIRONMENT';
 $_['text_environment_name'] = 'Custom environment name';
-$_['text_help_environment_name'] = 'Leave empty, if you don\'t have a custom Lemon Way environment';
 $_['text_wallet'] = 'Technical wallet name';
-$_['text_help_wallet'] = 'This information has been sent by email (Wallet ID)';
 
 // CREDIT CARD
 $_['text_method_configuration'] = 'METHOD CONFIGURATION ';
@@ -55,7 +53,8 @@ $_['tab_cc'] = 'CREDIT CARD';
 // Error
 $_['error_permission'] = 'You do not have permission to modify the configuration!';
 $_['error_curl_not_installed'] = 'You have to enable the cURL extension on your server to use this module!';
-$_['error_api'] = 'Lemon Way API error:';
-$_['error_no_method'] = 'Lemon Way method is disabled! <a id="cc_link" href="">Go enable it!</a>';
-$_['error_test_mode'] = 'You are in test mode! <a id="config_link" href="">Go live when you are ready!</a>';
+$_['error_no_method'] = 'Lemon Way method is disabled! <a id="cc_link" class="alert-link" href="#">Go enable it!</a>';
+$_['error_test_mode'] = 'You are in test mode! <a id="config_link" class="alert-link" href="#">Go live when you are ready!</a>';
 $_['error_success'] = 'Your configuration is good. Ready to receive some payments!';
+$_['error_api'] = 'Lemon Way API error';
+$_['error_custom_env'] = 'Leave empty if you don\'t have a custom Lemon Way environment';

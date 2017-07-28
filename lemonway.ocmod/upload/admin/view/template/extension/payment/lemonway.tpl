@@ -14,30 +14,20 @@
     <div class="container-fluid">
         <!-- Alerts  -->
         <?php if (isset($error_permission)) { ?>
-        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_permission ?>
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_permission ?></div>
         <?php } ?>
 
         <?php if (isset($error_curl_not_installed)) { ?>
-        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_curl_not_installed ?>
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_curl_not_installed ?></div>
         <?php } ?>
 
-        <?php if (isset($error_api)) { ?>
-        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_api ?>
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
-        <?php } ?>
-
-        <?php if (!$lemonway_status) { ?>
+        <?php if (isset($error_no_method)) { ?>
         <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> <?= $error_no_method ?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
         <?php } ?>
 
-        <?php if ($lemonway_is_test_mode) { ?>
+        <?php if (isset($error_test_mode)) { ?>
         <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> <?= $error_test_mode ?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
@@ -47,6 +37,10 @@
         <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?= $error_success ?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
+        <?php } ?>
+
+        <?php if (isset($error_api)) { ?>
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_api ?></div>
         <?php } ?>
         <!-- End alerts -->
 

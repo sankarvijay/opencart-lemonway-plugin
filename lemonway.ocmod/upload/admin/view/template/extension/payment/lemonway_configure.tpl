@@ -108,7 +108,8 @@
         <div class="panel-heading">
             <i class="fa fa-wrench"></i> <?= $text_custom_environment ?>
         </div>
-
+        <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> <?= $error_custom_env ?></div>
+        
         <!-- Custom environment name -->
         <div class="form-group">
             <label class="control-label col-lg-3">
@@ -122,10 +123,6 @@
                     </span>
                     <input type="text" name="lemonway_environment_name" value="<?= (!empty($lemonway_environment_name)) ? $lemonway_environment_name : '' ?>" class="form-control" />
                 </div>
-
-                <p class="help-block">
-                   <?= $text_help_environment_name ?>
-                </p>
             </div>
         </div>
         <!-- End Custom environment name -->
@@ -144,10 +141,6 @@
                     <input type="hidden" name="lemonway_wallet" />
                     <input type="text" name="lemonway_custom_wallet" value="<?= (!empty($lemonway_custom_wallet)) ? $lemonway_custom_wallet : '' ?>" class="form-control" />
                 </div>
-
-                <p class="help-block">
-                  <?= $text_help_wallet ?>
-                </p>
             </div>
         </div>
         <!-- End Wallet ID -->

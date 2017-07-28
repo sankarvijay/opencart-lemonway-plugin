@@ -2,13 +2,13 @@
     <!-- Account config panel -->
     <div class="panel">
         <div class="panel-heading">
-            <i class="fa fa-user"></i> <?= $text_configuration ?>
+            <i class="fa fa-user"></i> <?= $text_account_configuration ?>
         </div>
 
         <div class="form-wrapper">
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?= $entry_login; ?> *
+                    <?= $text_login ?> *
                 </label>
 
                 <div class="col-lg-7">
@@ -16,18 +16,17 @@
                         <span class="input-group-addon">
                             <i class="fa fa-user "></i>
                         </span>
-                        <input type="text" name="lemonway_api_login" <?php if (!empty($lemonway_api_login)) echo 'value="' . $lemonway_api_login . '"';?> class="form-control" required />
+                        <input type="text" name="lemonway_api_login" value="<?= (!empty($lemonway_api_login)) ? $lemonway_api_login : '' ?>" class="form-control" required />
                     </div>
-
                     <p class="help-block">
-                        <?= $help_login_prod; ?>
+                        <?= $text_help_login ?>
                     </p>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?= $entry_password; ?> *
+                    <?= $text_password ?> *
                 </label>
 
                 <div class="col-lg-7">
@@ -35,39 +34,41 @@
                         <span class="input-group-addon">
                             <i class="fa fa-lock"></i>
                         </span>
-
-                        <input type="password" name="lemonway_api_password" class="form-control" <?php if (empty($lemonway_api_password))  echo 'required';?> />
+                        <input type="password" name="lemonway_api_password" class="form-control" <?= (empty($lemonway_api_password)) ? "required" : "placeholder='$text_masked'" ?> />
                     </div>
+                    <p class="help-block">
+                        <?= $text_help_password ?>
+                    </p>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                   <?= $entry_test; ?>
+                   <?= $text_test_mode ?>
                 </label>
 
                 <div class="col-lg-7">
-                    <input type="checkbox" name="lemonway_is_test_mode" value="1" <?php if($lemonway_is_test_mode=='1') echo 'checked'; ?> />
+                    <input type="checkbox" name="lemonway_is_test_mode" value="1" <?= $lemonway_is_test_mode ? 'checked' : '' ?> />
                     <p class="help-block">
-                        <?= $help_test; ?>
+                        <?= $text_help_test_mode ?>
                     </p>
                 </div>
             </div>
-        </div><!-- form-wrapper -->
+        </div>
     </div>
     <!-- End Account config panel -->
 
     <!-- Advanced config panel -->
     <div class="panel">
         <div class="panel-heading">
-            <i class="fa fa-cogs"></i> <?= $text_advanced_configuration; ?>
+            <i class="fa fa-cogs"></i> <?= $text_advanced_configuration ?>
         </div>
 
         <div class="form-wrapper">
             <!-- CSS URL -->
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?= $entry_css;?>
+                    <?= $text_css ?>
                 </label>
 
                 <div class="col-lg-7">
@@ -75,9 +76,11 @@
                         <span class="input-group-addon">
                             <i class="fa fa-css3"></i>
                         </span>
-
-                        <input type="text" name="lemonway_css_url" class="form-control" <?= 'value="' . $lemonway_css_url . '"' ; ?> />
+                        <input type="text" name="lemonway_css_url" class="form-control" value="<?= $lemonway_css_url ?>" />
                     </div>
+                    <p class="help-block">
+                        <?= $text_help_css ?>
+                    </p>
                 </div>
             </div>
             <!-- End CSS URL -->
@@ -85,33 +88,31 @@
             <!-- Debug mode -->
             <div class="form-group">
                 <label class="control-label col-lg-3">
-                    <?= $entry_debug; ?>
+                    <?= $text_debug_mode ?>
                 </label>
 
                 <div class="col-lg-7">
-                    <input type="checkbox" name="lemonway_debug" value="1" <?php if($lemonway_debug=='1') echo 'checked'; ?> />
+                    <input type="checkbox" name="lemonway_debug" value="1" <?= $lemonway_debug ? 'checked' : '' ?> />
                     <p class="help-block">
-                        <?= DIR_LOGS . 'lemonway_debug.log'; ?>
+                        <?= DIR_LOGS . 'lemonway_debug.log' ?>
                     </p>
                 </div>
             </div>
             <!-- End Debug mode -->
-        </div><!-- /.form-wrapper -->
+        </div>
     </div>
     <!-- End Advanced config panel -->
 
     <!-- Custom environment panel -->
     <div class="panel">
-        <!-- Panel title -->
         <div class="panel-heading">
-            <i class="fa fa-leaf"></i> <?= $text_custom_environment; ?>
+            <i class="fa fa-wrench"></i> <?= $text_custom_environment ?>
         </div>
-        <!-- End Panel title -->
 
         <!-- Custom environment name -->
         <div class="form-group">
             <label class="control-label col-lg-3">
-               <?= $entry_environment_name; ?>
+               <?= $text_environment_name ?>
             </label>
 
             <div class="col-lg-7">
@@ -119,12 +120,11 @@
                     <span class="input-group-addon">
                         <i class="fa fa-leaf"></i>
                     </span>
-
-                    <input type="text" name="lemonway_environment_name" <?php if(!empty($lemonway_environment_name)) echo 'value="' . $lemonway_environment_name . '"' ; ?> class="form-control" />
+                    <input type="text" name="lemonway_environment_name" value="<?= (!empty($lemonway_environment_name)) ? $lemonway_environment_name : '' ?>" class="form-control" />
                 </div>
 
                 <p class="help-block">
-                   <?= $help_leave_empty; ?>
+                   <?= $text_help_environment_name ?>
                 </p>
             </div>
         </div>
@@ -133,7 +133,7 @@
         <!-- Wallet ID -->
         <div class="form-group">
             <label class="control-label col-lg-3">
-                <?= $entry_wallet; ?>
+                <?= $text_wallet ?>
             </label>
 
             <div class="col-lg-7">
@@ -142,11 +142,11 @@
                         <i class="fa fa-google-wallet"></i>
                     </span>
                     <input type="hidden" name="lemonway_wallet" />
-                    <input type="text" name="lemonway_custom_wallet" <?php if(!empty($lemonway_custom_wallet)) echo 'value="' . $lemonway_custom_wallet . '"'; ?> class="form-control" />
+                    <input type="text" name="lemonway_custom_wallet" value="<?= (!empty($lemonway_custom_wallet)) ? $lemonway_custom_wallet : '' ?>" class="form-control" />
                 </div>
 
                 <p class="help-block">
-                  <?= $help_wallet; ?>
+                  <?= $text_help_wallet ?>
                 </p>
             </div>
         </div>

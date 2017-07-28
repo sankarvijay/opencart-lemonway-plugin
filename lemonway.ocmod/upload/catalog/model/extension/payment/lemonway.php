@@ -124,7 +124,7 @@ class ModelExtensionPaymentLemonway extends Model
             WHERE lw.`wktoken` = '" . $this->db->escape($wkToken) . "'"
         )->row['order_id'];
 
-        return $order_id? $order_id : false;
+        return $order_id;
     }
 
     /*

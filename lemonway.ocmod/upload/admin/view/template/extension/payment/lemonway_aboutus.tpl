@@ -1,5 +1,5 @@
 <div class="panel">
-    <div class="row Lemonway-header">
+    <div class="row">
         <svg class="col-xs-6 col-md-3 text-center" id="payment-logo" width="275px" height="65px" viewBox="0 0 275 65" x="0px" y="0px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
             <g id="Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
                 <g id="Desktop-HD" sketch:type="MSArtboardGroup" transform="translate(-94.000000, -648.000000)" fill="#57ED7D">
@@ -10,46 +10,46 @@
             </g>
         </svg>
         <div class="col-xs-6 col-md-6 text-center text-muted">
-            <?= $text_secured_solution; ?>
-            <h2 style="color: black;"><?= $text_commission; ?></h2>
+            <?= $text_secured_solution ?>
+            <h2 style="color: black;"><?= $text_commission ?></h2>
         </div>
         <div class="col-xs-12 col-md-3 text-center">
-            <a href="https://ecommerce.lemonway.com" target="_blank" class="btn btn-primary" id="create-account-btn"><?= $text_sign_in; ?></a><br />
+            <a href="https://ecommerce.lemonway.com" target="_blank" class="btn btn-primary"><?= $text_sign_in ?></a><br />
         </div>
     </div>
 
     <hr />
 
-    <div class="Lemonway-content">
+    <div>
         <div class="row">
             <div class="col-md-6">
-                <h5><?= $text_create_account_title; ?></h5>
+                <h5><?= $text_create_account_title ?></h5>
                 <ol class="ol-spaced">
                     <li>
-                        <strong><?= $text_create_account_step_1; ?></strong>
-                        <a href="https://www.lemonway.com/ecommerce/" target="_blank" class="btn btn-primary" id="create-account-btn"><?= $text_sign_up; ?> </a>
+                        <strong><?= $text_create_account_step_1 ?></strong>
+                        <a href="https://www.lemonway.com/ecommerce/" target="_blank" class="btn btn-primary"><?= $text_sign_up ?> </a>
                     </li>
 
                     <li>
-                        <strong><?= $text_create_account_step_2; ?></strong>
+                        <strong><?= $text_create_account_step_2 ?></strong>
                     </li>
 
                     <li>
-                        <strong><?= $text_create_account_step_3; ?> <a href="<?= $text_link_support; ?>" target="_blank"><?= $text_help_desk; ?></a></strong>
+                        <strong><?= $text_create_account_step_3 ?> <a href="<?= $text_support_link ?>" target="_blank"><?= $text_help_desk ?></a></strong>
                     </li>
                 </ol>
             </div>
 
             <div class="col-md-6">
-                <h5><?= $text_turnkey_solution; ?></h5>
+                <h5><?= $text_turnkey_solution ?></h5>
                 <dl class="list-unstyled">
-                    <dt><?= $text_secured_payments_title; ?></dt>
+                    <dt><?= $text_secured_payments_title ?></dt>
                     <dd>
-                        <?= $text_secured_payments_content; ?>
+                        <?= $text_secured_payments_content ?>
                     </dd>
-                    <dt><?= $text_manage_transaction_title; ?></dt>
+                    <dt><?= $text_manage_transaction_title ?></dt>
                     <dd>
-                        <?= $text_manage_transaction_content; ?>
+                        <?= $text_manage_transaction_content ?>
                     </dd>
                 </dl>
                 <img src="view/image/payment/bo-screenshot.png" alt="Back office screenshot" class="col-xs-10" id="bo-screenshot" />
@@ -62,7 +62,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="text-center">
-                        <h2><?= $text_more_information; ?> +33 1 48 18 19 30 <?= $text_or; ?> <a href="mailto:ecommerce@lemonway.com">ecommerce@lemonway.com</a></h2>
+                        <h2><?= $text_more_information ?> +33 1 48 18 19 30 <?= $text_or ?> <a href="mailto:ecommerce@lemonway.com">ecommerce@lemonway.com</a></h2>
                     </div>
                 </div>
             </div>

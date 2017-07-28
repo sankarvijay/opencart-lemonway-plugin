@@ -5,26 +5,26 @@
     <div>
         <form class="placeOrderForm" action="<?= $link_checkout ?>" method="POST">
             <?php
-            if ($lemonway_oneclick_enabled == '1' && $customerId) { // Hide One-click form from guest
+            if ($lemonway_oneclick_enabled && $customerId) { // Hide One-click form from guest
                 if ($card) { // User already have a saved card. He can choose to use it or not
             ?>
             <div>
                 <div class="radio">
                     <label>
                         <input type="radio" class="hide_cards" name="lemonway_oneclick" value="use_card" checked />
-                        <?= $entry_use_card ?> (<em><?= $card['card_num'] ?></em> - <em><?= $card['card_exp'] ?></em>)
+                        <?= $text_use_card ?> (<em><?= $card['card_num'] ?></em> - <em><?= $card['card_exp'] ?></em>)
                     </label>
                 </div>
                 <div class="radio">
                     <label>
                         <input type="radio" class="show_cards" name="lemonway_oneclick" value="register_card" />
-                        <?= $entry_save_new_card ?>
+                        <?= $text_save_new_card ?>
                     </label>
                 </div>
                 <div class="radio">
                     <label>
                         <input type="radio" class="show_cards" name="lemonway_oneclick" value="no_use_card" />
-                        <?= $entry_not_use_card ?>
+                        <?= $text_not_use_card ?>
                     </label>
                 </div>
             </div>
@@ -35,7 +35,7 @@
 
             <!-- Choose a card type -->
             <!-- If the user choose to use a saved card, he doesn't need to choose a card type -->
-            <div id="card_choosing_container" style="<?= ($lemonway_oneclick_enabled == '1' && $customerId && $card) ? 'display: none' : '' ?>">
+            <div id="card_choosing_container" style="<?= ($lemonway_oneclick_enabled && $customerId && $card) ? 'display: none' : '' ?>">
                 <div class="row">
                     <div class="col-md-1 text-center">
                         <label>
@@ -61,12 +61,12 @@
             <div class="buttons">
                 <div class="pull-right">
                     <?php
-                    if ($lemonway_oneclick_enabled == '1' && $customerId) { // Hide One-click form from guest
+                    if ($lemonway_oneclick_enabled && $customerId) { // Hide One-click form from guest
                         if (!$card) { // If no saved card => Ask to save the card
                     ?>
                     <!-- User can choose to save his card -->
                     <label>
-                        <?= $entry_save_card ?>
+                        <?= $text_save_card ?>
                         <input type="checkbox" name="lemonway_oneclick" value="register_card" />
                     </label>
                     <?php

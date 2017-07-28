@@ -44,16 +44,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
     {
         $config = array();
         
-        if ($this->config->get('lemonway_is_test_mode') == '1') {
+        if ($this->config->get('lemonway_is_test_mode')) {
             // TEST
             $config['dkURL'] = $this->config->get('lemonway_directkit_url_test'); //DIRECT KIT URL TEST
             $config['wkURL'] = $this->config->get('lemonway_webkit_url_test'); //WEB KIT URL TEST
-            $config['test'] = '1';
+            $config['test'] = 1;
         } else {
             // PROD
             $config['dkURL'] = $this->config->get('lemonway_directkit_url'); // DIRECT KIT URL PROD
             $config['wkURL'] = $this->config->get('lemonway_webkit_url'); // WEBKIT URL PROD
-            $config['test'] = '0';
+            $config['test'] = 0;
         }
 
         $config['login'] = $this->config->get('lemonway_api_login');
@@ -79,12 +79,11 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
             $lemonwayService = new LemonWayService(
                 $config['dkURL'],
-                $config['wkURL'],
                 $config['login'],
                 $config['pass'],
-                $config['test'] != 1,
+                $config['test'],
                 $lang,
-                (bool)$this->config->get('lemonway_debug')
+                $this->config->get('lemonway_debug')
             );
 
             $params = array(
@@ -150,24 +149,22 @@ class ControllerExtensionPaymentLemonWay extends Controller
         // Load Model
         $this->load->model('extension/payment/lemonway');
 
-        $data['button_continue'] = $this->language->get('button_continue');
-        $data['text_loading'] = $this->language->get('text_loading');
-
-        $data['link_checkout'] = $this->url->link('extension/payment/lemonway/checkout', '', true);
         $data['text_card'] = $this->language->get('text_card');
-
+        $data['link_checkout'] = $this->url->link('extension/payment/lemonway/checkout', '', true);
+        $data['lemonway_oneclick_enabled'] = $this->config->get('lemonway_oneclick_enabled');
         $data['customerId'] = empty($this->customer->getId()) ? 0 : $this->customer->getId();
         // A guest customer has no Id, we consider it 0
-
-        // If card saved
-        $data['entry_save_card'] = $this->language->get('entry_save_card');
-        $data['entry_use_card'] = $this->language->get('entry_use_card');
-        $data['entry_save_new_card'] = $this->language->get('entry_save_new_card');
-        $data['entry_not_use_card'] = $this->language->get('entry_not_use_card');
-
-        $data['lemonway_oneclick_enabled'] = $this->config->get('lemonway_oneclick_enabled');
-
+        
         $data['card'] = $this->model_extension_payment_lemonway->getCustomerCard($this->customer->getId());
+        // If card saved
+        $data['text_use_card'] = $this->language->get('text_use_card');
+        $data['text_save_new_card'] = $this->language->get('text_save_new_card');
+        $data['text_not_use_card'] = $this->language->get('text_not_use_card');
+        // If no card saved
+        $data['text_save_card'] = $this->language->get('text_save_card');
+
+        $data['button_continue'] = $this->language->get('button_continue');
+        $data['text_loading'] = $this->language->get('text_loading');
 
         return $this->load->view('extension/payment/lemonway', $data);
     }
@@ -205,12 +202,11 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         $lemonwayService = new LemonWayService(
             $config['dkURL'],
-            $config['wkURL'],
             $config['login'],
             $config['pass'],
-            $config['test'] != 1,
+            $config['test'],
             $lang,
-            (bool)$this->config->get('lemonway_debug')
+            $this->config->get('lemonway_debug')
         );
 
         $params = array();
@@ -226,7 +222,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $customerId = empty($this->customer->getId()) ? 0 : $this->customer->getId(); // A guest customer has no Id, we consider it 0
 
         $useCard = (
-            $this->config->get('lemonway_oneclick_enabled') == '1' && 
+            $this->config->get('lemonway_oneclick_enabled') && 
             $customerId &&
             $this->postValue('lemonway_oneclick') === 'use_card'
         );
@@ -234,7 +230,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         if (!$useCard) { // If the client use a new card => MoneyInWebInit
             // Whether the client save a card
             $registerCard = (int)(
-                $this->config->get('lemonway_oneclick_enabled') == '1' &&
+                $this->config->get('lemonway_oneclick_enabled') &&
                 $customerId &&
                 $this->postValue('lemonway_oneclick') === 'register_card'
             );
@@ -273,7 +269,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             // Error
             if (isset($res->E)) {
                 // Redirect to the cart and display error
-                $this->session->data['error'] = $res->E->Msg;
+                $this->session->data['error'] = $lemonwayService->printError($res->E);
                 $this->response->redirect($this->url->link('checkout/cart'));
             }
 
@@ -301,7 +297,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $config['test'] != 1);//False if  test enabled
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, !$config['test']); // False if test (means no https)
 
             $response = curl_exec($ch);
 
@@ -350,7 +346,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 // Error
                 if (isset($res->E)) {
                     // Redirect to the cart and display error
-                    $this->session->data['error'] = $res->E->Msg;
+                    $this->session->data['error'] = $lemonwayService->printError($res->E);
                     $this->response->redirect($this->url->link('checkout/cart'));
                 }
 

@@ -137,11 +137,6 @@ class ControllerExtensionPaymentLemonway extends Controller
             $error = true;
         }
 
-        if (!extension_loaded('curl')) {
-            $this->variables['error_curl_not_installed'] = $this->langage->get('error_curl_not_installed');
-            $error = true;
-        }
-
         //  Test mode
         if (!isset($this->request->post['lemonway_is_test_mode'])) {
             $this->request->post['lemonway_is_test_mode'] = 0;

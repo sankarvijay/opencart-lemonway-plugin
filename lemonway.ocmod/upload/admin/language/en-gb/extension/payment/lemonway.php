@@ -52,7 +52,6 @@ $_['tab_cc'] = 'CREDIT CARD';
 
 // Error
 $_['error_permission'] = 'You do not have permission to modify the configuration!';
-$_['error_curl_not_installed'] = 'You have to enable the cURL extension on your server to use this module!';
 $_['error_no_method'] = 'Lemon Way method is disabled! <a id="cc_link" class="alert-link" href="#">Go enable it!</a>';
 $_['error_test_mode'] = 'You are in test mode! <a id="config_link" class="alert-link" href="#">Go live when you are ready!</a>';
 $_['error_success'] = 'Your configuration is good. Ready to receive some payments!';

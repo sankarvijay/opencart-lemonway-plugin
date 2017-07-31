@@ -17,10 +17,6 @@
         <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_permission ?></div>
         <?php } ?>
 
-        <?php if (isset($error_curl_not_installed)) { ?>
-        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?= $error_curl_not_installed ?></div>
-        <?php } ?>
-
         <?php if (isset($error_no_method)) { ?>
         <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> <?= $error_no_method ?>
             <button type="button" class="close" data-dismiss="alert">&times;</button>

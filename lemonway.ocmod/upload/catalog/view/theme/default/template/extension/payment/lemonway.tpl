@@ -39,19 +39,19 @@
                 <div class="row">
                     <div class="col-md-1 text-center">
                         <label>
-                            <img alt="CB" src="catalog/view/theme/default/image/lemonway_CB.gif">
+                            <img class="img-responsive" alt="CB" src="catalog/view/theme/default/image/lemonway_cb.gif">
                             <input type="radio" name="cc_type" value="CB" checked />
                         </label>
                     </div>
                     <div class="col-md-1 text-center">
                         <label>
-                            <img alt="VISA" src="catalog/view/theme/default/image/lemonway_VISA.gif">
+                            <img class="img-responsive" alt="Visa" src="catalog/view/theme/default/image/lemonway_visa.gif">
                             <input type="radio" name="cc_type" value="VISA" />
                         </label>
                     </div>
                     <div class="col-md-1 text-center">
                         <label>
-                            <img alt="MASTERCARD" src="catalog/view/theme/default/image/lemonway_MASTERCARD.gif">
+                            <img class="img-responsive" alt="MasterCard" src="catalog/view/theme/default/image/lemonway_mastercard.gif">
                             <input type="radio" name="cc_type" value="MASTERCARD" />
                         </label>
                     </div>

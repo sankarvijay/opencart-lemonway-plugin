@@ -3,7 +3,7 @@
         <?= $text_card ?>
     </h3>
     <div>
-        <form class="placeOrderForm" action="<?= $link_checkout ?>" method="POST">
+        <form action="<?= $link_checkout ?>" method="POST">
             <?php
             if ($lemonway_oneclick_enabled && $customerId) { // Hide One-click form from guest
                 if ($card) { // User already have a saved card. He can choose to use it or not

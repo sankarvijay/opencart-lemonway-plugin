@@ -203,16 +203,13 @@ class ControllerExtensionPaymentLemonway extends Controller
 
         require_once DIR_SYSTEM . '/library/lemonway/LemonWayService.php';
 
-        $lang = substr($this->language->get('code'), 0, 2);
-        /* TODO: lang */
-
         // API connection
         $lemonwayService = new LemonWayService(
             $dkUrl,
             $this->variables['lemonway_api_login'],
             $this->variables['lemonway_api_password'],
             $this->variables['lemonway_is_test_mode'],
-            $lang,
+            substr($this->language->get('code'), 0, 2),
             $this->variables['lemonway_debug']
         );
 

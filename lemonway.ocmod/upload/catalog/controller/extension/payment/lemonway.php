@@ -3,6 +3,22 @@ require_once DIR_SYSTEM . '/library/lemonway/LemonWayService.php'; // SEND REQUE
 
 class ControllerExtensionPaymentLemonWay extends Controller
 {
+    // Constants
+    const SUPPORTED_LANGS = array(
+        'da' => 'da', // Danish
+        'de' => 'ge', // German
+        'en' => 'en', // English
+        'es' => 'sp', // Spanish
+        'fi' => 'fi', // Finnish
+        'fr' => 'fr', // French
+        'it' => 'it', // Italian
+        'ko' => 'ko', // Korean
+        'no' => 'no', // Norwegian
+        'pt' => 'po', // Portuguese
+        'sv' => 'sw' // Swedish
+    );
+    const DEFAULT_LANG = 'en';
+
     private $money_in_trans_details;
 
     /*
@@ -74,7 +90,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
     {
         if (is_null($this->money_in_trans_details)) {
             // Call API to get transaction detail for this wkToken
-            $lang = substr($this->language->get('code'), 0, 2);
             $config = $this->getLemonWayConfig();
 
             $lemonwayService = new LemonWayService(
@@ -82,7 +97,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 $config['login'],
                 $config['pass'],
                 $config['test'],
-                $lang,
+                substr($this->language->get('code'), 0, 2),
                 $this->config->get('lemonway_debug')
             );
 
@@ -208,15 +223,12 @@ class ControllerExtensionPaymentLemonWay extends Controller
         // Lemon Way config
         $config = $this->getLemonWayConfig();
 
-        $lang = $this->language->get('code');
-        $lang = substr($lang, 0, 2);
-
         $lemonwayService = new LemonWayService(
             $config['dkURL'],
             $config['login'],
             $config['pass'],
             $config['test'],
-            $lang,
+            substr($this->language->get('code'), 0, 2),
             $this->config->get('lemonway_debug')
         );
 
@@ -297,6 +309,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
             }
 
             $moneyInToken = (string)$res->MONEYINWEB->TOKEN;
+            $lang = substr($this->language->get('code'), 0, 2);
+            $lang = array_key_exists($lang, self::SUPPORTED_LANGS) ? self::SUPPORTED_LANGS[$lang] : self::DEFAULT_LANG;
 
             $lwUrl = $config['wkURL'] . '?moneyintoken=' . $moneyInToken . '&p=' . urlencode($config['cssURL']) . '&lang=' . $lang;
 

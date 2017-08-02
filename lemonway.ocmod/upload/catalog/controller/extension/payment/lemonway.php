@@ -64,12 +64,10 @@ class ControllerExtensionPaymentLemonWay extends Controller
             // TEST
             $config['dkURL'] = $this->config->get('lemonway_directkit_url_test'); //DIRECT KIT URL TEST
             $config['wkURL'] = $this->config->get('lemonway_webkit_url_test'); //WEB KIT URL TEST
-            $config['test'] = 1;
         } else {
             // PROD
             $config['dkURL'] = $this->config->get('lemonway_directkit_url'); // DIRECT KIT URL PROD
             $config['wkURL'] = $this->config->get('lemonway_webkit_url'); // WEBKIT URL PROD
-            $config['test'] = 0;
         }
 
         $config['login'] = $this->config->get('lemonway_api_login');
@@ -96,7 +94,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 $config['dkURL'],
                 $config['login'],
                 $config['pass'],
-                $config['test'],
                 substr($this->language->get('code'), 0, 2),
                 $this->config->get('lemonway_debug')
             );
@@ -227,7 +224,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $config['dkURL'],
             $config['login'],
             $config['pass'],
-            $config['test'],
             substr($this->language->get('code'), 0, 2),
             $this->config->get('lemonway_debug')
         );
@@ -322,7 +318,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, !$config['test']); // False if test (means no https)
+            curl_setopt($ch, CURLOPT_CAINFO, DIR_SYSTEM . "/library/lemonway/cacert.pem");
 
             $response = curl_exec($ch);
 

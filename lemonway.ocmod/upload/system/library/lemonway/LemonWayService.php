@@ -9,7 +9,6 @@ class LemonWayService
     const DEFAULT_LANG = 'en';
 
     private $dkUrl;
-    private $testMode;
     private $wlLogin;
     private $wlPass;
     private $lang;
@@ -25,10 +24,9 @@ class LemonWayService
      * @param string $lang
      * @param int $isLogEnabled
      */
-    public function __construct ($dkurl, $wlLogin, $wlPass, $testMode = 0, $lang = self::DEFAULT_LANG, $isLogEnabled = 1)
+    public function __construct ($dkurl, $wlLogin, $wlPass, $lang = self::DEFAULT_LANG, $isLogEnabled = 1)
     {
             $this->dkUrl = $dkurl;
-            $this->testMode = $testMode;
             $this->wlLogin = $wlLogin;
             $this->wlPass = $wlPass;
             $this->lang = in_array($lang, self::SUPPORTED_LANGS) ? $lang : self::DEFAULT_LANG;
@@ -98,7 +96,7 @@ class LemonWayService
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, !$this->testMode); // False if test (means no https)
+        curl_setopt($ch, CURLOPT_CAINFO, DIR_SYSTEM . "/library/lemonway/cacert.pem");
 
         $response = curl_exec($ch);
 

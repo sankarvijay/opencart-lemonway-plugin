@@ -1,5 +1,5 @@
 <?php
-define('LEMONWAY_VERSION', '1.0.0');
+define('LEMONWAY_VERSION', '1.0.1');
 
 class ControllerExtensionPaymentLemonway extends Controller
 {
@@ -203,7 +203,6 @@ class ControllerExtensionPaymentLemonway extends Controller
             $dkUrl,
             $this->variables['lemonway_api_login'],
             $this->variables['lemonway_api_password'],
-            $this->variables['lemonway_is_test_mode'],
             substr($this->language->get('code'), 0, 2),
             $this->variables['lemonway_debug']
         );

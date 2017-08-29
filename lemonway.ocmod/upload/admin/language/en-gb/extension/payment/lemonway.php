@@ -24,7 +24,7 @@ $_['text_or'] = 'or';
 $_['text_support_link'] = 'https://lemonway.zendesk.com/hc/en-gb/';
 
 // CONFIGURATION
-$_['text_account_configuration'] = 'ACCOUNT CONFIGURATION';
+$_['text_account_config'] = 'ACCOUNT CONFIGURATION';
 $_['text_login'] = 'Login Lemon Way for E-commerce';
 $_['text_help_login'] = '<a href="https://www.lemonway.com/ecommerce/" target="_blank">Create an account</a>';
 $_['text_password'] = 'Password Lemon Way for E-commerce';
@@ -32,7 +32,7 @@ $_['text_masked'] = 'Masked';
 $_['text_help_password'] = '<a href="https://ecommerce.lemonway.com/en/seller/lost-password" target="_blank">Forgotten password?</a>';
 $_['text_test_mode'] = 'Test mode';
 $_['text_help_test_mode'] = '<a href="https://lemonway.zendesk.com/hc/en-gb/articles/115004064525-2-How-do-I-test-with-the-OpenCart-module-" target="_blank">Click here to see how to use Test mode</a>';
-$_['text_advanced_configuration'] = 'ADVANCED CONFIGURATION';
+$_['text_advanced_config'] = 'ADVANCED CONFIGURATION';
 $_['text_css'] = 'CSS URL';
 $_['text_help_css'] = 'Customise the stylesheet of the payment page (Notice: If your website is in https, the CSS URL has to be in https too)';
 $_['text_debug_mode'] = 'Debug Mode';
@@ -41,13 +41,13 @@ $_['text_environment_name'] = 'Custom environment name';
 $_['text_wallet'] = 'Technical wallet name';
 
 // CREDIT CARD
-$_['text_method_configuration'] = 'METHOD CONFIGURATION ';
+$_['text_method_config'] = 'METHOD CONFIGURATION ';
 $_['text_oneclick'] = 'One-click';
 $_['text_help_oneclick'] = 'Display One-click form when check out';
 
 // Tab
 $_['tab_about_us'] = 'ABOUT US';
-$_['tab_configuration'] = 'CONFIGURATION';
+$_['tab_config'] = 'CONFIGURATION';
 $_['tab_cc'] = 'CREDIT CARD';
 
 // Error

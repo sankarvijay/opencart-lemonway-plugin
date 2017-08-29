@@ -20,7 +20,8 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->load->model('setting/setting');
 
         // Load language
-        $this->load->language('extension/payment/lemonway');
+        $this->variables = $this->load->language('extension/payment/lemonway');
+        $this->document->setTitle($this->language->get('heading_title'));
 
         // If POST request => validate the data before saving
         if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validate()) {
@@ -28,66 +29,16 @@ class ControllerExtensionPaymentLemonway extends Controller
             $this->model_setting_setting->editSetting('lemonway', $this->request->post);
         }
 
-        // Load language variables
-        $this->variables['heading_title'] = $this->language->get('heading_title');
-        $this->variables['button_save']   = $this->language->get('button_save');
-        $this->variables['button_cancel']   = $this->language->get('button_cancel');
-
-        // Text
-        // ABOUT US
-        $this->variables['text_secured_solution'] = $this->language->get('text_secured_solution');
-        $this->variables['text_commission'] = $this->language->get('text_commission');
-        $this->variables['text_sign_in'] = $this->language->get('text_sign_in');
-        $this->variables['text_create_account_title'] = $this->language->get('text_create_account_title');
-        $this->variables['text_create_account_step_1'] = $this->language->get('text_create_account_step_1');
-        $this->variables['text_sign_up'] = $this->language->get('text_sign_up');
-        $this->variables['text_create_account_step_2'] = $this->language->get('text_create_account_step_2');
-        $this->variables['text_create_account_step_3'] = $this->language->get('text_create_account_step_3');
-        $this->variables['text_help_desk'] = $this->language->get('text_help_desk');
-        $this->variables['text_turnkey_solution'] = $this->language->get('text_turnkey_solution');
-        $this->variables['text_secured_payments_title'] = $this->language->get('text_secured_payments_title');
-        $this->variables['text_secured_payments_content'] = $this->language->get('text_secured_payments_content');
-        $this->variables['text_manage_transaction_title'] = $this->language->get('text_manage_transaction_title');
-        $this->variables['text_manage_transaction_content'] = $this->language->get('text_manage_transaction_content');
-        $this->variables['text_more_information'] = $this->language->get('text_more_information');
-        $this->variables['text_or'] = $this->language->get('text_or');
-        $this->variables['text_support_link'] = $this->language->get('text_support_link');  
-
-        // CONFIGURATION
-        $this->variables['text_account_configuration'] = $this->language->get('text_account_configuration');
-        $this->variables['text_login'] = $this->language->get('text_login');
-        $this->variables['text_help_login'] = $this->language->get('text_help_login');
-        $this->variables['text_password'] = $this->language->get('text_password');
-        $this->variables['text_masked'] = $this->language->get('text_masked');
-        $this->variables['text_help_password'] = $this->language->get('text_help_password');
-        $this->variables['text_test_mode'] = $this->language->get('text_test_mode');
-        $this->variables['text_help_test_mode'] = $this->language->get('text_help_test_mode');
-        $this->variables['text_advanced_configuration'] = $this->language->get('text_advanced_configuration');
-        $this->variables['text_css'] = $this->language->get('text_css');
-        $this->variables['text_help_css'] = $this->language->get('text_help_css');
-        $this->variables['text_debug_mode'] = $this->language->get('text_debug_mode');
-        $this->variables['text_custom_environment'] = $this->language->get('text_custom_environment');
-        $this->variables['text_environment_name'] = $this->language->get('text_environment_name');
-        $this->variables['text_wallet'] = $this->language->get('text_wallet');
-
-        // CREDIT CARD
-        $this->variables['text_method_configuration'] = $this->language->get('text_method_configuration');
-        $this->variables['text_enabled'] = $this->language->get('text_enabled');
-        $this->variables['text_oneclick'] = $this->language->get('text_oneclick');
-        $this->variables['text_help_oneclick'] = $this->language->get('text_help_oneclick');
-
-        // Tab
-        $this->variables['tab_about_us'] = $this->language->get('tab_about_us');
-        $this->variables['tab_configuration'] = $this->language->get('tab_configuration');
-        $this->variables['tab_cc'] = $this->language->get('tab_cc');
-
         // Load default layout
         $this->variables['header'] = $this->load->controller('common/header');
         $this->variables['column_left'] = $this->load->controller('common/column_left');
         $this->variables['footer'] = $this->load->controller('common/footer');
-        $this->variables['cancel_link'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'], true);
-
-        $this->document->setTitle($this->language->get('heading_title'));
+        
+        if (isset($this->session->data['user_token'])) { // OpenCart 3
+            $this->variables['cancel_link'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true);
+        } else { // OpenCart 2
+            $this->variables['cancel_link'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true);
+        }
 
         // Load setting values
         $this->variables['lemonway_api_login'] = $this->model_setting_setting->getSettingValue('lemonway_api_login');
@@ -101,31 +52,33 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->variables['lemonway_oneclick_enabled'] = $this->model_setting_setting->getSettingValue('lemonway_oneclick_enabled');
 
         // Alerts
+        $this->variables['no_permission'] = false;
+        $this->variables['no_method'] = false;
+        $this->variables['success'] = false;
+        $this->variables['api_error'] = false;
+
         if ($this->variables['lemonway_status']) { // If enabled
             // If Test mode
             if ($this->variables['lemonway_is_test_mode']) {
-                $this->variables['error_test_mode'] = $this->language->get('error_test_mode');
             }
 
-            // Test the configuration
+            // Test the config
             if ($this->testConfig()) {
-                $this->variables['error_success'] = $this->language->get('error_success');
+                $this->variables['success'] = true;
             }
         } else { // If no method enabled
-            $this->variables['error_no_method'] = $this->language->get('error_no_method');
+            $this->variables['no_method'] = true;
         }
-
-        $this->variables['error_custom_env'] = $this->language->get('error_custom_env');
 
         // Load tabs
         // About us
-        $this->variables['about_us'] = $this->load->view('extension/payment/lemonway_aboutus.tpl', $this->variables);
+        $this->variables['about_us'] = $this->load->view('extension/payment/lemonway_aboutus', $this->variables);
         // Configuration
-        $this->variables['configure'] = $this->load->view('extension/payment/lemonway_configure.tpl', $this->variables);
+        $this->variables['config'] = $this->load->view('extension/payment/lemonway_config', $this->variables);
         // Credit Card
-        $this->variables['cc'] = $this->load->view('extension/payment/lemonway_cc.tpl', $this->variables);
+        $this->variables['cc'] = $this->load->view('extension/payment/lemonway_cc', $this->variables);
 
-        $this->response->setOutput($this->load->view('extension/payment/lemonway.tpl', $this->variables));
+        $this->response->setOutput($this->load->view('extension/payment/lemonway', $this->variables));
     }
 
     private function validate()
@@ -133,7 +86,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $error = false;
 
         if (!$this->user->hasPermission('modify', 'extension/payment/lemonway')) {
-            $this->variables['error_permission'] = $this->language->get('error_permission');
+            $this->variables['no_permission'] = true;
             $error = true;
         }
 
@@ -180,7 +133,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         return !$error; // If no error => validated
     }
 
-    // Test if the configuration is OK
+    // Test if the config is OK
     private function testConfig()
     {
         // Load settings
@@ -225,6 +178,7 @@ class ControllerExtensionPaymentLemonway extends Controller
 
         if (isset($res->E)) {
             $this->variables['error_api'] = $this->language->get('error_api') . " - " . $lemonwayService->printError($res->E);
+            $this->variables['api_error'] = true;
             return false;
         } else {
             return true;

@@ -52,7 +52,7 @@
                         <?= $text_manage_transaction_content ?>
                     </dd>
                 </dl>
-                <img src="view/image/payment/bo-screenshot.png" alt="Back office screenshot" class="col-xs-10" id="bo-screenshot" />
+                <img src="view/image/payment/bo-screenshot.png" alt="Back office screenshot" class="img-responsive" id="bo-screenshot" />
             </div>
         </div>
 

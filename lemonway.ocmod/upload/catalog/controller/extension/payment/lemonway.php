@@ -187,17 +187,17 @@ class ControllerExtensionPaymentLemonWay extends Controller
     */
     public function checkout()
     {
-        $available_card = array('CB', 'VISA', 'MASTERCARD');
+        $available_cards = array('CB', 'VISA', 'MASTERCARD');
 
         if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
             // Redirect to the cart
-            $this->response->redirect($this->url->link('checkout/cart'));
+            $this->response->redirect($this->url->link('checkout/cart', '', true));
         }
 
-        if (!isset($this->request->post['cc_type']) || !in_array($this->request->post['cc_type'], $available_card)) {
+        if (!isset($this->request->post['cc_type']) || !in_array($this->request->post['cc_type'], $available_cards)) {
             // Redirect to the cart and display error
             $this->session->data['error'] = $this->language->get('error_card_type');
-            $this->response->redirect($this->url->link('checkout/cart'));
+            $this->response->redirect($this->url->link('checkout/cart', '', true));
         }
 
         //Load Language
@@ -214,7 +214,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         if (!$order_info) {
             // Redirect to the cart and display error
             $this->session->data['error'] = $this->language->get('error_order_not_found');
-            $this->response->redirect($this->url->link('checkout/cart'));
+            $this->response->redirect($this->url->link('checkout/cart', '', true));
         }
         
         // Lemon Way config
@@ -289,7 +289,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             if (isset($res->E)) {
                 // Redirect to the cart and display error
                 $this->session->data['error'] = $lemonwayService->printError($res->E);
-                $this->response->redirect($this->url->link('checkout/cart'));
+                $this->response->redirect($this->url->link('checkout/cart', '', true));
             }
 
             if ($customerId && isset($res->MONEYINWEB->CARD) && $registerCard) {
@@ -368,7 +368,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 if (isset($res->E)) {
                     // Redirect to the cart and display error
                     $this->session->data['error'] = $lemonwayService->printError($res->E);
-                    $this->response->redirect($this->url->link('checkout/cart'));
+                    $this->response->redirect($this->url->link('checkout/cart', '', true));
                 }
 
                 // Credit + Commission
@@ -377,16 +377,16 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 if ($res->TRANS->HPAY->STATUS == '3' && $this->checkAmount($total, $realAmount)) {
                     // Success => Order status 5 : Complete
                     $this->model_checkout_order->addOrderHistory($order_id, 5);
-                    $this->response->redirect($this->url->link('checkout/success'));
+                    $this->response->redirect($this->url->link('checkout/success', '', true));
                 } else {
                     // Error => Order status 10 : Failed
                     $this->model_checkout_order->addOrderHistory($order_id, 10);
-                    $this->response->redirect($this->url->link('checkout/failure'));
+                    $this->response->redirect($this->url->link('checkout/failure', '', true));
                 }
             } else {
                 // Redirect to the cart and display error
                 $this->session->data['error'] = $this->language->get('error_card_not_found');
-                $this->response->redirect($this->url->link('checkout/cart'));
+                $this->response->redirect($this->url->link('checkout/cart', '', true));
             }
         }
     }
@@ -417,7 +417,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             if (!isset($wkToken)) {
                 // Redirect to the cart and display error
                 $this->session->data['error'] = $this->language->get('error_get');
-                $this->response->redirect($this->url->link('checkout/cart'));
+                $this->response->redirect($this->url->link('checkout/cart', '', true));
             }
 
             // Get order info
@@ -427,7 +427,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             if (!$order_info) {
                 // Redirect to the cart and display error
                 $this->session->data['error'] = $this->language->get('error_order_not_found');
-                $this->response->redirect($this->url->link('checkout/cart'));
+                $this->response->redirect($this->url->link('checkout/cart', '', true));
             }
 
             $total = number_format((float)$order_info['total'], 2, '.', '');
@@ -443,21 +443,21 @@ class ControllerExtensionPaymentLemonWay extends Controller
                         $this->updateSavedCardInfo($customerId, $wkToken);
                     }
 
-                    $this->response->redirect($this->url->link('checkout/success'));
+                    $this->response->redirect($this->url->link('checkout/success', '', true));
 
                 case 'error':
                     // Error => Order status 10 : Failed
                     $this->model_checkout_order->addOrderHistory($order_id, 10);
-                    $this->response->redirect($this->url->link('checkout/failure'));
+                    $this->response->redirect($this->url->link('checkout/failure', '', true));
 
                 case 'cancel':
                     // Success => Order status 7 : Canceled
                     $this->model_checkout_order->addOrderHistory($order_id, 7);
-                    $this->response->redirect($this->url->link('checkout/cart'));
+                    $this->response->redirect($this->url->link('checkout/cart', '', true));
 
                 default:
                     $this->session->data['error'] = $this->language->get('error_action');
-                    $this->response->redirect($this->url->link('checkout/cart'));
+                    $this->response->redirect($this->url->link('checkout/cart', '', true));
             }
         } elseif ($this->isPost()) { // If IPN
             // Get response by IPN
@@ -491,7 +491,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         } else {
             // Redirect to the cart and display error
             $this->session->data['error'] = $this->language->get('error_param');
-            $this->response->redirect($this->url->link('checkout/cart'));
+            $this->response->redirect($this->url->link('checkout/cart', '', true));
         }
     }
 }

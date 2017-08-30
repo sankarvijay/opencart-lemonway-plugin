@@ -21,6 +21,10 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
     private $money_in_trans_details;
 
+    private function prefix() {
+        return (version_compare(VERSION, '3.0', '>=')) ? 'payment_' :  '';
+    }
+
     /*
     Check if there are GET params
     */
@@ -60,22 +64,22 @@ class ControllerExtensionPaymentLemonWay extends Controller
     {
         $config = array();
         
-        if ($this->config->get('lemonway_is_test_mode')) {
+        if ($this->config->get($this->prefix() . 'lemonway_is_test_mode')) {
             // TEST
-            $config['dkURL'] = $this->config->get('lemonway_directkit_url_test'); //DIRECT KIT URL TEST
-            $config['wkURL'] = $this->config->get('lemonway_webkit_url_test'); //WEB KIT URL TEST
+            $config['dkURL'] = $this->config->get($this->prefix() . 'lemonway_directkit_url_test'); //DIRECT KIT URL TEST
+            $config['wkURL'] = $this->config->get($this->prefix() . 'lemonway_webkit_url_test'); //WEB KIT URL TEST
         } else {
             // PROD
-            $config['dkURL'] = $this->config->get('lemonway_directkit_url'); // DIRECT KIT URL PROD
-            $config['wkURL'] = $this->config->get('lemonway_webkit_url'); // WEBKIT URL PROD
+            $config['dkURL'] = $this->config->get($this->prefix() . 'lemonway_directkit_url'); // DIRECT KIT URL PROD
+            $config['wkURL'] = $this->config->get($this->prefix() . 'lemonway_webkit_url'); // WEBKIT URL PROD
         }
 
-        $config['login'] = $this->config->get('lemonway_api_login');
-        $config['pass'] = $this->config->get('lemonway_api_password');
-        $config['wallet'] = empty($this->config->get('lemonway_environment_name')) ?
-            $this->config->get('lemonway_wallet') : $this->config->get('lemonway_custom_wallet');
-        $config['cssURL'] = $this->config->get('lemonway_css_url');
-        $config['autoCommission'] = (int)!empty($this->config->get('lemonway_environment_name'));
+        $config['login'] = $this->config->get($this->prefix() . 'lemonway_api_login');
+        $config['pass'] = $this->config->get($this->prefix() . 'lemonway_api_password');
+        $config['wallet'] = empty($this->config->get($this->prefix() . 'lemonway_environment_name')) ?
+            $this->config->get($this->prefix() . 'lemonway_wallet') : $this->config->get($this->prefix() . 'lemonway_custom_wallet');
+        $config['cssURL'] = $this->config->get($this->prefix() . 'lemonway_css_url');
+        $config['autoCommission'] = (int)!empty($this->config->get($this->prefix() . 'lemonway_environment_name'));
         // Autocom = 0 if lwecommerce, 1 if custom environment
 
         return $config;
@@ -95,7 +99,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
                 $config['login'],
                 $config['pass'],
                 substr($this->language->get('code'), 0, 2),
-                $this->config->get('lemonway_debug')
+                $this->config->get($this->prefix() . 'lemonway_debug')
             );
 
             $params = array(
@@ -163,7 +167,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         $data['text_card'] = $this->language->get('text_card');
         $data['link_checkout'] = $this->url->link('extension/payment/lemonway/checkout', '', true);
-        $data['lemonway_oneclick_enabled'] = $this->config->get('lemonway_oneclick_enabled');
+        $data['lemonway_oneclick_enabled'] = $this->config->get($this->prefix() . 'lemonway_oneclick_enabled');
         $data['customerId'] = empty($this->customer->getId()) ? 0 : $this->customer->getId();
         // A guest customer has no Id, we consider it 0
         
@@ -225,7 +229,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $config['login'],
             $config['pass'],
             substr($this->language->get('code'), 0, 2),
-            $this->config->get('lemonway_debug')
+            $this->config->get($this->prefix() . 'lemonway_debug')
         );
 
         $params = array();
@@ -241,7 +245,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $customerId = empty($this->customer->getId()) ? 0 : $this->customer->getId(); // A guest customer has no Id, we consider it 0
 
         $useCard = (
-            $this->config->get('lemonway_oneclick_enabled') && 
+            $this->config->get($this->prefix() . 'lemonway_oneclick_enabled') && 
             $customerId &&
             $this->postValue('lemonway_oneclick') === 'use_card'
         );
@@ -249,7 +253,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         if (!$useCard) { // If the client use a new card => MoneyInWebInit
             // Whether the client save a card
             $registerCard = (int)(
-                $this->config->get('lemonway_oneclick_enabled') &&
+                $this->config->get($this->prefix() . 'lemonway_oneclick_enabled') &&
                 $customerId &&
                 $this->postValue('lemonway_oneclick') === 'register_card'
             );
@@ -406,7 +410,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         if ($this->isGet()) { // If redirection
             // GET params
-            if ($this->config->get('lemonway_debug')) {
+            if ($this->config->get($this->prefix() . 'lemonway_debug')) {
                $debug_log = new Log('lemonway_debug.log');
                $debug_log->write('GET params: ' . print_r($this->request->get, true));
             }
@@ -461,7 +465,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             }
         } elseif ($this->isPost()) { // If IPN
             // Get response by IPN
-            if ($this->config->get('lemonway_debug')) {
+            if ($this->config->get($this->prefix() . 'lemonway_debug')) {
                $debug_log = new Log('lemonway_debug.log');
                $debug_log->write('IPN: ' . print_r($this->request->post, true));
             }

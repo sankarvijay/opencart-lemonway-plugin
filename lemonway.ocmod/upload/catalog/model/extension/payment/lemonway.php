@@ -1,6 +1,10 @@
 <?php
 class ModelExtensionPaymentLemonway extends Model
-{
+{   
+    private function prefix() {
+        return (version_compare(VERSION, '3.0', '>=')) ? 'payment_' :  '';
+    }
+
     /*
     This function is required for OpenCart to show the method in the checkout page
     */
@@ -8,13 +12,13 @@ class ModelExtensionPaymentLemonway extends Model
     {
         $this->load->language('extension/payment/lemonway');
 
-        $mode = $this->config->get('lemonway_is_test_mode') ? " (Test)" : "";
+        $mode = $this->config->get($this->prefix() . 'lemonway_is_test_mode') ? " (Test)" : "";
 
         $method_data = array(
             'code'       => 'lemonway',
             'title'      => $this->language->get('text_card') . $mode,
             'terms'      => '',
-            'sort_order' => '' /*TODO: $this->config->get('lemonway_cc_sort_order')*/
+            'sort_order' => '' /*TODO: $this->config->get($this->prefix() . 'lemonway_cc_sort_order')*/
         );
 
         return $method_data;

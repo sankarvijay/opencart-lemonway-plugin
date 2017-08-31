@@ -34,7 +34,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-lock"></i>
                         </span>
-                        <input type="password" name="lemonway_api_password" class="form-control" {{ (lemonway_api_password is empty) ? "required" : "placeholder='$text_masked'" }} />
+                        <input type="password" name="lemonway_api_password" class="form-control" {{ (lemonway_api_password is empty) ? "required" : "placeholder='#{text_masked}'" }} />
                     </div>
                     <p class="help-block">
                         {{ text_help_password }}

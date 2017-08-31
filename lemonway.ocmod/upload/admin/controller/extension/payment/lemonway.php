@@ -1,5 +1,5 @@
 <?php
-define('LEMONWAY_VERSION', '1.0.1');
+define('LEMONWAY_VERSION', '1.1.0');
 
 class ControllerExtensionPaymentLemonway extends Controller
 {

@@ -160,27 +160,18 @@ class ControllerExtensionPaymentLemonWay extends Controller
     public function index()
     {
         // Load language
-        $this->load->language('extension/payment/lemonway');
+        $data = $this->load->language('extension/payment/lemonway');
 
         // Load Model
         $this->load->model('extension/payment/lemonway');
 
-        $data['text_card'] = $this->language->get('text_card');
         $data['link_checkout'] = $this->url->link('extension/payment/lemonway/checkout', '', true);
+        $data['lemonway_is_test_mode'] = $this->config->get($this->prefix() . 'lemonway_is_test_mode');
         $data['lemonway_oneclick_enabled'] = $this->config->get($this->prefix() . 'lemonway_oneclick_enabled');
         $data['customerId'] = empty($this->customer->getId()) ? 0 : $this->customer->getId();
         // A guest customer has no Id, we consider it 0
         
         $data['card'] = $this->model_extension_payment_lemonway->getCustomerCard($this->customer->getId());
-        // If card saved
-        $data['text_use_card'] = $this->language->get('text_use_card');
-        $data['text_save_new_card'] = $this->language->get('text_save_new_card');
-        $data['text_not_use_card'] = $this->language->get('text_not_use_card');
-        // If no card saved
-        $data['text_save_card'] = $this->language->get('text_save_card');
-
-        $data['button_continue'] = $this->language->get('button_continue');
-        $data['text_loading'] = $this->language->get('text_loading');
 
         return $this->load->view('extension/payment/lemonway', $data);
     }

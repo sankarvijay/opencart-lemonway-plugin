@@ -14,7 +14,7 @@
                 <div class="col-lg-7">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="fa fa-user "></i>
+                            <i class="fa fa-user"></i>
                         </span>
                         <input type="text" name="lemonway_api_login" value="<?= (!empty($lemonway_api_login)) ? $lemonway_api_login : '' ?>" class="form-control" required />
                     </div>

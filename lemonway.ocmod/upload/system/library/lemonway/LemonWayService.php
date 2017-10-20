@@ -2,7 +2,7 @@
 class LemonWayService
 {   
     // Constants
-    const SUPPORTED_LANGS = array(
+    private $supportedLangs = array(
         'en', // English
         'fr' // French
     );
@@ -26,15 +26,15 @@ class LemonWayService
      */
     public function __construct ($dkurl, $wlLogin, $wlPass, $lang = self::DEFAULT_LANG, $isLogEnabled = 1)
     {
-            $this->dkUrl = $dkurl;
-            $this->wlLogin = $wlLogin;
-            $this->wlPass = $wlPass;
-            $this->lang = in_array($lang, self::SUPPORTED_LANGS) ? $lang : self::DEFAULT_LANG;
-            $this->isLogEnabled = $isLogEnabled; // Mode debug
+        $this->dkUrl = $dkurl;
+        $this->wlLogin = $wlLogin;
+        $this->wlPass = $wlPass;
+        $this->lang = in_array($lang, $this->supportedLangs) ? $lang : self::DEFAULT_LANG;
+        $this->isLogEnabled = $isLogEnabled; // Mode debug
 
-            if ($this->isLogEnabled) {
-                $this->debug_log = new Log('lemonway_debug.log');
-            }
+        if ($this->isLogEnabled) {
+            $this->debug_log = new Log('lemonway_debug.log');
+        }
     }
 
     private function logRequest($serviceUrl, $request) {

@@ -4,7 +4,7 @@ require_once DIR_SYSTEM . '/library/lemonway/LemonWayService.php'; // SEND REQUE
 class ControllerExtensionPaymentLemonWay extends Controller
 {
     // Constants
-    const SUPPORTED_LANGS = array(
+    private $supportedLangs = array(
         'da' => 'da', // Danish
         'de' => 'ge', // German
         'en' => 'en', // English
@@ -301,7 +301,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
             $moneyInToken = (string)$res->MONEYINWEB->TOKEN;
             $lang = substr($this->language->get('code'), 0, 2);
-            $lang = array_key_exists($lang, self::SUPPORTED_LANGS) ? self::SUPPORTED_LANGS[$lang] : self::DEFAULT_LANG;
+            $lang = array_key_exists($lang, $this->supportedLangs) ? $this->supportedLangs[$lang] : self::DEFAULT_LANG;
 
             $lwUrl = $config['wkURL'] . '?moneyintoken=' . $moneyInToken . '&p=' . urlencode($config['cssURL']) . '&lang=' . $lang;
 

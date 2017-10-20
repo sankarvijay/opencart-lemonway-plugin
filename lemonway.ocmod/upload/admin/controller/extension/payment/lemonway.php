@@ -1,5 +1,5 @@
 <?php
-define('LEMONWAY_VERSION', '1.1.0');
+define('LEMONWAY_VERSION', '1.1.1');
 
 class ControllerExtensionPaymentLemonway extends Controller
 {
@@ -54,10 +54,6 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->variables['api_error'] = false;
 
         if ($this->variables['lemonway_status']) { // If enabled
-            // If Test mode
-            if ($this->variables['lemonway_is_test_mode']) {
-            }
-
             // Test the config
             if ($this->testConfig()) {
                 $this->variables['success'] = true;

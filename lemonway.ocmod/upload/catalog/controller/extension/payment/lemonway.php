@@ -228,7 +228,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
         $params['wallet'] = $config['wallet'];
         $total = number_format((float)$order_info['total'], 2, '.', '');
         $params['amountTot'] = $total;
-        $params['comment'] = $this->config->get('config_name') . " - " . $order_id . " - " .
+        $params['comment'] = $this->config->get('config_name') . " (OpenCart) - " . $order_id . " - " .
             $this->customer->getLastName() . " " . $this->customer->getFirstName() . " - " .
             $this->customer->getEmail();
         $params['autoCommission'] = $config['autoCommission'];

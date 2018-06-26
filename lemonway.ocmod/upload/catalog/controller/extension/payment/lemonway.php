@@ -77,9 +77,10 @@ class ControllerExtensionPaymentLemonWay extends Controller
 
         $config['login'] = $this->config->get($this->prefix() . 'lemonway_api_login');
         $config['pass'] = $this->config->get($this->prefix() . 'lemonway_api_password');
-        $config['wallet'] = empty($this->config->get($this->prefix() . 'lemonway_environment_name')) ?
-            $this->config->get($this->prefix() . 'lemonway_wallet') : $this->config->get($this->prefix() . 'lemonway_custom_wallet');
+        $config['wallet'] = empty($this->config->get($this->prefix() . 'lemonway_environment_name')) ? $this->config->get($this->prefix() . 'lemonway_wallet') : $this->config->get($this->prefix() . 'lemonway_custom_wallet');
         $config['cssURL'] = $this->config->get($this->prefix() . 'lemonway_css_url');
+        $config['tplName'] = $this->config->get($this->prefix() . 'lemonway_template_name');
+
         $config['autoCommission'] = (int)!empty($this->config->get($this->prefix() . 'lemonway_environment_name'));
         // Autocom = 0 if lwecommerce, 1 if custom environment
 
@@ -192,7 +193,6 @@ class ControllerExtensionPaymentLemonWay extends Controller
         }
 
 
-
         //Load Language
         $this->load->language('extension/payment/lemonway');
 
@@ -300,8 +300,8 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $moneyInToken = (string)$res->MONEYINWEB->TOKEN;
             $lang = substr($this->language->get('code'), 0, 2);
             $lang = array_key_exists($lang, $this->supportedLangs) ? $this->supportedLangs[$lang] : self::DEFAULT_LANG;
-
-            $lwUrl = $config['wkURL'] . '?moneyintoken=' . $moneyInToken . '&p=' . urlencode($config['cssURL']) . '&lang=' . $lang;
+//            . '&tpl=' . urlencode($config['tplName'])
+            $lwUrl = $config['wkURL'] . '?moneyintoken=' . $moneyInToken . '&p=' . urlencode($config['cssURL']) . '&lang=' . $lang . '&tpl=' . urlencode($config['tplName']);
             $this->response->redirect($lwUrl);
 
         } else { // If the client use a saved card => MoneyInWithCardId

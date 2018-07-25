@@ -275,6 +275,7 @@ class ControllerExtensionPaymentLemonWay extends Controller
             $params['cancelUrl'] = $this->url->link('extension/payment/lemonway/checkoutReturn&' . $cancelParams, '', true);
             $params['errorUrl'] = $this->url->link('extension/payment/lemonway/checkoutReturn&' . $errorParams, '', true);
 
+
             // Money In
             $res = $lemonwayService->moneyInWebInit($params);
 
@@ -298,9 +299,9 @@ class ControllerExtensionPaymentLemonWay extends Controller
             }
 
             $moneyInToken = (string)$res->MONEYINWEB->TOKEN;
+//            $moneyInToken = (string)$res->SOFORTINIT->ID;
             $lang = substr($this->language->get('code'), 0, 2);
             $lang = array_key_exists($lang, $this->supportedLangs) ? $this->supportedLangs[$lang] : self::DEFAULT_LANG;
-//            . '&tpl=' . urlencode($config['tplName'])
             $lwUrl = $config['wkURL'] . '?moneyintoken=' . $moneyInToken . '&p=' . urlencode($config['cssURL']) . '&lang=' . $lang . '&tpl=' . urlencode($config['tplName']);
             $this->response->redirect($lwUrl);
 

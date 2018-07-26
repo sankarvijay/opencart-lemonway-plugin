@@ -162,6 +162,14 @@ class LemonWayService
         return self::sendRequest('MoneyInSofortInit', $params);
     }
 
+    public function moneyInIDealInit($params){
+        return self::sendRequest('moneyInIDealInit', $params);
+    }
+
+    public function moneyInIDealConfirm ($params){
+        return self::sendRequest('moneyInIDealConfirm ', $params);
+    }
+
     public function moneyInWithCardId($params)
     {
         return self::sendRequest('MoneyInWithCardId', $params);

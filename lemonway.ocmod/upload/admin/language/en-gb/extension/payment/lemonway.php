@@ -52,6 +52,8 @@ $_['tab_about_us'] = 'ABOUT US';
 $_['tab_config'] = 'CONFIGURATION';
 $_['tab_cc'] = 'CREDIT CARD';
 $_['tab_sofort'] = 'SOFORT';
+$_['tab_ideal'] = 'iDEAL';
+
 
 
 // Error

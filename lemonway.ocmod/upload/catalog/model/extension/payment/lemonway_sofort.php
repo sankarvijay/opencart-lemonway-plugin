@@ -1,8 +1,10 @@
 <?php
+
 class ModelExtensionPaymentLemonwaySofort extends Model
 {
-    private function prefix() {
-        return (version_compare(VERSION, '3.0', '>=')) ? 'payment_' :  '';
+    private function prefix()
+    {
+        return (version_compare(VERSION, '3.0', '>=')) ? 'payment_' : '';
     }
 
     /*
@@ -15,15 +17,14 @@ class ModelExtensionPaymentLemonwaySofort extends Model
         $mode = $this->config->get($this->prefix() . 'lemonway_is_test_mode') ? " (Test)" : "";
 
         $method_data = array(
-            'code'       => 'lemonway_sofort',
-            'title'      => $this->language->get('text_sofort') . $mode,
-            'terms'      => '',
+            'code' => 'lemonway_sofort',
+            'title' => $this->language->get('text_sofort'),
+            'terms' => '',
             'sort_order' => '' /*TODO: $this->config->get($this->prefix() . 'lemonway_cc_sort_order')*/
         );
 
         return $method_data;
     }
-
 
 
     /*

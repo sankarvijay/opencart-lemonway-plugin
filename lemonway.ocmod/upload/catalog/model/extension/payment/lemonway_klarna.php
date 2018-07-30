@@ -1,6 +1,6 @@
 <?php
 
-class ModelExtensionPaymentLemonwaySofort extends Model
+class ModelExtensionPaymentLemonwayKlarna extends Model
 {
     private function prefix()
     {
@@ -17,8 +17,8 @@ class ModelExtensionPaymentLemonwaySofort extends Model
         $mode = $this->config->get($this->prefix() . 'lemonway_is_test_mode') ? " (Test)" : "";
 
         $method_data = array(
-            'code' => 'lemonway_sofort',
-            'title' => $this->language->get('text_sofort'),
+            'code' => 'lemonway_klarna',
+            'title' => $this->language->get('text_klarna'),
             'terms' => '',
             'sort_order' => '' /*TODO: $this->config->get($this->prefix() . 'lemonway_cc_sort_order')*/
         );

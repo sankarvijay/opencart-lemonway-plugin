@@ -1,7 +1,7 @@
 <?php
 require_once DIR_SYSTEM . '/library/lemonway/LemonWayService.php'; // SEND REQUEST
 
-class ControllerExtensionPaymentLemonWaySofort extends Controller
+class ControllerExtensionPaymentLemonWayKlarna extends Controller
 {
     // Constants
     private $supportedLangs = array(
@@ -163,14 +163,14 @@ class ControllerExtensionPaymentLemonWaySofort extends Controller
         $data = $this->load->language('extension/payment/lemonway');
 
         // Load Model
-        $this->load->model('extension/payment/lemonway_sofort');
+        $this->load->model('extension/payment/lemonway_klarna');
 
-        $data['link_checkout'] = $this->url->link('extension/payment/lemonway_sofort/checkout', '', true);
+        $data['link_checkout'] = $this->url->link('extension/payment/lemonway_klarna/checkout', '', true);
         $data['lemonway_is_test_mode'] = $this->config->get($this->prefix() . 'lemonway_is_test_mode');
         $data['lemonway_oneclick_enabled'] = $this->config->get($this->prefix() . 'lemonway_oneclick_enabled');
         $data['customerId'] = empty($this->customer->getId()) ? 0 : $this->customer->getId();
 
-        return $this->load->view('extension/payment/lemonway_sofort', $data);
+        return $this->load->view('extension/payment/lemonway_klarna', $data);
     }
 
     /*
@@ -184,7 +184,7 @@ class ControllerExtensionPaymentLemonWaySofort extends Controller
         $this->load->language('extension/payment/lemonway');
 
         // Load Model
-        $this->load->model('extension/payment/lemonway_sofort');
+        $this->load->model('extension/payment/lemonway_klarna');
         $this->load->model('checkout/order');
 
         // Order info
@@ -236,7 +236,7 @@ class ControllerExtensionPaymentLemonWaySofort extends Controller
             $params['registerCard'] = $registerCard;
 
             // Associate order id with a wkToken
-            $wkToken = $this->model_extension_payment_lemonway_sofort->saveWkToken($order_id, $registerCard);
+            $wkToken = $this->model_extension_payment_lemonway_klarna->saveWkToken($order_id, $registerCard);
             $params['wkToken'] = $wkToken;
 
             // GET Params
@@ -246,7 +246,7 @@ class ControllerExtensionPaymentLemonWaySofort extends Controller
             );
             $returnParams = http_build_query($returnParams);
 
-            $params['returnUrl'] = $this->url->link('extension/payment/lemonway_sofort/checkoutReturn&' . $returnParams, '', true);
+            $params['returnUrl'] = $this->url->link('extension/payment/lemonway_klarna/checkoutReturn&' . $returnParams, '', true);
             $res = $lemonwayService->moneyInSofortInit($params);
 
             // Error
@@ -270,7 +270,7 @@ class ControllerExtensionPaymentLemonWaySofort extends Controller
         $this->load->language('extension/payment/lemonway');
 
         //Load Model
-        $this->load->model('extension/payment/lemonway_sofort');
+        $this->load->model('extension/payment/lemonway_klarna');
         $this->load->model('checkout/order');
 
         if ($this->isGet()) { // If redirection
@@ -291,7 +291,7 @@ class ControllerExtensionPaymentLemonWaySofort extends Controller
             }
 
             // Get order info
-            $order_id = $this->model_extension_payment_lemonway_sofort->getOrderIdFromToken($wkToken);
+            $order_id = $this->model_extension_payment_lemonway_klarna->getOrderIdFromToken($wkToken);
             $order_info = $this->model_checkout_order->getOrder($order_id);
 
             if (!$order_info) {
@@ -324,7 +324,7 @@ class ControllerExtensionPaymentLemonWaySofort extends Controller
             $realAmount = $this->postValue('response_transactionAmount');
 
             // Get order info
-            $order_id = $this->model_extension_payment_lemonway_sofort->getOrderIdFromToken($wkToken);
+            $order_id = $this->model_extension_payment_lemonway_klarna->getOrderIdFromToken($wkToken);
             $order_info = $this->model_checkout_order->getOrder($order_id);
             $total = number_format((float)$order_info['total'], 2, '.', '');
 

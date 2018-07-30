@@ -54,8 +54,8 @@
                                             class="fa fa-cog"></i> {{ tab_config }}</a></li>
                             <li><a id="cc_tab" href="#cc" role="tab" data-toggle="tab"><i
                                             class="fa fa-credit-card"></i> {{ tab_cc }}</a></li>
-                            <li><a id="sofort_tab" href="#sofort" role="tab" data-toggle="tab"><i
-                                            class="fa fa-credit-card"></i> {{ tab_sofort }}</a></li>
+                            <li><a id="klarna_tab" href="#klarna" role="tab" data-toggle="tab"><i
+                                            class="fa fa-credit-card"></i> {{ tab_klarna }}</a></li>
                             <li><a id="ideal_tab" href="#ideal" role="tab" data-toggle="tab"><i
                                             class="fa fa-credit-card"></i> {{ tab_ideal }}</a></li>
 
@@ -66,7 +66,7 @@
                             <div class="tab-pane fade in active" id="aboutus">{{ about_us }}</div>
                             <div class="tab-pane fade" id="config">{{ config }}</div>
                             <div class="tab-pane fade" id="cc">{{ cc }}</div>
-                            <div class="tab-pane fade" id="sofort">{{ sofort }}</div>
+                            <div class="tab-pane fade" id="klarna">{{ klarna }}</div>
                             <div class="tab-pane fade" id="ideal">{{ ideal }}</div>
 
                         </div>
@@ -97,9 +97,14 @@
         });
 
         // Show cc tab
-        $("#sofort_link").click(function (e) {
+        $("#klarna_link").click(function (e) {
             e.preventDefault();
-            $("#sofort_tab").tab('show');
+            $("#klarna_tab").tab('show');
+        });
+        // Show cc tab
+        $("#ideal_link").click(function (e) {
+            e.preventDefault();
+            $("#ideal_tab").tab('show');
         });
     });
 </script>

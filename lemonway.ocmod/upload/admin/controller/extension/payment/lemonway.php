@@ -45,7 +45,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->variables['lemonway_environment_name'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_environment_name');
         $this->variables['lemonway_custom_wallet'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_custom_wallet');
         $this->variables['lemonway_status'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_status');
-        $this->variables['lemonway_sofort_status'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_sofort_status');
+        $this->variables['lemonway_klarna_status'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_klarna_status');
         $this->variables['lemonway_ideal_status'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_ideal_status');
         $this->variables['lemonway_oneclick_enabled'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_oneclick_enabled');
         $this->variables['lemonway_template_name'] = $this->model_setting_setting->getSettingValue($this->prefix() . 'lemonway_template_name');
@@ -66,7 +66,7 @@ class ControllerExtensionPaymentLemonway extends Controller
             $this->variables['no_method'] = true;
         }
 
-        if ($this->variables['lemonway_sofort_status']) { // If enabled
+        if ($this->variables['lemonway_klarna_status']) { // If enabled
             // Test the config
             if ($this->testConfig()) {
                 $this->variables['success'] = true;
@@ -90,8 +90,8 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->variables['config'] = $this->load->view('extension/payment/lemonway_config', $this->variables);
         // Credit Card
         $this->variables['cc'] = $this->load->view('extension/payment/lemonway_cc', $this->variables);
-        // Sofort
-        $this->variables['sofort'] = $this->load->view('extension/payment/lemonway_sofort', $this->variables);
+        // Klarna
+        $this->variables['klarna'] = $this->load->view('extension/payment/lemonway_klarna', $this->variables);
         // iDeal
         $this->variables['ideal'] = $this->load->view('extension/payment/lemonway_ideal', $this->variables);
 
@@ -148,9 +148,9 @@ class ControllerExtensionPaymentLemonway extends Controller
             $this->request->post['lemonway_status'] = 0;
         }
 
-        //Sofort status
-        if (!isset($this->request->post['lemonway_sofort_status'])) {
-            $this->request->post['lemonway_sofort_status'] = 0;
+        //Klarna status
+        if (!isset($this->request->post['lemonway_klarna_status'])) {
+            $this->request->post['lemonway_klarna_status'] = 0;
         }
 
         //iDeal status
@@ -234,7 +234,7 @@ class ControllerExtensionPaymentLemonway extends Controller
         $this->load->model('setting/setting');
         $this->model_setting_setting->editSetting($this->prefix() . 'lemonway', [
             $this->prefix() . 'lemonway_status' => 1,
-            $this->prefix() . 'lemonway_sofort_status' => 1,
+            $this->prefix() . 'lemonway_klarna_status' => 1,
             $this->prefix() . 'lemonway_ideal_status' => 1,
             $this->prefix() . 'lemonway_css_url' => self::CSS_URL_DEFAULT,
             $this->prefix() . 'lemonway_directkit_url' => sprintf(self::LEMONWAY_DIRECTKIT_FORMAT_URL_PROD, self::LEMONWAY_ENVIRONMENT_DEFAULT),
